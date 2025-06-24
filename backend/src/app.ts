@@ -12,6 +12,7 @@ import engineeringRoutes from "./routes/engineeringRoutes";
 import installationRoutes from "./routes/installationRoutes";
 import maintenanceRoutes from "./routes/maintenanceRoutes";
 import marketingRoutes from "./routes/marketingRoutes";
+import networkOperatorRoutes from "./routes/networkOperatorRoutes";
 
 const app = express();
 
@@ -36,6 +37,7 @@ app.use("/api", engineeringRoutes);
 app.use("/api", installationRoutes);
 app.use("/api", maintenanceRoutes);
 app.use("/api", marketingRoutes);
+app.use("/api", networkOperatorRoutes);
 
 
 export default app;
