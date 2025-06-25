@@ -1,7 +1,11 @@
 import { z } from "zod";
 
-export const createBillingSchema = z
-  .object({
+export const createBillingSchema = z.object({
+    projectId: z
+      .string({
+      required_error: "El ID del proyecto es obligatorio",
+      }),
+
     billingNumber: z
       .string({
         required_error: "Debes ingresar un numero de factura",
@@ -40,18 +44,4 @@ export const createBillingSchema = z
       })
       .min(0, { message: "El IVA no puede ser negativo" }),
 
-    billingTotal: z
-      .number({
-        required_error: "El total es obligatorio",
-        invalid_type_error: "El total debe ser un número",
-      })
-      .min(0, { message: "El total no puede ser negativo" }),
   })
-
-  .refine(
-    (data) => data.billingSubtotal + data.billingIva === data.billingTotal,
-    {
-      message: "El subtotal + IVA debe ser igual al total",
-      path: ["billingTotal"],
-    }
-  );

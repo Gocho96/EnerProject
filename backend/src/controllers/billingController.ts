@@ -1,4 +1,5 @@
 import { RequestHandler } from "express";
+import { Types } from "mongoose";
 import { Billing } from "../models/billingModel";
 
 export const getAllBillings: RequestHandler = async (req, res) => {
@@ -12,17 +13,17 @@ export const getAllBillings: RequestHandler = async (req, res) => {
 };
 
 export const getBilling: RequestHandler = async (req, res) => {
-    try {
-      const billingFound = await Billing.findById(req.params.id);
-      if (!billingFound) {
-        res.status(404).json({ message: "Factura de venta no encontrada" });
-        return;
-      }
-      res.json(billingFound);
-    } catch (error) {
-      console.log(error);
+  try {
+    const billingFound = await Billing.findById(req.params.id);
+    if (!billingFound) {
+      res.status(404).json({ message: "Factura de venta no encontrada" });
+      return;
     }
-  };
+    res.json(billingFound);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const getByProjectBillings: RequestHandler = async (req, res) => {
   try {
@@ -37,7 +38,22 @@ export const getByProjectBillings: RequestHandler = async (req, res) => {
 
 export const createBilling: RequestHandler = async (req, res) => {
   try {
-    const billingFound = await Billing.findOne({ billingNumber: req.body.billingNumber });
+    const { projectId, billingSubtotal, billingIva } = req.body;
+
+    if (!projectId || !Types.ObjectId.isValid(projectId)) {
+      res
+        .status(400)
+        .json({
+          message: "No hay proyecto asociado a la factura de venta",
+        });
+      return;
+    }
+
+    req.body.billingTotal = (billingSubtotal || 0) + (billingIva || 0);
+
+    const billingFound = await Billing.findOne({
+      billingNumber: req.body.billingNumber,
+    });
     if (billingFound) {
       res.status(301).json({ message: "La factura de venta ya existe" });
       return;
@@ -74,10 +90,8 @@ export const deleteBilling: RequestHandler = async (req, res) => {
       res.status(404).json({ message: "Factura de venta no encontrada" });
       return;
     }
-    res.json(billingDelete);
+    res.json("Factura de venta eliminada");
   } catch (error) {
     console.log(error);
   }
 };
-
-
