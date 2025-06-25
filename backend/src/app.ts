@@ -14,6 +14,9 @@ import maintenanceRoutes from "./routes/maintenanceRoutes";
 import marketingRoutes from "./routes/marketingRoutes";
 import networkOperatorRoutes from "./routes/networkOperatorRoutes";
 import projectDetailsRoutes from "./routes/projectDetailsRoutes";
+import retieRoutes from "./routes/retieRoutes";
+import shoppingRoutes from "./routes/shoppingRoutes";
+import taxIncentiveRoutes from "./routes/taxIncentiveRoutes";
 
 const app = express();
 
@@ -40,6 +43,9 @@ app.use("/api", maintenanceRoutes);
 app.use("/api", marketingRoutes);
 app.use("/api", networkOperatorRoutes);
 app.use("/api", projectDetailsRoutes);
+app.use("/api", retieRoutes);
+app.use("/api", shoppingRoutes);
+app.use("/api", taxIncentiveRoutes);
 
 
 export default app;
