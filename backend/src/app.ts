@@ -13,6 +13,7 @@ import installationRoutes from "./routes/installationRoutes";
 import maintenanceRoutes from "./routes/maintenanceRoutes";
 import marketingRoutes from "./routes/marketingRoutes";
 import networkOperatorRoutes from "./routes/networkOperatorRoutes";
+import projectDetailsRoutes from "./routes/projectDetailsRoutes";
 
 const app = express();
 
@@ -38,6 +39,7 @@ app.use("/api", installationRoutes);
 app.use("/api", maintenanceRoutes);
 app.use("/api", marketingRoutes);
 app.use("/api", networkOperatorRoutes);
+app.use("/api", projectDetailsRoutes);
 
 
 export default app;
