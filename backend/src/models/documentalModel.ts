@@ -1,5 +1,42 @@
 import { Schema, model, Types } from "mongoose";
 
+const policySchema = new Schema(
+  {
+    policyType: {
+      type: String,
+      enum: [
+        "Cumplimiento",
+        "Estabilidad y calidad",
+        "Buen manejo del anticipo",
+        "Prestaciones sociales",
+        "Responsabilidad civil",
+        "Montaje",
+      ],
+      required: true,
+    },
+    policyNumber: { type: String, required: true },
+    policyValue: { type: Number, required: true },
+    policyDate: { type: Date, required: true },
+    policyExpiration: { type: Date, required: true },
+    policyIssuer: { type: String, trim: true, required: true },
+  },
+  { _id: true }
+);
+
+const contractSchema = new Schema(
+  {
+    contractNumber: { type: String, trim: true, required: true },
+    contractDate: { type: Date, required: true },
+    contractValue: { type: Number, required: true },
+    contractExpiration: { type: Date, required: true },
+    policies: {
+      type: [policySchema],
+      default: [], 
+    },
+  },
+  { _id: true }
+);
+
 const documentalSchema = new Schema(
   {
     projectId: {
@@ -7,52 +44,14 @@ const documentalSchema = new Schema(
       ref: "Project",
       required: true,
     },
-
-    serviceOrderDate: {
-      type: Date,
+    serviceOrderDate: { type: Date },
+    startDate: { type: Date },
+    endDate: { type: Date },
+    certificateDate: { type: Date },
+    contracts: {
+      type: [contractSchema],
+      default: [],
     },
-
-    startDate: {
-      type: Date,
-    },
-
-    endDate: {
-      type: Date,
-    },
-
-    certificateDate: {
-      type: Date,
-    },
-
-    contracts: [
-      {
-        contractNumber: { type: String, trim: true },
-        contractDate: { type: Date},
-        contractValue: { type: Number},
-        contractExpiration: { type: Date},
-
-        policies: [
-          {
-            policyType: {
-              type: String,
-              enum: [
-                "Cumplimiento",
-                "Estabilidad y calidad",
-                "Buen manejo del anticipo",
-                "Prestaciones sociales",
-                "Responsabilidad civil",
-                "Montaje",
-              ],
-            },
-            policyNumber: { type: String},
-            policyValue: { type: Number},
-            policyDate: { type: Date},
-            policyExpiration: { type: Date},
-            policyIssuer: { type: String, trim: true },
-          },
-        ],
-      },
-    ],
   },
   {
     timestamps: true,

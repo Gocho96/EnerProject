@@ -1,5 +1,7 @@
-import { RequestHandler } from "express";
+import { Request, Response, RequestHandler } from "express";
 import { Documental } from "../models/documentalModel";
+import { HydratedDocument } from "mongoose";
+import { DocumentalType } from "../types/documentalTypes";
 
 export const getAllDocumentals: RequestHandler = async (req, res) => {
   try {
@@ -55,6 +57,70 @@ export const createDocumental: RequestHandler = async (req, res) => {
   }
 };
 
+export const addContractToDocumental = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const newContract = req.body;
+
+    const documental = await Documental.findById(id) as HydratedDocument<DocumentalType>;
+
+    if (!documental) {
+      res.status(404).json({ message: "Documental no encontrado." });
+      return;
+    }
+
+    documental.contracts.push(newContract);
+
+    const saved = await documental.save();
+
+    res.status(200).json({ message: "Contrato agregado correctamente.", documental: saved });
+  } catch (error) {
+    console.error("Error al agregar contrato:", error);
+    res.status(500).json({ message: "Error interno del servidor." });
+  }
+};
+
+export const addPolicyToContract = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { documentalId, contractId } = req.params;
+    const newPolicy = req.body;
+
+    const documental = await Documental.findById(documentalId);
+    if (!documental) {
+      res.status(404).json({ message: "Documental no encontrado." });
+      return;
+    }
+
+    if (!Array.isArray(documental.contracts)) {
+      res.status(500).json({
+        message: "El campo 'contracts' no está definido correctamente.",
+      });
+      return;
+    }
+
+    // Buscar contrato por _id
+    const contract = documental.contracts.id(contractId);
+    if (!contract) {
+      res.status(404).json({ message: "Contrato no encontrado." });
+      return;
+    }
+
+    // Agregar nueva póliza
+    contract.policies.push(newPolicy);
+
+    // Guardar cambios
+    await documental.save();
+
+    res.status(200).json({
+      message: "Póliza agregada correctamente.",
+      documental,
+    });
+  } catch (error) {
+    console.error("Error al agregar póliza:", error);
+    res.status(500).json({ message: "Error interno del servidor." });
+  }
+};
+
 export const updateDocumental: RequestHandler = async (req, res) => {
   try {
     const documentalUpdate = await Documental.findByIdAndUpdate(
@@ -72,15 +138,133 @@ export const updateDocumental: RequestHandler = async (req, res) => {
   }
 };
 
+export const updateContract = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { documentalId, contractId } = req.params;
+    const updatedContractData = req.body;
+
+    const documental = await Documental.findById(documentalId);
+    if (!documental) {
+      res.status(404).json({ message: "Documental no encontrado." });
+      return;
+    }
+
+    const contract = documental.contracts.id(contractId);
+    if (!contract) {
+      res.status(404).json({ message: "Contrato no encontrado." });
+      return;
+    }
+
+    Object.assign(contract, updatedContractData);
+
+    await documental.save();
+    res.status(200).json({ message: "Contrato actualizado correctamente.", documental });
+  } catch (error) {
+    console.error("Error al actualizar contrato:", error);
+    res.status(500).json({ message: "Error interno del servidor." });
+  }
+};
+
+export const updatePolicy = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { documentalId, contractId, policyId } = req.params;
+    const updatedPolicyData = req.body;
+
+    const documental = await Documental.findById(documentalId);
+    if (!documental) {
+      res.status(404).json({ message: "Documental no encontrado." });
+      return;
+    }
+
+    const contract = documental.contracts.id(contractId);
+    if (!contract) {
+      res.status(404).json({ message: "Contrato no encontrado." });
+      return;
+    }
+
+    const policy = contract.policies.id(policyId);
+    if (!policy) {
+      res.status(404).json({ message: "Póliza no encontrada." });
+      return;
+    }
+
+    Object.assign(policy, updatedPolicyData);
+
+    await documental.save();
+    res.status(200).json({ message: "Póliza actualizada correctamente.", documental });
+  } catch (error) {
+    console.error("Error al actualizar póliza:", error);
+    res.status(500).json({ message: "Error interno del servidor." });
+  }
+};
+
 export const deleteDocumental: RequestHandler = async (req, res) => {
   try {
     const documentalDelete = await Documental.findByIdAndDelete(req.params.id);
     if (!documentalDelete) {
-      res.status(404).json({ message: "Infoamación documental no encontrada" });
+      res.status(404).json({ message: "Información documental no encontrada" });
       return;
     }
-    res.json(documentalDelete);
+    res.json("Información documental eliminada");
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const deleteContractFromDocumental = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { documentalId, contractId } = req.params;
+
+    const documental = await Documental.findById(documentalId);
+    if (!documental) {
+      res.status(404).json({ message: "Documental no encontrado." });
+      return;
+    }
+
+    const contract = documental.contracts.id(contractId);
+    if (!contract) {
+      res.status(404).json({ message: "Contrato no encontrado." });
+      return;
+    }
+
+    contract.deleteOne();
+    await documental.save();
+
+    res.status(200).json({ message: "Contrato eliminado correctamente." });
+  } catch (error) {
+    console.error("Error al eliminar contrato:", error);
+    res.status(500).json({ message: "Error interno del servidor." });
+  }
+};
+
+export const deletePolicyFromContract = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { documentalId, contractId, policyId } = req.params;
+
+    const documental = await Documental.findById(documentalId);
+    if (!documental) {
+      res.status(404).json({ message: "Documental no encontrado." });
+      return;
+    }
+
+    const contract = documental.contracts.id(contractId);
+    if (!contract) {
+      res.status(404).json({ message: "Contrato no encontrado." });
+      return;
+    }
+
+    const policy = contract.policies.id(policyId);
+    if (!policy) {
+      res.status(404).json({ message: "Póliza no encontrada." });
+      return;
+    }
+
+    policy.deleteOne();
+    await documental.save();
+
+    res.status(200).json({ message: "Póliza eliminada correctamente." });
+  } catch (error) {
+    console.error("Error al eliminar póliza:", error);
+    res.status(500).json({ message: "Error interno del servidor." });
   }
 };
