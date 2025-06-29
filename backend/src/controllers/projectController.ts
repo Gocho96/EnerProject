@@ -28,7 +28,7 @@ export const createProject: RequestHandler = async (req, res) => {
   try {
     const projectFound = await Project.findOne({ name: req.body.name });
     if (projectFound) {
-      res.status(301).json({ message: "El proyecto ya existe" });
+      res.status(409).json({ message: "El proyecto ya existe" });
       return;
     }
     const project = new Project(req.body);

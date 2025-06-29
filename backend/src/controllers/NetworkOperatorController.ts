@@ -47,7 +47,7 @@ export const createNetworkOperator: RequestHandler = async (req, res) => {
     });
     if (networkOperatorFound) {
       res
-        .status(301)
+        .status(409)
         .json({ message: "La información del operador de red ya existe" });
       return;
     }

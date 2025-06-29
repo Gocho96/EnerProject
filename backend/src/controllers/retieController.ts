@@ -42,7 +42,7 @@ export const createRetie: RequestHandler = async (req, res) => {
     });
     if (retieFound) {
       res
-        .status(301)
+        .status(409)
         .json({ message: "La información RETIE ya existe para este proyecto" });
       return;
     }

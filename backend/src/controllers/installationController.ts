@@ -41,7 +41,7 @@ export const createInstallation: RequestHandler = async (req, res) => {
       projectId: req.body.projectId,
     });
     if (installationFound) {
-      res.status(301).json({ message: "La información de instalación ya existe" });
+      res.status(409).json({ message: "La información de instalación ya existe" });
       return;
     }
     const installation = new Installation(req.body);

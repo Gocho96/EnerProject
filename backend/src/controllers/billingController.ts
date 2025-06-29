@@ -21,7 +21,8 @@ export const getBilling: RequestHandler = async (req, res) => {
     }
     res.json(billingFound);
   } catch (error) {
-    console.log(error);
+    console.log("Error al obtener factura", error);
+    res.status(500).json({ message: "Error interno del servidor" });
   }
 };
 
@@ -55,12 +56,12 @@ export const createBilling: RequestHandler = async (req, res) => {
       billingNumber: req.body.billingNumber,
     });
     if (billingFound) {
-      res.status(301).json({ message: "La factura de venta ya existe" });
+      res.status(409).json({ message: "La factura de venta ya existe" });
       return;
     }
     const billing = new Billing(req.body);
     const savedBilling = await billing.save();
-    res.json(savedBilling);
+    res.status(201).json(savedBilling);
   } catch (error) {
     console.log(error);
   }
@@ -79,7 +80,8 @@ export const updateBilling: RequestHandler = async (req, res) => {
     }
     res.json(billingUpdate);
   } catch (error) {
-    console.log(error);
+    console.error("Error al actualizar factura:", error);
+    res.status(500).json({ message: "Error interno del servidor" });
   }
 };
 
@@ -90,7 +92,7 @@ export const deleteBilling: RequestHandler = async (req, res) => {
       res.status(404).json({ message: "Factura de venta no encontrada" });
       return;
     }
-    res.json("Factura de venta eliminada");
+    res.status(200).json({ message: "Factura de venta eliminada" });
   } catch (error) {
     console.log(error);
   }

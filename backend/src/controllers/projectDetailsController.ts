@@ -41,7 +41,7 @@ export const createProjectDetails: RequestHandler = async (req, res) => {
       projectId: req.body.projectId,
     });
     if (projectDetailsFound) {
-      res.status(301).json({ message: "Los detalles del proyecto ya existes" });
+      res.status(409).json({ message: "Los detalles del proyecto ya existen" });
       return;
     }
     const projectDetails = new ProjectDetails(req.body);

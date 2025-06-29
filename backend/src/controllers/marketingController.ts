@@ -44,7 +44,7 @@ export const createMarketing: RequestHandler = async (req, res) => {
     });
     if (marketingFound) {
       res
-        .status(301)
+        .status(409)
         .json({ message: "La información de marketing ya existe" });
       return;
     }

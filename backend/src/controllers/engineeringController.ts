@@ -15,12 +15,15 @@ export const getEngineering: RequestHandler = async (req, res) => {
   try {
     const engineeringFound = await Engineering.findById(req.params.id);
     if (!engineeringFound) {
-      res.status(404).json({ message: "Información de ingeniería no encontrada" });
+      res
+        .status(404)
+        .json({ message: "Información de ingeniería no encontrada" });
       return;
     }
     res.json(engineeringFound);
   } catch (error) {
-    console.log(error);
+    console.error("Error al obtener información de ingeniería:", error);
+    res.status(500).json({ message: "Error interno del servidor" });
   }
 };
 
@@ -41,14 +44,17 @@ export const createEngineering: RequestHandler = async (req, res) => {
       projectId: req.body.projectId,
     });
     if (engineeringFound) {
-      res.status(301).json({ message: "La información de ingeniería ya existe" });
+      res
+        .status(409)
+        .json({ message: "La información de ingeniería ya existe" });
       return;
     }
     const engineering = new Engineering(req.body);
     const savedEngineering = await engineering.save();
-    res.json(savedEngineering);
+    res.status(201).json(savedEngineering);
   } catch (error) {
-    console.log(error);
+    console.error("Error al crear información de ingeniería:", error);
+    res.status(500).json({ message: "Error interno del servidor" });
   }
 };
 
@@ -60,24 +66,30 @@ export const updateEngineering: RequestHandler = async (req, res) => {
       { new: true }
     );
     if (!engineeringUpdate) {
-      res.status(404).json({ message: "Información de ingeniería no encontrada" });
+      res
+        .status(404)
+        .json({ message: "Información de ingeniería no encontrada" });
       return;
     }
     res.json(engineeringUpdate);
   } catch (error) {
-    console.log(error);
+    console.error("Error al actualizar información de ingeniería:", error);
+    res.status(500).json({ message: "Error interno del servidor" });
   }
 };
 
 export const deleteEngineering: RequestHandler = async (req, res) => {
   try {
-    const engineeringDelete = await Engineering.findByIdAndDelete(req.params.id);
+    const engineeringDelete = await Engineering.findByIdAndDelete(
+      req.params.id
+    );
     if (!engineeringDelete) {
-      res.status(404).json({ message: "Información de ingeniería no encontrada" });
+      res.status(200).json({ message: "Información de ingeniería eliminada" });
       return;
     }
     res.json(engineeringDelete);
   } catch (error) {
-    console.log(error);
+    console.error("Error al eliminar información de ingeniería:", error);
+    res.status(500).json({ message: "Error interno del servidor" });
   }
 };

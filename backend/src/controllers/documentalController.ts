@@ -22,7 +22,8 @@ export const getDocumental: RequestHandler = async (req, res) => {
     }
     res.json(documentalFound);
   } catch (error) {
-    console.log(error);
+    console.error("Error al obtener información documental:", error);
+    res.status(500).json({ message: "Error interno del servidor" });
   }
 };
 
@@ -46,12 +47,12 @@ export const createDocumental: RequestHandler = async (req, res) => {
       projectId: req.body.projectId,
     });
     if (documentalFound) {
-      res.status(301).json({ message: "La información documental ya existe" });
+      res.status(409).json({ message: "La información documental ya existe" });
       return;
     }
     const documental = new Documental(req.body);
     const savedDocumental = await documental.save();
-    res.json(savedDocumental);
+    res.status(201).json(savedDocumental);
   } catch (error) {
     console.log(error);
   }
@@ -73,7 +74,7 @@ export const addContractToDocumental = async (req: Request, res: Response): Prom
 
     const saved = await documental.save();
 
-    res.status(200).json({ message: "Contrato agregado correctamente.", documental: saved });
+    res.status(201).json({ message: "Contrato agregado correctamente.", documental: saved });
   } catch (error) {
     console.error("Error al agregar contrato:", error);
     res.status(500).json({ message: "Error interno del servidor." });
@@ -98,23 +99,17 @@ export const addPolicyToContract = async (req: Request, res: Response): Promise<
       return;
     }
 
-    // Buscar contrato por _id
     const contract = documental.contracts.id(contractId);
     if (!contract) {
       res.status(404).json({ message: "Contrato no encontrado." });
       return;
     }
 
-    // Agregar nueva póliza
     contract.policies.push(newPolicy);
 
-    // Guardar cambios
     await documental.save();
 
-    res.status(200).json({
-      message: "Póliza agregada correctamente.",
-      documental,
-    });
+    res.status(201).json({ message: "Póliza agregada correctamente.", documental });
   } catch (error) {
     console.error("Error al agregar póliza:", error);
     res.status(500).json({ message: "Error interno del servidor." });
@@ -134,7 +129,8 @@ export const updateDocumental: RequestHandler = async (req, res) => {
     }
     res.json(documentalUpdate);
   } catch (error) {
-    console.log(error);
+    console.error("Error al actualizar información documental:", error);
+    res.status(500).json({ message: "Error interno del servidor." });
   }
 };
 
@@ -205,7 +201,7 @@ export const deleteDocumental: RequestHandler = async (req, res) => {
       res.status(404).json({ message: "Información documental no encontrada" });
       return;
     }
-    res.json("Información documental eliminada");
+    res.status(200).json({ message: "Información documental eliminada" });
   } catch (error) {
     console.log(error);
   }
