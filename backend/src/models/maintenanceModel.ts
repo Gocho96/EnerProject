@@ -18,32 +18,37 @@ const maintenanceSchema = new Schema(
       type: Date,
     },
 
-    maintenanceNumber: {
-      type: Number,
-    },
+    maintenance: [
+      {
+        maintenanceNumber: {
+          type: Number,
+          required: true,
+        },
 
-    maintenanceDate: {
-      type: Date,
-    },
+        maintenanceDate: {
+          type: Date,
+        },
 
-    typeMaintenance: {
-      type: String,
-      trim: true,
-      enum: ["Preventivo", "Correctivo"],
-    },
+        typeMaintenance: {
+          type: String,
+          trim: true,
+          enum: ["Preventivo", "Correctivo"],
+        },
 
-    maintenanceReportDate: {
-      type: Date,
-    },
+        maintenanceReportDate: {
+          type: Date,
+        },
 
-    maintenanceInvoiceDate: {
-      type: Date,
-    },
-    
-    maintenanceNotes: {
-      type: String,
-      trim: true,
-    },
+        maintenanceInvoiceDate: {
+          type: Date,
+        },
+
+        maintenanceNotes: {
+          type: String,
+          trim: true,
+        },
+      },
+    ],
   },
   {
     timestamps: true,

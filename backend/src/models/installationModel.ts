@@ -7,16 +7,22 @@ const installationSchema = new Schema(
       ref: "Project",
       required: true,
     },
-
-    dateInstallation: {
-      type: Date,
-    },
-
     dailyLog: [
       {
-        date: { type: Date, default: Date.now },
-        content: { type: String, trim: true },
-        installationNews: { type: String, trim: true },
+        date: {
+          type: Date,
+          default: Date.now,
+        },
+
+        content: { 
+          type: String,
+          trim: true,
+        },
+
+        installationNews: { 
+          type: String,
+          trim: true,
+        },
       },
     ],
   },
