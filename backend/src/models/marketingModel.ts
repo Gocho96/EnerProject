@@ -8,29 +8,6 @@ const marketingSchema = new Schema(
       required: true,
     },
 
-    platform: {
-      type: String,
-      trim: true,
-      enum: [
-        "Facebook",
-        "Instagram",
-        "Youtube",
-        "TikTok",
-        "LinkedIn",
-        "Sitio web",
-        "Otro",
-      ],
-    },
-
-    publicationDate: {
-      type: Date,
-    },
-
-    publicationUrl: {
-      type: String,
-      trim: true,
-    },
-
     sendSurvey: {
       type: Boolean,
       required: true,
@@ -40,6 +17,33 @@ const marketingSchema = new Schema(
     sendSurveyDate: {
       type: Date,
     },
+
+    publications: [
+      {
+        platform: {
+          type: String,
+          trim: true,
+          enum: [
+            "Facebook",
+            "Instagram",
+            "Youtube",
+            "TikTok",
+            "LinkedIn",
+            "Sitio web",
+            "Otro",
+          ],
+        },
+
+        publicationDate: {
+          type: Date,
+        },
+
+        publicationUrl: {
+          type: String,
+          trim: true,
+        },
+      },
+    ],
   },
   {
     timestamps: true,
