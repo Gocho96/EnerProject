@@ -7,7 +7,9 @@ export const getAllNetworkOperators: RequestHandler = async (req, res) => {
     res.json(networkOperators);
   } catch (error) {
     console.error("Error al obtener información de operador de red", error);
-    res.status(500).json({ error: "Error interno del servidor" });
+    res
+      .status(500)
+      .json({ error: "Error interno del servidor", details: error });
   }
 };
 
@@ -22,14 +24,12 @@ export const getNetworkOperator: RequestHandler = async (req, res) => {
     }
     res.json(networkOperatorFound);
   } catch (error) {
-    console.log(error);
+    console.error("Error al obtener operador de red por ID", error);
+    res.status(500).json({ error: "Error interno del servidor" });
   }
 };
 
-export const getByProjectNetworkOperator: RequestHandler = async (
-  req,
-  res
-) => {
+export const getByProjectNetworkOperator: RequestHandler = async (req, res) => {
   try {
     const { projectId } = req.params;
     const networkOperators = await NetworkOperator.find({ projectId });
@@ -55,7 +55,8 @@ export const createNetworkOperator: RequestHandler = async (req, res) => {
     const savedNetworkOperator = await networkOperator.save();
     res.json(savedNetworkOperator);
   } catch (error) {
-    console.log(error);
+    console.error("Error al crear operador de red", error);
+    res.status(500).json({ error: "Error interno del servidor" });
   }
 };
 
@@ -74,7 +75,8 @@ export const updateNetworkOperator: RequestHandler = async (req, res) => {
     }
     res.json(networkOperatorUpdate);
   } catch (error) {
-    console.log(error);
+    console.error("Error al actualizar operador de red", error);
+    res.status(500).json({ error: "Error interno del servidor" });
   }
 };
 
@@ -91,6 +93,7 @@ export const deleteNetworkOperator: RequestHandler = async (req, res) => {
     }
     res.json(networkOperatorDelete);
   } catch (error) {
-    console.log(error);
+    console.error("Error al eliminar operador de red", error);
+    res.status(500).json({ error: "Error interno del servidor" });
   }
 };
