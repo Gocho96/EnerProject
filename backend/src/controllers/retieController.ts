@@ -20,7 +20,8 @@ export const getRetie: RequestHandler = async (req, res) => {
     }
     res.json(retieFound);
   } catch (error) {
-    console.log(error);
+    console.error("Error al obtener información RETIE", error);
+    res.status(500).json({ error: "Error interno del servidor" });
   }
 };
 
@@ -48,9 +49,10 @@ export const createRetie: RequestHandler = async (req, res) => {
     }
     const retie = new Retie(req.body);
     const savedRetie = await retie.save();
-    res.json(savedRetie);
+    res.status(201).json(savedRetie);
   } catch (error) {
-    console.log(error);
+    console.error("Error al crear información RETIE", error);
+    res.status(500).json({ error: "Error interno del servidor" });
   }
 };
 
@@ -67,7 +69,8 @@ export const updateRetie: RequestHandler = async (req, res) => {
     }
     res.json(retieUpdate);
   } catch (error) {
-    console.log(error);
+    console.error("Error al actualizar información RETIE", error);
+    res.status(500).json({ error: "Error interno del servidor" });
   }
 };
 
@@ -80,6 +83,7 @@ export const deleteRetie: RequestHandler = async (req, res) => {
     }
     res.json(retieDelete);
   } catch (error) {
-    console.log(error);
+    console.error("Error al eliminar información RETIE", error);
+    res.status(500).json({ error: "Error interno del servidor" });
   }
 };
