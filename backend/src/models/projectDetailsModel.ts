@@ -59,83 +59,99 @@ const projectDetailsSchema = new Schema(
       type: Number,
     },
 
-    contactName: {
-      type: String,
-      trim: true,
-    },
+    contactPerson: [
+      {
+        contactName: {
+          type: String,
+          trim: true,
+        },
 
-    contactPosition: {
-      type: String,
-      trim: true,
-    },
+        contactPosition: {
+          type: String,
+          trim: true,
+        },
 
-    contactNumber: {
-      type: Number,
-    },
+        contactNumber: {
+          type: Number,
+        },
 
-    contactEmail: {
-      type: String,
-      trim: true,
-      match: /.+\@.+\..+/,
-    },
+        contactEmail: {
+          type: String,
+          trim: true,
+          match: /.+\@.+\..+/,
+        },
+      },
+    ],
 
-    numberPanels: {
-      type: Number,
-    },
+    solarPanels: [
+      {
+        numberPanels: {
+          type: Number,
+        },
 
-    panelPower: {
-      type: Number,
-    },
+        panelPower: {
+          type: Number,
+        },
 
-    panelBrand: {
-      type: String,
-      trim: true,
-    },
+        panelBrand: {
+          type: String,
+          trim: true,
+        },
 
-    panelReference: {
-      type: String,
-      trim: true,
-    },
+        panelReference: {
+          type: String,
+          trim: true,
+        },
+      },
+    ],
 
-    numberInverter: {
-      type: Number,
-    },
+    inverters: [
+      {
+        numberInverter: {
+          type: Number,
+        },
 
-    inverterPower: {
-      type: Number,
-    },
+        inverterPower: {
+          type: Number,
+        },
 
-    inverterBrand: {
-      type: String,
-      trim: true,
-    },
+        inverterBrand: {
+          type: String,
+          trim: true,
+        },
 
-    inverterReference: {
-      type: String,
-      trim: true,
-    },
+        inverterReference: {
+          type: String,
+          trim: true,
+        },
+      },
+    ],
 
-    numberBattery: {
-      type: Number,
-    },
+    batteries: [
+      {
+        numberBattery: {
+          type: Number,
+        },
 
-    batteryAmperage: {
-      type: Number,
-    },
+        batteryAmperage: {
+          type: Number,
+        },
 
-    batteryVoltage: {
-      type: Number,
-    },
+        batteryVoltage: {
+          type: Number,
+        },
 
-    batteryBrand: {
-      type: String,
-      trim: true,
-    },
+        batteryBrand: {
+          type: String,
+          trim: true,
+        },
 
-    batteryReference: {
-      type: String,
-      trim: true,
-    },
+        batteryReference: {
+          type: String,
+          trim: true,
+        },
+      },
+    ],
   },
   {
     timestamps: true,
