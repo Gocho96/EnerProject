@@ -9,8 +9,11 @@ router.get("/taxincentive", taxIncentiveController.getAllTaxIncentives);
 router.get("/taxincentive/:id", taxIncentiveController.getTaxIncentive);
 router.get("/taxincentive/project/:projectId", taxIncentiveController.getByProjectTaxIncentive);
 router.post("/taxincentive", validateSchema(createTaxIncentiveSchema), taxIncentiveController.createTaxIncentive);
-router.put("/taxincentive/:id", taxIncentiveController.updateTaxIncentive);
+router.post("/taxincentive/project/:projectId/secondary-beneficiaries", validateSchema(createTaxIncentiveSchema), taxIncentiveController.addSecondaryBeneficiary);
+router.patch("/taxincentive/:id", taxIncentiveController.updateTaxIncentive);
+router.patch("/taxincentive/project/:projectId/secondary-beneficiaries/:beneficiaryId", taxIncentiveController.updateSecondaryBeneficiary);
 router.delete("/taxincentive/:id", taxIncentiveController.deleteTaxIncentive);
+router.delete("/taxincentive/project/:projectId/secondary-beneficiaries/:beneficiaryId", taxIncentiveController.deleteSecondaryBeneficiary);
 
 export default router;
 

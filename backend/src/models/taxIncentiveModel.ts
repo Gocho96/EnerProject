@@ -47,10 +47,18 @@ const taxIncentiveSchema = new Schema(
       type: Date,
     },
 
-    secondaryBeneficiaryName: {
-      type: String,
-      trim: true,
-    },
+    secondaryBeneficiaries: [
+      {
+        name: {
+          type: String,
+          trim: true,
+        },
+        numberDocument: {
+          type: String,
+          trim: true,
+        },
+      },
+    ],
   },
   {
     timestamps: true,

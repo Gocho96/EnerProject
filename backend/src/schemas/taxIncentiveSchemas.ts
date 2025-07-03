@@ -1,10 +1,6 @@
 import { z } from "zod";
 
 export const createTaxIncentiveSchema = z.object({
-  projectId: z.string({
-    required_error: "El ID del proyecto es obligatorio",
-  }),
-
   filingNumberIt: z
     .string()
     .trim()

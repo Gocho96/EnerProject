@@ -52,6 +52,27 @@ export const createTaxIncentive: RequestHandler = async (req, res) => {
   }
 };
 
+export const addSecondaryBeneficiary: RequestHandler = async (req, res) => {
+  try {
+    const { projectId } = req.params;
+    const { name, numberDocument } = req.body;
+
+    const taxIncentive = await TaxIncentive.findOne({ projectId });
+    if (!taxIncentive) {
+      res.status(404).json({ message: "Incentivo tributario no encontrado" });
+      return;
+    }
+
+    taxIncentive.secondaryBeneficiaries.push({ name, numberDocument });
+    await taxIncentive.save();
+
+    res.json(taxIncentive);
+  } catch (error) {
+    console.error("Error al agregar beneficiario secundario", error);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+};
+
 export const updateTaxIncentive: RequestHandler = async (req, res) => {
   try {
     const taxIncentiveUpdate = await TaxIncentive.findByIdAndUpdate(
@@ -69,6 +90,35 @@ export const updateTaxIncentive: RequestHandler = async (req, res) => {
   }
 };
 
+export const updateSecondaryBeneficiary: RequestHandler = async (req, res) => {
+  try {
+    const { projectId, beneficiaryId } = req.params;
+    const { name, numberDocument } = req.body;
+
+    const taxIncentive = await TaxIncentive.findOne({projectId});
+    if (!taxIncentive) {
+      res.status(404).json({ message: "Incentivo tributario no encontrado" });
+      return;
+    }
+
+    const beneficiary = taxIncentive.secondaryBeneficiaries.id(beneficiaryId);
+    if (!beneficiary) {
+      res.status(404).json({ message: "Beneficiario secundario no encontrado" });
+      return;
+    }
+
+    if (name) beneficiary.name = name;
+    if (numberDocument) beneficiary.numberDocument = numberDocument;
+
+    await taxIncentive.save();
+
+    res.json(taxIncentive);
+  } catch (error) {
+    console.error("Error al editar beneficiario secundario", error);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+};
+
 export const deleteTaxIncentive: RequestHandler = async (req, res) => {
   try {
     const taxIncentiveDelete = await TaxIncentive.findByIdAndDelete(req.params.id);
@@ -81,3 +131,33 @@ export const deleteTaxIncentive: RequestHandler = async (req, res) => {
     console.log(error);
   }
 };
+
+export const deleteSecondaryBeneficiary: RequestHandler = async (req, res) => {
+  try {
+    const { projectId, beneficiaryId } = req.params;
+
+    const taxIncentive = await TaxIncentive.findOne({projectId});
+    if (!taxIncentive) {
+      res.status(404).json({ message: "Incentivo tributario no encontrado" });
+      return;
+    }
+
+    const index = taxIncentive.secondaryBeneficiaries.findIndex(
+      (b: any) => b._id.toString() === beneficiaryId
+    );
+
+    if (index === -1) {
+      res.status(404).json({ message: "Beneficiario secundario no encontrado" });
+      return;
+    }
+
+    taxIncentive.secondaryBeneficiaries.splice(index, 1);
+    await taxIncentive.save();
+
+    res.json(taxIncentive);
+  } catch (error) {
+    console.error("Error al eliminar beneficiario secundario", error);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+};
+
