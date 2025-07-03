@@ -1,4 +1,5 @@
 import { RequestHandler } from "express";
+import { Types } from "mongoose";
 import { Shopping } from "../models/shoppingModel";
 
 export const getAllShoppings: RequestHandler = async (req, res) => {
@@ -13,18 +14,19 @@ export const getAllShoppings: RequestHandler = async (req, res) => {
 
 export const getShopping: RequestHandler = async (req, res) => {
   try {
-    const shoppingFound = await Shopping.findById(req.params.id);
-    if (!shoppingFound) {
+    const shopping = await Shopping.findById(req.params.id);
+    if (!shopping) {
       res.status(404).json({ message: "Compra no encontrada" });
       return;
     }
-    res.json(shoppingFound);
+    res.json(shopping);
   } catch (error) {
-    console.log(error);
+    console.error("Error al obtener compra", error);
+    res.status(500).json({ message: "Error interno del servidor" });
   }
 };
 
-export const getByProjectShoppings: RequestHandler = async (req, res) => {
+export const getShoppingsByProject: RequestHandler = async (req, res) => {
   try {
     const { projectId } = req.params;
     const shoppings = await Shopping.find({ projectId });
@@ -37,45 +39,126 @@ export const getByProjectShoppings: RequestHandler = async (req, res) => {
 
 export const createShopping: RequestHandler = async (req, res) => {
   try {
-    const { materialSubtotal, materialIVA } = req.body;
+    const {
+      projectId,
+      materialDescription,
+      materialQuantity,
+      materialSupplier,
+      materialInvoice,
+      materialDate,
+      materialSubtotal,
+      materialIVA,
+      ...rest
+    } = req.body;
 
-    req.body.materialTotal = (materialSubtotal || 0) + (materialIVA || 0);
+    if (!projectId || !Types.ObjectId.isValid(projectId)) {
+      res.status(400).json({
+        message: "ID del proyecto no válido o no proporcionado",
+      });
+      return;
+    }
 
-    const shopping = new Shopping(req.body);
-    const savedShopping = await shopping.save();
-    res.json(savedShopping);
+    const existingShopping = await Shopping.findOne({ projectId });
+    if (existingShopping) {
+      res.status(409).json({ message: "Ya existen compras para este proyecto" });
+      return;
+    }
+
+    const materialTotal = (materialSubtotal || 0) + (materialIVA || 0);
+
+    const newShopping = new Shopping({
+      projectId,
+      materialDescription,
+      materialQuantity,
+      materialSupplier,
+      materialInvoice,
+      materialDate,
+      materialSubtotal,
+      materialIVA,
+      materialTotal,
+      ...rest,
+    });
+
+    const savedShopping = await newShopping.save();
+    res.status(201).json(savedShopping);
+  } catch (error) {
+    console.error("Error al crear la compra:", error);
+    res.status(500).json({ message: "Error interno del servidor" });
+  }
+};
+
+export const createShoppingByProjectId: RequestHandler = async (req, res) => {
+  try {
+    const { projectId } = req.params;
+    const {
+      materialDescription,
+      materialQuantity,
+      materialSupplier,
+      materialInvoice,
+      materialDate,
+      materialSubtotal,
+      materialIVA,
+      ...rest
+    } = req.body;
+
+    if (!projectId || !Types.ObjectId.isValid(projectId)) {
+      res.status(400).json({
+        message: "ID de proyecto no válido o no proporcionado",
+      });
+      return;
+    }
+
+    const materialTotal = (materialSubtotal || 0) + (materialIVA || 0);
+
+    const newShopping = new Shopping({
+      projectId,
+      materialDescription,
+      materialQuantity,
+      materialSupplier,
+      materialInvoice,
+      materialDate,
+      materialSubtotal,
+      materialIVA,
+      materialTotal,
+      ...rest,
+    });
+
+    const savedShopping = await newShopping.save();
+    res.status(201).json(savedShopping);
   } catch (error) {
     console.error("Error al crear compra:", error);
-    res.status(500).json({ error: "Error interno del servidor" });
+    res.status(500).json({ message: "Error interno del servidor" });
   }
 };
 
 export const updateShopping: RequestHandler = async (req, res) => {
   try {
-    const shoppingUpdate = await Shopping.findByIdAndUpdate(
+    const updatedShopping = await Shopping.findByIdAndUpdate(
       req.params.id,
       req.body,
       { new: true }
     );
-    if (!shoppingUpdate) {
+    if (!updatedShopping) {
       res.status(404).json({ message: "Compra no encontrada" });
       return;
     }
-    res.json(shoppingUpdate);
+    res.json(updatedShopping);
   } catch (error) {
-    console.log(error);
+    console.error("Error al actualizar compra:", error);
+    res.status(500).json({ message: "Error interno del servidor" });
   }
 };
 
 export const deleteShopping: RequestHandler = async (req, res) => {
   try {
-    const shoppingDelete = await Shopping.findByIdAndDelete(req.params.id);
-    if (!shoppingDelete) {
+    const deletedShopping = await Shopping.findByIdAndDelete(req.params.id);
+    if (!deletedShopping) {
       res.status(404).json({ message: "Compra no encontrada" });
       return;
     }
-    res.json(shoppingDelete);
+    res.status(200).json({ message: "Compra eliminada" });
   } catch (error) {
-    console.log(error);
+    console.error("Error al eliminar compra:", error);
+    res.status(500).json({ message: "Error interno del servidor" });
   }
 };

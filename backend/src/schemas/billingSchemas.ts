@@ -1,11 +1,6 @@
 import { z } from "zod";
 
 export const createBillingSchema = z.object({
-    projectId: z
-      .string({
-      required_error: "El ID del proyecto es obligatorio",
-      }),
-
     billingNumber: z
       .string({
         required_error: "Debes ingresar un numero de factura",
