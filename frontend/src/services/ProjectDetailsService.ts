@@ -1,0 +1,224 @@
+import axios from "axios";
+import { ProjectDetails } from "../types/projectDetails";
+
+const API = "http://localhost:3000/api";
+
+export const getAllProjectDetails = async () => {
+  try {
+    const res = await axios.get<ProjectDetails[]>(`${API}/project-details`);
+    return res.data;
+  } catch (error) {
+    throw new Error("Error al obtener todos los detalles del proyecto");
+  }
+};
+
+export const getProjectDetailsById = async (id: string) => {
+  try {
+    const res = await axios.get<ProjectDetails>(`${API}/project-details/${id}`);
+    return res.data;
+  } catch (error) {
+    throw new Error("Error al obtener detalles del proyecto por ID");
+  }
+};
+
+export const getProjectDetailsByProject = async (projectId: string) => {
+  try {
+    const res = await axios.get<ProjectDetails[]>(
+      `${API}/project-details/project/${projectId}`
+    );
+    return res.data;
+  } catch (error) {
+    throw new Error("Error al obtener detalles del proyecto por projectId");
+  }
+};
+
+export const createProjectDetails = async (data: any) => {
+  try {
+    const res = await axios.post(`${API}/project-details`, data);
+    return res.data;
+  } catch (error) {
+    throw new Error("Error al crear detalles del proyecto");
+  }
+};
+
+export const updateProjectDetails = async (projectId: string, data: any) => {
+  try {
+    const res = await axios.put(
+      `${API}/project-details/project/${projectId}`,
+      data
+    );
+    return res.data;
+  } catch (error) {
+    throw new Error("Error al actualizar detalles del proyecto");
+  }
+};
+
+export const deleteProjectDetails = async (projectId: string) => {
+  try {
+    const res = await axios.delete(
+      `${API}/project-details/project/${projectId}`
+    );
+    return res.data;
+  } catch (error) {
+    throw new Error("Error al eliminar detalles del proyecto");
+  }
+};
+
+export const addContactPerson = async (projectId: string, data: any) => {
+  try {
+    const res = await axios.post(
+      `${API}/project-details/project/${projectId}/contact-person`,
+      data
+    );
+    return res.data;
+  } catch (error) {
+    throw new Error("Error al agregar contacto");
+  }
+};
+
+export const updateContactPerson = async (
+  projectId: string,
+  contactId: string,
+  data: any
+) => {
+  try {
+    const res = await axios.put(
+      `${API}/project-details/project/${projectId}/contact-person/${contactId}`,
+      data
+    );
+    return res.data;
+  } catch (error) {
+    throw new Error("Error al actualizar contacto");
+  }
+};
+
+export const deleteContactPerson = async (
+  projectId: string,
+  contactId: string
+) => {
+  try {
+    const res = await axios.delete(
+      `${API}/project-details/project/${projectId}/contact-person/${contactId}`
+    );
+    return res.data;
+  } catch (error) {
+    throw new Error("Error al eliminar contacto");
+  }
+};
+
+export const addSolarPanel = async (projectId: string, data: any) => {
+  try {
+    const res = await axios.post(
+      `${API}/project-details/project/${projectId}/solar-panels`,
+      data
+    );
+    return res.data;
+  } catch (error) {
+    throw new Error("Error al agregar panel solar");
+  }
+};
+
+export const updateSolarPanel = async (
+  projectId: string,
+  panelId: string,
+  data: any
+) => {
+  try {
+    const res = await axios.put(
+      `${API}/project-details/project/${projectId}/solar-panels/${panelId}`,
+      data
+    );
+    return res.data;
+  } catch (error) {
+    throw new Error("Error al actualizar panel solar");
+  }
+};
+
+export const deleteSolarPanel = async (projectId: string, panelId: string) => {
+  try {
+    const res = await axios.delete(
+      `${API}/project-details/project/${projectId}/solar-panels/${panelId}`
+    );
+    return res.data;
+  } catch (error) {
+    throw new Error("Error al eliminar panel solar");
+  }
+};
+
+export const addInverter = async (projectId: string, data: any) => {
+  try {
+    const res = await axios.post(
+      `${API}/project-details/project/${projectId}/inverters`,
+      data
+    );
+    return res.data;
+  } catch (error) {
+    throw new Error("Error al agregar inversor");
+  }
+};
+
+export const updateInverter = async (
+  projectId: string,
+  inverterId: string,
+  data: any
+) => {
+  try {
+    const res = await axios.put(
+      `${API}/project-details/project/${projectId}/inverters/${inverterId}`,
+      data
+    );
+    return res.data;
+  } catch (error) {
+    throw new Error("Error al actualizar inversor");
+  }
+};
+
+export const deleteInverter = async (projectId: string, inverterId: string) => {
+  try {
+    const res = await axios.delete(
+      `${API}/project-details/project/${projectId}/inverters/${inverterId}`
+    );
+    return res.data;
+  } catch (error) {
+    throw new Error("Error al eliminar inversor");
+  }
+};
+
+export const addBattery = async (projectId: string, data: any) => {
+  try {
+    const res = await axios.post(
+      `${API}/project-details/project/${projectId}/batteries`,
+      data
+    );
+    return res.data;
+  } catch (error) {
+    throw new Error("Error al agregar batería");
+  }
+};
+
+export const updateBattery = async (
+  projectId: string,
+  batteryId: string,
+  data: any
+) => {
+  try {
+    const res = await axios.put(
+      `${API}/project-details/project/${projectId}/batteries/${batteryId}`,
+      data
+    );
+    return res.data;
+  } catch (error) {
+    throw new Error("Error al actualizar batería");
+  }
+};
+
+export const deleteBattery = async (projectId: string, batteryId: string) => {
+  try {
+    const res = await axios.delete(
+      `${API}/project-details/project/${projectId}/batteries/${batteryId}`
+    );
+    return res.data;
+  } catch (error) {
+    throw new Error("Error al eliminar batería");
+  }
+};

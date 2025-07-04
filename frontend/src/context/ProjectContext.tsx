@@ -19,7 +19,8 @@ import {
     createProject: (project: Project) => Promise<void>;
     getProjects: () => Promise<void>;
     deleteProject: (id: string) => Promise<void>;
-    getProject: (id: string) => Promise<Project | undefined>;
+    getProject: (id: string) => Promise<Project 
+    | undefined>;
     updateProject: (id: string, project: Project) => Promise<void>;
   }
   
