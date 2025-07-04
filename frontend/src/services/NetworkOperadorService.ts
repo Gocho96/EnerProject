@@ -1,11 +1,10 @@
 import axios from "axios";
 import { NetworkOperator } from "../types/networkOperador";
-
-const API = "http://localhost:3000/api";
+import { API_URL } from "../config/api";
 
 export const getAllNetworkOperators = async () => {
   try {
-    return await axios.get<NetworkOperator[]>(`${API}/network-operator`);
+    return await axios.get<NetworkOperator[]>(`${API_URL}/network-operator`);
   } catch (error) {
     console.error(error);
   }
@@ -13,7 +12,7 @@ export const getAllNetworkOperators = async () => {
 
 export const getNetworkOperatorById = async (id: string) => {
   try {
-    return await axios.get<NetworkOperator>(`${API}/network-operator/${id}`);
+    return await axios.get<NetworkOperator>(`${API_URL}/network-operator/${id}`);
   } catch (error) {
     console.error(error);
   }
@@ -22,7 +21,7 @@ export const getNetworkOperatorById = async (id: string) => {
 export const getNetworkOperatorByProject = async (projectId: string) => {
   try {
     return await axios.get<NetworkOperator[]>(
-      `${API}/network-operator/project/${projectId}`
+      `${API_URL}/network-operator/project/${projectId}`
     );
   } catch (error) {
     console.error(error);
@@ -31,7 +30,7 @@ export const getNetworkOperatorByProject = async (projectId: string) => {
 
 export const createNetworkOperator = async (data: any) => {
   try {
-    return await axios.post(`${API}/network-operator`, data);
+    return await axios.post(`${API_URL}/network-operator`, data);
   } catch (error) {
     console.error(error);
     throw error;
@@ -40,7 +39,7 @@ export const createNetworkOperator = async (data: any) => {
 
 export const updateNetworkOperator = async (id: string, data: any) => {
   try {
-    return await axios.put(`${API}/network-operator/${id}`, data);
+    return await axios.put(`${API_URL}/network-operator/${id}`, data);
   } catch (error) {
     console.error(error);
   }
@@ -48,7 +47,7 @@ export const updateNetworkOperator = async (id: string, data: any) => {
 
 export const deleteNetworkOperator = async (id: string) => {
   try {
-    return await axios.delete(`${API}/network-operator/${id}`);
+    return await axios.delete(`${API_URL}/network-operator/${id}`);
   } catch (error) {
     console.error(error);
   }

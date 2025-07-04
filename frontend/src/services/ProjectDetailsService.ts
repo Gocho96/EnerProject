@@ -1,11 +1,10 @@
 import axios from "axios";
 import { ProjectDetails } from "../types/projectDetails";
-
-const API = "http://localhost:3000/api";
+import { API_URL } from "../config/api";
 
 export const getAllProjectDetails = async () => {
   try {
-    const res = await axios.get<ProjectDetails[]>(`${API}/project-details`);
+    const res = await axios.get<ProjectDetails[]>(`${API_URL}/project-details`);
     return res.data;
   } catch (error) {
     throw new Error("Error al obtener todos los detalles del proyecto");
@@ -14,7 +13,7 @@ export const getAllProjectDetails = async () => {
 
 export const getProjectDetailsById = async (id: string) => {
   try {
-    const res = await axios.get<ProjectDetails>(`${API}/project-details/${id}`);
+    const res = await axios.get<ProjectDetails>(`${API_URL}/project-details/${id}`);
     return res.data;
   } catch (error) {
     throw new Error("Error al obtener detalles del proyecto por ID");
@@ -24,7 +23,7 @@ export const getProjectDetailsById = async (id: string) => {
 export const getProjectDetailsByProject = async (projectId: string) => {
   try {
     const res = await axios.get<ProjectDetails[]>(
-      `${API}/project-details/project/${projectId}`
+      `${API_URL}/project-details/project/${projectId}`
     );
     return res.data;
   } catch (error) {
@@ -34,7 +33,7 @@ export const getProjectDetailsByProject = async (projectId: string) => {
 
 export const createProjectDetails = async (data: any) => {
   try {
-    const res = await axios.post(`${API}/project-details`, data);
+    const res = await axios.post(`${API_URL}/project-details`, data);
     return res.data;
   } catch (error) {
     throw new Error("Error al crear detalles del proyecto");
@@ -44,7 +43,7 @@ export const createProjectDetails = async (data: any) => {
 export const updateProjectDetails = async (projectId: string, data: any) => {
   try {
     const res = await axios.put(
-      `${API}/project-details/project/${projectId}`,
+      `${API_URL}/project-details/project/${projectId}`,
       data
     );
     return res.data;
@@ -56,7 +55,7 @@ export const updateProjectDetails = async (projectId: string, data: any) => {
 export const deleteProjectDetails = async (projectId: string) => {
   try {
     const res = await axios.delete(
-      `${API}/project-details/project/${projectId}`
+      `${API_URL}/project-details/project/${projectId}`
     );
     return res.data;
   } catch (error) {
@@ -67,7 +66,7 @@ export const deleteProjectDetails = async (projectId: string) => {
 export const addContactPerson = async (projectId: string, data: any) => {
   try {
     const res = await axios.post(
-      `${API}/project-details/project/${projectId}/contact-person`,
+      `${API_URL}/project-details/project/${projectId}/contact-person`,
       data
     );
     return res.data;
@@ -83,7 +82,7 @@ export const updateContactPerson = async (
 ) => {
   try {
     const res = await axios.put(
-      `${API}/project-details/project/${projectId}/contact-person/${contactId}`,
+      `${API_URL}/project-details/project/${projectId}/contact-person/${contactId}`,
       data
     );
     return res.data;
@@ -98,7 +97,7 @@ export const deleteContactPerson = async (
 ) => {
   try {
     const res = await axios.delete(
-      `${API}/project-details/project/${projectId}/contact-person/${contactId}`
+      `${API_URL}/project-details/project/${projectId}/contact-person/${contactId}`
     );
     return res.data;
   } catch (error) {
@@ -109,7 +108,7 @@ export const deleteContactPerson = async (
 export const addSolarPanel = async (projectId: string, data: any) => {
   try {
     const res = await axios.post(
-      `${API}/project-details/project/${projectId}/solar-panels`,
+      `${API_URL}/project-details/project/${projectId}/solar-panels`,
       data
     );
     return res.data;
@@ -125,7 +124,7 @@ export const updateSolarPanel = async (
 ) => {
   try {
     const res = await axios.put(
-      `${API}/project-details/project/${projectId}/solar-panels/${panelId}`,
+      `${API_URL}/project-details/project/${projectId}/solar-panels/${panelId}`,
       data
     );
     return res.data;
@@ -137,7 +136,7 @@ export const updateSolarPanel = async (
 export const deleteSolarPanel = async (projectId: string, panelId: string) => {
   try {
     const res = await axios.delete(
-      `${API}/project-details/project/${projectId}/solar-panels/${panelId}`
+      `${API_URL}/project-details/project/${projectId}/solar-panels/${panelId}`
     );
     return res.data;
   } catch (error) {
@@ -148,7 +147,7 @@ export const deleteSolarPanel = async (projectId: string, panelId: string) => {
 export const addInverter = async (projectId: string, data: any) => {
   try {
     const res = await axios.post(
-      `${API}/project-details/project/${projectId}/inverters`,
+      `${API_URL}/project-details/project/${projectId}/inverters`,
       data
     );
     return res.data;
@@ -164,7 +163,7 @@ export const updateInverter = async (
 ) => {
   try {
     const res = await axios.put(
-      `${API}/project-details/project/${projectId}/inverters/${inverterId}`,
+      `${API_URL}/project-details/project/${projectId}/inverters/${inverterId}`,
       data
     );
     return res.data;
@@ -176,7 +175,7 @@ export const updateInverter = async (
 export const deleteInverter = async (projectId: string, inverterId: string) => {
   try {
     const res = await axios.delete(
-      `${API}/project-details/project/${projectId}/inverters/${inverterId}`
+      `${API_URL}/project-details/project/${projectId}/inverters/${inverterId}`
     );
     return res.data;
   } catch (error) {
@@ -187,7 +186,7 @@ export const deleteInverter = async (projectId: string, inverterId: string) => {
 export const addBattery = async (projectId: string, data: any) => {
   try {
     const res = await axios.post(
-      `${API}/project-details/project/${projectId}/batteries`,
+      `${API_URL}/project-details/project/${projectId}/batteries`,
       data
     );
     return res.data;
@@ -203,7 +202,7 @@ export const updateBattery = async (
 ) => {
   try {
     const res = await axios.put(
-      `${API}/project-details/project/${projectId}/batteries/${batteryId}`,
+      `${API_URL}/project-details/project/${projectId}/batteries/${batteryId}`,
       data
     );
     return res.data;
@@ -215,7 +214,7 @@ export const updateBattery = async (
 export const deleteBattery = async (projectId: string, batteryId: string) => {
   try {
     const res = await axios.delete(
-      `${API}/project-details/project/${projectId}/batteries/${batteryId}`
+      `${API_URL}/project-details/project/${projectId}/batteries/${batteryId}`
     );
     return res.data;
   } catch (error) {

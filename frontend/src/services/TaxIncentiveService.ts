@@ -1,11 +1,10 @@
 import axios from "axios";
 import { TaxIncentive } from "../types/taxIncentive";
-
-const API = "http://localhost:3000/api";
+import { API_URL } from "../config/api";
 
 export const getAllTaxIncentives = async () => {
   try {
-    const res = await axios.get<TaxIncentive[]>(`${API}/taxincentive`);
+    const res = await axios.get<TaxIncentive[]>(`${API_URL}/taxincentive`);
     return res.data;
   } catch (error) {
     throw new Error("Error al obtener incentivos tributarios");
@@ -14,7 +13,7 @@ export const getAllTaxIncentives = async () => {
 
 export const getTaxIncentiveById = async (id: string) => {
   try {
-    const res = await axios.get<TaxIncentive>(`${API}/taxincentive/${id}`);
+    const res = await axios.get<TaxIncentive>(`${API_URL}/taxincentive/${id}`);
     return res.data;
   } catch (error) {
     throw new Error("Error al obtener incentivo tributario por ID");
@@ -23,7 +22,7 @@ export const getTaxIncentiveById = async (id: string) => {
 
 export const getTaxIncentivesByProject = async (projectId: string) => {
   try {
-    const res = await axios.get<TaxIncentive[]>(`${API}/taxincentive/project/${projectId}`);
+    const res = await axios.get<TaxIncentive[]>(`${API_URL}/taxincentive/project/${projectId}`);
     return res.data;
   } catch (error) {
     throw new Error("Error al obtener incentivo tributario del proyecto");
@@ -32,7 +31,7 @@ export const getTaxIncentivesByProject = async (projectId: string) => {
 
 export const createTaxIncentive = async (data: any) => {
   try {
-    const res = await axios.post(`${API}/taxincentive`, data);
+    const res = await axios.post(`${API_URL}/taxincentive`, data);
     return res.data;
   } catch (error) {
     throw new Error("Error al crear incentivo tributario");
@@ -41,7 +40,7 @@ export const createTaxIncentive = async (data: any) => {
 
 export const addSecondaryBeneficiary = async (projectId: string, data: any) => {
   try {
-    const res = await axios.post(`${API}/taxincentive/project/${projectId}/secondary-beneficiaries`, data);
+    const res = await axios.post(`${API_URL}/taxincentive/project/${projectId}/secondary-beneficiaries`, data);
     return res.data;
   } catch (error) {
     throw new Error("Error al agregar beneficiario secundario");
@@ -50,7 +49,7 @@ export const addSecondaryBeneficiary = async (projectId: string, data: any) => {
 
 export const updateTaxIncentive = async (id: string, data: any) => {
   try {
-    const res = await axios.patch(`${API}/taxincentive/${id}`, data);
+    const res = await axios.patch(`${API_URL}/taxincentive/${id}`, data);
     return res.data;
   } catch (error) {
     throw new Error("Error al actualizar incentivo tributario");
@@ -64,7 +63,7 @@ export const updateSecondaryBeneficiary = async (
 ) => {
   try {
     const res = await axios.patch(
-      `${API}/taxincentive/project/${projectId}/secondary-beneficiaries/${beneficiaryId}`,
+      `${API_URL}/taxincentive/project/${projectId}/secondary-beneficiaries/${beneficiaryId}`,
       data
     );
     return res.data;
@@ -75,7 +74,7 @@ export const updateSecondaryBeneficiary = async (
 
 export const deleteTaxIncentive = async (id: string) => {
   try {
-    const res = await axios.delete(`${API}/taxincentive/${id}`);
+    const res = await axios.delete(`${API_URL}/taxincentive/${id}`);
     return res.data;
   } catch (error) {
     throw new Error("Error al eliminar incentivo tributario");
@@ -88,7 +87,7 @@ export const deleteSecondaryBeneficiary = async (
 ) => {
   try {
     const res = await axios.delete(
-      `${API}/taxincentive/project/${projectId}/secondary-beneficiaries/${beneficiaryId}`
+      `${API_URL}/taxincentive/project/${projectId}/secondary-beneficiaries/${beneficiaryId}`
     );
     return res.data;
   } catch (error) {

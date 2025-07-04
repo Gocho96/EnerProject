@@ -1,11 +1,10 @@
 import axios from "axios";
 import { userAuth } from "../types/user";
-
-const API = "http://localhost:3000/api";
+import { API_URL } from "../config/api";
 
 export const register = async (user: userAuth) => {
   try {
-    return await axios.post<userAuth>(`${API}/register`, user);
+    return await axios.post<userAuth>(`${API_URL}/register`, user);
   } catch (error) {
     console.log(error);
   }
@@ -13,7 +12,7 @@ export const register = async (user: userAuth) => {
 
 export const login = async (user: userAuth) => {
   try {
-    return await axios.post<userAuth>(`${API}/login/`, user);
+    return await axios.post<userAuth>(`${API_URL}/login/`, user);
   } catch (error) {
     console.log(error);
   }
@@ -21,7 +20,7 @@ export const login = async (user: userAuth) => {
 
 export const logout = async () => {
   try {
-    return await axios.post(`${API}/logout`);
+    return await axios.post(`${API_URL}/logout`);
   } catch (error) {
     console.log(error);
   }
@@ -29,7 +28,7 @@ export const logout = async () => {
 
 export const verifyToken = async () => {
   try {
-    return await axios.get<userAuth>(`${API}/verify/`);
+    return await axios.get<userAuth>(`${API_URL}/verify/`);
   } catch (error) {
     console.log(error);
   }
@@ -37,7 +36,7 @@ export const verifyToken = async () => {
 
 export const profile = async () => {
   try {
-    return await axios.get<userAuth>(`${API}/profile`);
+    return await axios.get<userAuth>(`${API_URL}/profile`);
   } catch (error) {
     console.log(error);
   }

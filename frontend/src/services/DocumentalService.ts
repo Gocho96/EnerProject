@@ -1,11 +1,10 @@
 import axios from "axios";
 import { Documental, Contract, Policy } from "../types/documental";
-
-const API = "http://localhost:3000/api";
+import { API_URL } from "../config/api";
 
 export const getAllDocumentals = async () => {
   try {
-    return await axios.get<Documental[]>(`${API}/documental`);
+    return await axios.get<Documental[]>(`${API_URL}/documental`);
   } catch (error) {
     console.log(error);
   }
@@ -13,7 +12,7 @@ export const getAllDocumentals = async () => {
 
 export const getDocumentalById = async (id: string) => {
   try {
-    return await axios.get<Documental>(`${API}/documental/${id}`);
+    return await axios.get<Documental>(`${API_URL}/documental/${id}`);
   } catch (error) {
     console.log(error);
   }
@@ -22,7 +21,7 @@ export const getDocumentalById = async (id: string) => {
 export const getDocumentalsByProject = async (projectId: string) => {
   try {
     return await axios.get<Documental[]>(
-      `${API}/documental/project/${projectId}`
+      `${API_URL}/documental/project/${projectId}`
     );
   } catch (error) {
     console.log(error);
@@ -33,7 +32,7 @@ export const createDocumental = async (
   documental: Omit<Documental, "_id" | "createdAt" | "updatedAt">
 ) => {
   try {
-    return await axios.post(`${API}/documental`, documental);
+    return await axios.post(`${API_URL}/documental`, documental);
   } catch (error) {
     console.log(error);
     throw error;
@@ -45,7 +44,7 @@ export const updateDocumental = async (
   documental: Partial<Documental>
 ) => {
   try {
-    return await axios.put(`${API}/documental/${id}`, documental);
+    return await axios.put(`${API_URL}/documental/${id}`, documental);
   } catch (error) {
     console.log(error);
   }
@@ -53,7 +52,7 @@ export const updateDocumental = async (
 
 export const deleteDocumental = async (id: string) => {
   try {
-    return await axios.delete(`${API}/documental/${id}`);
+    return await axios.delete(`${API_URL}/documental/${id}`);
   } catch (error) {
     console.log(error);
   }
@@ -62,7 +61,7 @@ export const deleteDocumental = async (id: string) => {
 export const addContract = async (documentalId: string, contract: Contract) => {
   try {
     return await axios.post(
-      `${API}/documental/${documentalId}/contracts`,
+      `${API_URL}/documental/${documentalId}/contracts`,
       contract
     );
   } catch (error) {
@@ -78,7 +77,7 @@ export const updateContract = async (
 ) => {
   try {
     return await axios.put(
-      `${API}/documental/${documentalId}/contract/${contractId}`,
+      `${API_URL}/documental/${documentalId}/contract/${contractId}`,
       contract
     );
   } catch (error) {
@@ -92,7 +91,7 @@ export const deleteContract = async (
 ) => {
   try {
     return await axios.delete(
-      `${API}/documental/${documentalId}/contract/${contractId}`
+      `${API_URL}/documental/${documentalId}/contract/${contractId}`
     );
   } catch (error) {
     console.log(error);
@@ -106,7 +105,7 @@ export const addPolicy = async (
 ) => {
   try {
     return await axios.post(
-      `${API}/documental/${documentalId}/contracts/${contractId}/policies`,
+      `${API_URL}/documental/${documentalId}/contracts/${contractId}/policies`,
       policy
     );
   } catch (error) {
@@ -123,7 +122,7 @@ export const updatePolicy = async (
 ) => {
   try {
     return await axios.put(
-      `${API}/documental/${documentalId}/contract/${contractId}/policy/${policyId}`,
+      `${API_URL}/documental/${documentalId}/contract/${contractId}/policy/${policyId}`,
       policy
     );
   } catch (error) {
@@ -138,7 +137,7 @@ export const deletePolicy = async (
 ) => {
   try {
     return await axios.delete(
-      `${API}/documental/${documentalId}/contract/${contractId}/policy/${policyId}`
+      `${API_URL}/documental/${documentalId}/contract/${contractId}/policy/${policyId}`
     );
   } catch (error) {
     console.log(error);

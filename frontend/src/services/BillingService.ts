@@ -1,11 +1,10 @@
 import axios from "axios";
 import { Billing } from "../types/billing";
-
-const API = "http://localhost:3000/api";
+import { API_URL } from "../config/api";
 
 export const getAllBillings = async () => {
   try {
-    return await axios.get<Billing[]>(`${API}/billing`);
+    return await axios.get<Billing[]>(`${API_URL}/billing`);
   } catch (error) {
     console.log(error);
   }
@@ -13,7 +12,7 @@ export const getAllBillings = async () => {
 
 export const getBillingById = async (id: string) => {
   try {
-    return await axios.get<Billing>(`${API}/billing/${id}`);
+    return await axios.get<Billing>(`${API_URL}/billing/${id}`);
   } catch (error) {
     console.log(error);
   }
@@ -21,7 +20,7 @@ export const getBillingById = async (id: string) => {
 
 export const getBillingsByProject = async (projectId: string) => {
   try {
-    return await axios.get<Billing[]>(`${API}/billing/project/${projectId}`);
+    return await axios.get<Billing[]>(`${API_URL}/billing/project/${projectId}`);
   } catch (error) {
     console.log(error);
   }
@@ -31,7 +30,7 @@ export const createBilling = async (
   billing: Omit<Billing, "_id" | "createdAt" | "updatedAt">
 ) => {
   try {
-    return await axios.post<Billing>(`${API}/billing`, billing);
+    return await axios.post<Billing>(`${API_URL}/billing`, billing);
   } catch (error) {
     console.log(error);
     throw error;
@@ -44,7 +43,7 @@ export const createBillingByProject = async (
 ) => {
   try {
     return await axios.post<Billing>(
-      `${API}/billing/project/${projectId}`,
+      `${API_URL}/billing/project/${projectId}`,
       billing
     );
   } catch (error) {
@@ -58,7 +57,7 @@ export const updateBilling = async (
   billing: Omit<Billing, "_id" | "createdAt" | "updatedAt">
 ) => {
   try {
-    return await axios.put<Billing>(`${API}/billing/${id}`, billing);
+    return await axios.put<Billing>(`${API_URL}/billing/${id}`, billing);
   } catch (error) {
     console.log(error);
   }
@@ -66,7 +65,7 @@ export const updateBilling = async (
 
 export const deleteBilling = async (id: string) => {
   try {
-    return await axios.delete(`${API}/billing/${id}`);
+    return await axios.delete(`${API_URL}/billing/${id}`);
   } catch (error) {
     console.log(error);
   }

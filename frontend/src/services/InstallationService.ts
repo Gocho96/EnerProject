@@ -1,11 +1,11 @@
 import axios from "axios";
 import { Installation } from "../types/installation";
+import { API_URL } from "../config/api";
 
-const API = "http://localhost:3000/api";
 
 export const getAllInstallations = async () => {
   try {
-    return await axios.get<Installation[]>(`${API}/installation`);
+    return await axios.get<Installation[]>(`${API_URL}/installation`);
   } catch (error) {
     console.log(error);
   }
@@ -13,7 +13,7 @@ export const getAllInstallations = async () => {
 
 export const getInstallationById = async (id: string) => {
   try {
-    return await axios.get<Installation>(`${API}/installation/${id}`);
+    return await axios.get<Installation>(`${API_URL}/installation/${id}`);
   } catch (error) {
     console.log(error);
   }
@@ -22,7 +22,7 @@ export const getInstallationById = async (id: string) => {
 export const getInstallationsByProject = async (projectId: string) => {
   try {
     return await axios.get<Installation[]>(
-      `${API}/installation/project/${projectId}`
+      `${API_URL}/installation/project/${projectId}`
     );
   } catch (error) {
     console.log(error);
@@ -33,7 +33,7 @@ export const createInstallation = async (
   installation: Omit<Installation, "_id" | "createdAt" | "updatedAt">
 ) => {
   try {
-    return await axios.post(`${API}/installation`, installation);
+    return await axios.post(`${API_URL}/installation`, installation);
   } catch (error) {
     console.log(error);
     throw error;
@@ -45,7 +45,7 @@ export const addDailyLogToInstallation = async (
   dailyLog: any | any[]
 ) => {
   try {
-    return await axios.post(`${API}/installation/dailylog/${projectId}`, {
+    return await axios.post(`${API_URL}/installation/dailylog/${projectId}`, {
       dailyLog,
     });
   } catch (error) {
@@ -59,7 +59,7 @@ export const updateInstallation = async (
   data: Partial<Installation>
 ) => {
   try {
-    return await axios.put(`${API}/installation/${id}`, data);
+    return await axios.put(`${API_URL}/installation/${id}`, data);
   } catch (error) {
     console.log(error);
   }
@@ -72,7 +72,7 @@ export const updateDailyLogById = async (
 ) => {
   try {
     return await axios.put(
-      `${API}/installation/${installationId}/dailylog/${logId}`,
+      `${API_URL}/installation/${installationId}/dailylog/${logId}`,
       data
     );
   } catch (error) {
@@ -82,7 +82,7 @@ export const updateDailyLogById = async (
 
 export const deleteInstallation = async (id: string) => {
   try {
-    return await axios.delete(`${API}/installation/${id}`);
+    return await axios.delete(`${API_URL}/installation/${id}`);
   } catch (error) {
     console.log(error);
   }
@@ -94,7 +94,7 @@ export const deleteDailyLogById = async (
 ) => {
   try {
     return await axios.delete(
-      `${API}/installation/${installationId}/dailylog/${logId}`
+      `${API_URL}/installation/${installationId}/dailylog/${logId}`
     );
   } catch (error) {
     console.log(error);

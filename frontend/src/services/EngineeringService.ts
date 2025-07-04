@@ -1,11 +1,10 @@
 import axios from "axios";
 import { Engineering } from "../types/engineering";
-
-const API = "http://localhost:3000/api";
+import { API_URL } from "../config/api";
 
 export const getAllEngineerings = async () => {
   try {
-    return await axios.get<Engineering[]>(`${API}/engineering`);
+    return await axios.get<Engineering[]>(`${API_URL}/engineering`);
   } catch (error) {
     console.log(error);
   }
@@ -13,7 +12,7 @@ export const getAllEngineerings = async () => {
 
 export const getEngineeringById = async (id: string) => {
   try {
-    return await axios.get<Engineering>(`${API}/engineering/${id}`);
+    return await axios.get<Engineering>(`${API_URL}/engineering/${id}`);
   } catch (error) {
     console.log(error);
   }
@@ -22,7 +21,7 @@ export const getEngineeringById = async (id: string) => {
 export const getEngineeringsByProject = async (projectId: string) => {
   try {
     return await axios.get<Engineering[]>(
-      `${API}/engineering/project/${projectId}`
+      `${API_URL}/engineering/project/${projectId}`
     );
   } catch (error) {
     console.log(error);
@@ -33,7 +32,7 @@ export const createEngineering = async (
   engineering: Omit<Engineering, "_id" | "createdAt" | "updatedAt">
 ) => {
   try {
-    return await axios.post(`${API}/engineering`, engineering);
+    return await axios.post(`${API_URL}/engineering`, engineering);
   } catch (error) {
     console.log(error);
     throw error;
@@ -45,7 +44,7 @@ export const updateEngineering = async (
   engineering: Partial<Engineering>
 ) => {
   try {
-    return await axios.put(`${API}/engineering/${id}`, engineering);
+    return await axios.put(`${API_URL}/engineering/${id}`, engineering);
   } catch (error) {
     console.log(error);
   }
@@ -53,7 +52,7 @@ export const updateEngineering = async (
 
 export const deleteEngineering = async (id: string) => {
   try {
-    return await axios.delete(`${API}/engineering/${id}`);
+    return await axios.delete(`${API_URL}/engineering/${id}`);
   } catch (error) {
     console.log(error);
   }

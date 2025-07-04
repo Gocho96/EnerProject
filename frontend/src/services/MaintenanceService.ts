@@ -1,11 +1,10 @@
 import axios from "axios";
 import { Maintenance } from "../types/maintenance";
-
-const API = "http://localhost:3000/api";
+import { API_URL } from "../config/api";
 
 export const getAllMaintenances = async () => {
   try {
-    return await axios.get<Maintenance[]>(`${API}/maintenance`);
+    return await axios.get<Maintenance[]>(`${API_URL}/maintenance`);
   } catch (error) {
     console.log(error);
   }
@@ -13,7 +12,7 @@ export const getAllMaintenances = async () => {
 
 export const getMaintenanceById = async (id: string) => {
   try {
-    return await axios.get<Maintenance>(`${API}/maintenance/${id}`);
+    return await axios.get<Maintenance>(`${API_URL}/maintenance/${id}`);
   } catch (error) {
     console.log(error);
   }
@@ -21,7 +20,7 @@ export const getMaintenanceById = async (id: string) => {
 
 export const getMaintenancesByProject = async (projectId: string) => {
   try {
-    return await axios.get(`${API}/maintenance/project/${projectId}`);
+    return await axios.get(`${API_URL}/maintenance/project/${projectId}`);
   } catch (error) {
     console.log(error);
   }
@@ -29,7 +28,7 @@ export const getMaintenancesByProject = async (projectId: string) => {
 
 export const createMaintenanceDocument = async (data: any) => {
   try {
-    return await axios.post(`${API}/maintenance`, data);
+    return await axios.post(`${API_URL}/maintenance`, data);
   } catch (error) {
     console.log(error);
     throw error;
@@ -38,7 +37,7 @@ export const createMaintenanceDocument = async (data: any) => {
 
 export const addMaintenanceEntry = async (projectId: string, data: any) => {
   try {
-    return await axios.post(`${API}/maintenance/project/${projectId}`, data);
+    return await axios.post(`${API_URL}/maintenance/project/${projectId}`, data);
   } catch (error) {
     console.log(error);
     throw error;
@@ -52,7 +51,7 @@ export const updateMaintenanceEntry = async (
 ) => {
   try {
     return await axios.put(
-      `${API}/maintenance/project/${projectId}/${maintenanceId}`,
+      `${API_URL}/maintenance/project/${projectId}/${maintenanceId}`,
       data
     );
   } catch (error) {
@@ -65,7 +64,7 @@ export const updateMaintenanceFrequency = async (
   data: { maintenanceFrequency?: string; nextMaintenance?: string }
 ) => {
   try {
-    return await axios.put(`${API}/maintenance/frequency/${projectId}`, data);
+    return await axios.put(`${API_URL}/maintenance/frequency/${projectId}`, data);
   } catch (error) {
     console.log(error);
   }
@@ -77,7 +76,7 @@ export const deleteMaintenanceEntry = async (
 ) => {
   try {
     return await axios.delete(
-      `${API}/maintenance/project/${projectId}/${maintenanceId}`
+      `${API_URL}/maintenance/project/${projectId}/${maintenanceId}`
     );
   } catch (error) {
     console.log(error);
