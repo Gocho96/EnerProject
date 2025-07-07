@@ -2,6 +2,7 @@ import { Request, Response, RequestHandler } from "express";
 import { Documental } from "../models/documentalModel";
 import { HydratedDocument } from "mongoose";
 import { DocumentalType } from "../types/documentalTypes";
+import { Project } from "../models/projectModel";
 
 export const getAllDocumentals: RequestHandler = async (req, res) => {
   try {
@@ -38,6 +39,29 @@ export const getByProjectDocumentals: RequestHandler = async (req, res) => {
       error
     );
     res.status(500).json({ error: "Error interno del servidor" });
+  }
+};
+
+export const getDocumentalByProjectCode: RequestHandler = async (req, res) => {
+  try {
+    const { code } = req.params;
+
+    const project = await Project.findOne({ code });
+    if (!project) {
+      res.status(404).json({ message: "Proyecto no encontrado." });
+      return;
+    }
+
+    const documental = await Documental.findOne({ projectId: project._id });
+    if (!documental) {
+      res.status(404).json({ message: "Información documental no encontrada." });
+      return;
+    }
+
+    res.json(documental);
+  } catch (error) {
+    console.error("Error al buscar información documental por código:", error);
+    res.status(500).json({ message: "Error interno del servidor." });
   }
 };
 

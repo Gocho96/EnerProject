@@ -75,7 +75,7 @@ const ProjectPhases: React.FC<ProjectPhasesProps> = ({
               <td>
                 {linkToDetails ? (
                   <Link
-                    to={`/proyectos/${projectCode}/fases/${phase.name_phase}`}
+                    to={`/projects/${projectCode}/phase/${phase.name_phase}`}
                     className="text-primary"
                   >
                     {phase.name_phase}
