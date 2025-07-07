@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import { date, string } from "zod";
 
 const projectSchema = new Schema(
   {
@@ -7,8 +8,8 @@ const projectSchema = new Schema(
       required: true,
       unique: true,
       trim: true,
-
     },
+    
     name: {
       type: String,
       required: true,
@@ -17,15 +18,27 @@ const projectSchema = new Schema(
 
     typeOfService: {
       type: String,
+      enum: [
+        "Diseño, suministro e instalación SSFV",
+        "Incentivos tributarios",
+        "Análisis de calidad de la energía",
+        "Consultoria técnica",
+        "Mantenimiento",
+        "Normalización",
+        "Diseño / ingeniería",
+        "Instalación / mano de obra",
+        "Suministro de materiales / equipos",
+        "Otro servicio",
+      ],
       required: true,
       trim: true,
     },
 
     state: {
       type: String,
-      enum: ["Finalizado", "En curso", "Pendiente", "Cancelado"],
+      enum: ["Por iniciar", "En curso", "Finalizado", "Cancelado"],
       required: true,
-      default: "Pendiente",
+      default: "Por iniciar",
     },
 
     startContract: {

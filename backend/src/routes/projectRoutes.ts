@@ -5,12 +5,13 @@ import { createProjectSchema } from "../schemas/projectSchemas";
 
 const router = Router();
 
-router.get("/proyectos", projectController.getAllProjects);
-router.get("/proyectos/:id", projectController.getProject);
-router.post("/proyectos", validateSchema(createProjectSchema), projectController.createProject);
-router.delete("/proyectos/:id", projectController.deleteProject);
-router.put("/proyectos/:id", projectController.updateProject);
+router.get("/projects", projectController.getAllProjects);
+router.get("/projects/:id", projectController.getProject);
+router.post("/projects", validateSchema(createProjectSchema), projectController.createProject);
+router.put("/projects/:id", projectController.updateProject);
+router.patch("/projects/:id", projectController.updateProject);
+router.delete("/projects/:id", projectController.deleteProject);
 
-router.get("/proyectos/:id/fases", projectController.getProjectPhases);
+router.get("/projects/:id/fases", projectController.getProjectPhases);
 
 export default router;

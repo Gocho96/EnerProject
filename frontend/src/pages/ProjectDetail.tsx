@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+import { API_URL } from "../config/api";
 
 interface Phase {
   name_phase: string;
@@ -24,12 +25,12 @@ const ProjectDetail: React.FC = () => {
   const { code } = useParams<{ code: string }>();
   const navigate = useNavigate();
   const [phases, setPhases] = useState<Phase[]>([]);
-  const API_URL = `http://localhost:3000/api/proyectos/${code}/phases`;
+  const URL = `${API_URL}/${code}/phases`;
 
   useEffect(() => {
     const fetchPhases = async () => {
       try {
-        const response = await axios.get(API_URL);
+        const response = await axios.get(URL);
         const fetchedPhases: Phase[] = response.data || [];
 
         const mergedPhases = FIXED_PHASES.map((fixedPhase) => {

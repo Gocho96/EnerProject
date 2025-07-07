@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
+import { ToastContainer } from "react-toastify";
 import LoginPage from "./pages/LoginPage";
 import Dashboard from "./pages/Dashboard";
 import ProjectDetail from "./pages/ProjectDetail";
@@ -12,12 +13,13 @@ function App() {
     <AuthProvider>
     <BrowserRouter>
       <Routes>
-        <Route path="/" />
+        <Route path="/" element={<Dashboard />}/>
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/proyectos/:code" element={<ProjectDetail />} />
-        <Route path="/proyectos/:code/fases/:phase" element={<PhaseDetail />} />
+        <Route path="/dashboard" />
+        <Route path="/projects/:code" element={<ProjectDetail />} />
+        <Route path="/projects/:code/fases/:phase" element={<PhaseDetail />} />
       </Routes>
+      <ToastContainer />
     </BrowserRouter>
     </AuthProvider>
   );

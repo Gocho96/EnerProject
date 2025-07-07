@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { API_URL } from "../config/api";
 
 const phaseFields: Record<string, string[]> = {
   Documental: ["Nro de contrato", "Fecha acta de inicio"],
@@ -19,7 +20,6 @@ const PhaseDetail: React.FC = () => {
   const { code, phase } = useParams<{ code: string; phase?: string }>();
   const navigate = useNavigate();
 
-  // Estado para almacenar la información del formulario
   const [formData, setFormData] = useState<Record<string, string>>(
     phase && phaseFields[phase]
       ? Object.fromEntries(phaseFields[phase].map((field) => [field, ""]))
@@ -29,7 +29,6 @@ const PhaseDetail: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Manejar cambios en los inputs
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormData((prevData) => ({
@@ -38,18 +37,16 @@ const PhaseDetail: React.FC = () => {
     }));
   };
 
-  // Manejar el envío del formulario
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setLoading(true);
     setError(null);
 
     try {
-      const API_URL = `http://localhost:3000/api/proyectos/${code}/phases/${phase}`;
       await axios.post(API_URL, formData);
 
       alert("Información guardada correctamente.");
-      navigate(-1); // Regresar a la vista de fases
+      navigate(-1);
     } catch (err) {
       console.error("Error al guardar los datos:", err);
       setError("Hubo un problema al guardar los datos. Inténtalo nuevamente.");

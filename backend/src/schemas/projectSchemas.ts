@@ -1,4 +1,4 @@
-import { date, z } from "zod";
+import { z } from "zod";
 
 export const createProjectSchema = z.object({
   code: z.string({
@@ -9,25 +9,41 @@ export const createProjectSchema = z.object({
     required_error: "El nombre del proyecto es obligatorio",
   }),
 
-  type_service: z.string({
+  typeOfService: z.enum([
+    "Diseño, suministro e instalación SSFV",
+    "Incentivos tributarios",
+    "Análisis de calidad de la energía",
+    "Consultoria técnica",
+    "Mantenimiento",
+    "Normalización",
+    "Diseño / ingeniería",
+    "Instalación / mano de obra",
+    "Suministro de materiales / equipos",
+    "Otro servicio",
+  ], {
     required_error: "El tipo de proyecto es obligatorio",
   }),
 
-  state: z.enum(["Finalizado", "En curso", "Pendiente", "Cancelado"], {
+  state: z.enum([
+    "Por iniciar",
+    "En curso",
+    "Finalizado",
+    "Cancelado",
+  ], {
     required_error: "El estado del proyecto es obligatorio",
   }),
 
-  start_contract: z
+  startContract: z
     .union([z.string(), z.date()])
     .optional()
     .transform((val) => (val ? new Date(val) : undefined)),
 
-  end_contract: z
+  endContract: z
     .union([z.string(), z.date()])
     .optional()
     .transform((val) => (val ? new Date(val) : undefined)),
 
-  next_maintenance: z
+  nextMaintenance: z
     .union([z.string(), z.date()])
     .optional()
     .transform((val) => (val ? new Date(val) : undefined)),

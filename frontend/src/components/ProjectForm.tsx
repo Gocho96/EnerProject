@@ -7,31 +7,39 @@ interface ProjectFormProps {
   initialData?: Project;
 }
 
+interface ProjectFormValues {
+  code: string;
+  name: string;
+  typeOfService: string;
+  state: string;
+  startContract: string;
+  endContract: string;
+}
 const ProjectForm = ({ onSubmit, initialData }: ProjectFormProps) => {
-  const [project, setProject] = useState<Project>(
-    initialData || {
-      code: "",
-      name: "",
-      type_service: "",
-      state: "",
-      start_contract: new Date(),
-      end_contract: new Date(),
-    }
-  );
+  const [project, setProject] = useState<ProjectFormValues>({
+    code: initialData?.code || "",
+    name: initialData?.name || "",
+    typeOfService: initialData?.typeOfService || "",
+    state: initialData?.state || "Por iniciar",
+    startContract: initialData?.startContract
+      ? new Date(initialData.startContract).toISOString().split("T")[0]
+      : "",
+    endContract: initialData?.endContract
+      ? new Date(initialData.endContract).toISOString().split("T")[0]
+      : "",
+  });
 
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    const parsedValue =
-      name === "start_contract" || name === "end_contract" ? new Date(value) : value;
-    setProject({ ...project, [name]: parsedValue });
+    setProject({ ...project, [name]: value });
   };
 
   const validateForm = () => {
-    const { code, name, type_service, state, start_contract, end_contract } = project;
-    if (!code || !name || !type_service || !state || !start_contract || !end_contract ) {
-      toast.error("Por favor completa todos los campos.");
+    const { code, name, typeOfService, state, startContract } = project;
+    if (!code || !name || !typeOfService || !state || !startContract) {
+      toast.error("Por favor completa todos los campos obligatorios.");
       return false;
     }
     return true;
@@ -40,7 +48,15 @@ const ProjectForm = ({ onSubmit, initialData }: ProjectFormProps) => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validateForm()) {
-      onSubmit(project);
+      const parsedProject: Project = {
+        code: project.code,
+        name: project.name,
+        typeOfService: project.typeOfService as Project["typeOfService"],
+        state: project.state as Project["state"],
+        startContract: new Date(project.startContract),
+        endContract: project.endContract ? new Date(project.endContract) : undefined,
+      };
+      onSubmit(parsedProject);
     }
   };
 
@@ -56,6 +72,7 @@ const ProjectForm = ({ onSubmit, initialData }: ProjectFormProps) => {
           className="form-control"
           onChange={handleInputChange}
           value={project.code}
+          readOnly={!!initialData}
         />
       </div>
 
@@ -71,14 +88,24 @@ const ProjectForm = ({ onSubmit, initialData }: ProjectFormProps) => {
       </div>
 
       <div className="form-group p-2">
-        <input
-          type="text"
-          name="type_service"
-          placeholder="Tipo de servicio"
+        <select
+          name="typeOfService"
           className="form-control"
           onChange={handleInputChange}
-          value={project.type_service}
-        />
+          value={project.typeOfService}
+        >
+          <option value="">Selecciona el tipo de servicio</option>
+          <option value="Diseño, suministro e instalación SSFV">Diseño, suministro e instalación SSFV</option>
+          <option value="Incentivos tributarios">Incentivos tributarios</option>
+          <option value="Análisis de calidad de la energía">Análisis de calidad de la energía</option>
+          <option value="Consultoria técnica">Consultoría técnica</option>
+          <option value="Mantenimiento">Mantenimiento</option>
+          <option value="Normalización">Normalización</option>
+          <option value="Diseño / ingeniería">Diseño / ingeniería</option>
+          <option value="Instalación / mano de obra">Instalación / mano de obra</option>
+          <option value="Suministro de materiales / equipos">Suministro de materiales / equipos</option>
+          <option value="Otro servicio">Otro servicio</option>
+        </select>
       </div>
 
       <div className="form-group p-2">
@@ -89,32 +116,32 @@ const ProjectForm = ({ onSubmit, initialData }: ProjectFormProps) => {
           value={project.state}
         >
           <option value="">Selecciona el estado</option>
-          <option value="Finalizado">Finalizado</option>
+          <option value="Por iniciar">Por iniciar</option>
           <option value="En curso">En curso</option>
-          <option value="Pendiente">Pendiente</option>
+          <option value="Finalizado">Finalizado</option>
           <option value="Cancelado">Cancelado</option>
         </select>
       </div>
 
       <div className="form-group p-2">
-        <label className="fw-bold">Inicio del contrato:</label>
+        <label className="fw-bold">Inicio del proyecto:</label>
         <input
           type="date"
-          name="start_contract"
+          name="startContract"
           className="form-control"
           onChange={handleInputChange}
-          value={project.start_contract.toISOString().split("T")[0]}
+          value={project.startContract}
         />
       </div>
 
       <div className="form-group p-2">
-        <label className="fw-bold">Fin del contrato:</label>
+        <label className="fw-bold">Fin del proyecto:</label>
         <input
           type="date"
-          name="end_contract"
+          name="endContract"
           className="form-control"
           onChange={handleInputChange}
-          value={project.end_contract.toISOString().split("T")[0]}
+          value={project.endContract}
         />
       </div>
 
