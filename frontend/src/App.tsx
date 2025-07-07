@@ -3,8 +3,7 @@ import { AuthProvider } from "./context/AuthContext";
 import { ToastContainer } from "react-toastify";
 import LoginPage from "./pages/LoginPage";
 import Dashboard from "./pages/Dashboard";
-import ProjectDetail from "./pages/ProjectDetail";
-import PhaseDetail from "./pages/PhaseDetail";
+import ProjectDetails from "./pages/PhasesPage";
 import "./styles/App.css";
 
 
@@ -16,8 +15,7 @@ function App() {
         <Route path="/" element={<Dashboard />}/>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/dashboard" />
-        <Route path="/projects/:code" element={<ProjectDetail />} />
-        <Route path="/projects/:code/fases/:phase" element={<PhaseDetail />} />
+        <Route path="/projects/:code" element={<ProjectDetails/>} />
       </Routes>
       <ToastContainer />
     </BrowserRouter>
