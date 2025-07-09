@@ -1,5 +1,6 @@
 import { RequestHandler } from "express";
 import { Project } from "../models/projectModel";
+import { Phase } from "../models/phaseModel";
 
 export const getAllProjects: RequestHandler = async (req, res) => {
   try {
@@ -39,12 +40,29 @@ export const createProject: RequestHandler = async (req, res) => {
 
     const project = new Project(req.body);
     const savedProject = await project.save();
+
+    const phase = new Phase({
+      projectId: savedProject._id,
+      code: savedProject.code,
+
+      phaseDocumental: { status: "En progreso", workProgress: 0 },
+      phaseEngineering: { status: "En progreso", workProgress: 0 },
+      phaseShopping: { status: "En progreso", workProgress: 0 },
+      phaseInstallation: { status: "En progreso", workProgress: 0 },
+      phaseTaxIncentive: { status: "En progreso", workProgress: 0 },
+      phaseRetie: { status: "En progreso", workProgress: 0 },
+      phaseNetworkOperator: { status: "En progreso", workProgress: 0 },
+      phaseMarketing: { status: "En progreso", workProgress: 0 },
+      phaseMaintenance: { status: "En progreso", workProgress: 0 },
+      phaseBilling: { status: "En progreso", workProgress: 0 },
+    });
+
+    await phase.save();
+
     res.status(201).json(savedProject);
-    return;
   } catch (error) {
-    console.error("Error al crear el proyecto:", error);
+    console.error("Error al crear el proyecto y las fases:", error);
     res.status(500).json({ message: "Error interno del servidor" });
-    return;
   }
 };
 

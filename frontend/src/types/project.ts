@@ -13,7 +13,7 @@ export interface Project {
     | "Instalación / mano de obra"
     | "Suministro de materiales / equipos"
     | "Otro servicio";
-  state: "Por iniciar" | "En curso" | "Finalizado" | "Cancelado";
+  state: "Por iniciar" | "En curso" | "Pausado" | "Finalizado" | "Cancelado";
   startContract?: Date | string | null;
   endContract?: Date | string | null;
   nextMaintenance?: Date;

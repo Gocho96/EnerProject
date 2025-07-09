@@ -1,5 +1,4 @@
 import { Schema, model } from "mongoose";
-import { date, string } from "zod";
 
 const projectSchema = new Schema(
   {
@@ -36,7 +35,7 @@ const projectSchema = new Schema(
 
     state: {
       type: String,
-      enum: ["Por iniciar", "En curso", "Finalizado", "Cancelado"],
+      enum: ["Por iniciar", "En curso", "Pausado", "Finalizado", "Cancelado"],
       required: true,
       default: "Por iniciar",
     },

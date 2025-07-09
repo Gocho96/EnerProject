@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import ProjectPhases from "../components/ProjectPhases";
 
-const ProjectDetails = () => {
+const ProjectPhasesPage = () => {
   const { code } = useParams<{ code: string }>();
 
   if (!code) return <p>Proyecto no especificado</p>;
@@ -9,4 +9,4 @@ const ProjectDetails = () => {
   return <ProjectPhases projectCode={code} />;
 };
 
-export default ProjectDetails;
+export default ProjectPhasesPage;

@@ -27,6 +27,7 @@ export const createProjectSchema = z.object({
   state: z.enum([
     "Por iniciar",
     "En curso",
+    "Pausado",
     "Finalizado",
     "Cancelado",
   ], {

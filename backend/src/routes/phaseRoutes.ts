@@ -3,7 +3,7 @@ import * as phaseController from "../controllers/phaseController";
 
 const router = Router();
 
-router.get("/fases/:phaseId", phaseController.getPhase);
-router.put("/fases/:phaseId", phaseController.updatePhase);
+router.get("/phases/code/:code", phaseController.getPhasesByProjectCode);
+router.patch("/phases/code/:code", phaseController.updatePhasesByProjectCode);
 
 export default router;

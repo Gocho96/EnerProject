@@ -118,6 +118,7 @@ const ProjectForm = ({ onSubmit, initialData }: ProjectFormProps) => {
           <option value="">Selecciona el estado</option>
           <option value="Por iniciar">Por iniciar</option>
           <option value="En curso">En curso</option>
+          <option value="Pausado">Pausado</option>
           <option value="Finalizado">Finalizado</option>
           <option value="Cancelado">Cancelado</option>
         </select>

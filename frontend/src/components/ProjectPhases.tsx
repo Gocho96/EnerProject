@@ -1,103 +1,117 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { API_URL } from "../config/api";
+import { useEffect, useState } from "react";
+import { getPhasesByProjectCode, updatePhasesByProjectCode } from "../services/PhaseService";
+import { Phase, PhaseStatus } from "../types/phase";
+import { toast } from "react-toastify";
 
-interface Phase {
-  name_phase: string;
-  status: string;
-}
-
-interface ProjectPhasesProps {
+interface Props {
   projectCode: string;
-  showBackButton?: boolean;
-  linkToDetails?: boolean;
 }
 
-const FIXED_PHASES: Phase[] = [
-  { name_phase: "Documental", status: "Pendiente" },
-  { name_phase: "Ingeniería", status: "Pendiente" },
-  { name_phase: "Compras", status: "Pendiente" },
-  { name_phase: "Instalación", status: "Pendiente" },
-  { name_phase: "Incentivos Tributarios", status: "Pendiente" },
-  { name_phase: "Retie", status: "Pendiente" },
-  { name_phase: "Operador de Red", status: "Pendiente" },
-  { name_phase: "Marketing", status: "Pendiente" },
-  { name_phase: "Mantenimiento", status: "Pendiente" },
-  { name_phase: "Facturación", status: "Pendiente" },
+const PHASES_MAP = [
+  { key: "phaseDocumental", label: "Documental" },
+  { key: "phaseEngineering", label: "Ingeniería" },
+  { key: "phaseShopping", label: "Compras" },
+  { key: "phaseInstallation", label: "Instalación" },
+  { key: "phaseTaxIncentive", label: "Incentivos Tributarios" },
+  { key: "phaseRetie", label: "RETIE" },
+  { key: "phaseNetworkOperator", label: "Operador de Red" },
+  { key: "phaseMarketing", label: "Marketing" },
+  { key: "phaseMaintenance", label: "Mantenimiento" },
+  { key: "phaseBilling", label: "Facturación" },
 ];
 
-const ProjectPhases: React.FC<ProjectPhasesProps> = ({
-  projectCode,
-  showBackButton = true,
-  linkToDetails = true,
-}) => {
-  const navigate = useNavigate();
-  const [phases, setPhases] = useState<Phase[]>([]);
-  const URL = `${API_URL}/projects/${projectCode}/phases`;
+const ProjectPhases = ({ projectCode }: Props) => {
+  const [phaseData, setPhaseData] = useState<Phase | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchPhases = async () => {
       try {
-        const response = await axios.get(URL);
-        const fetchedPhases: Phase[] = response.data || [];
-
-        const mergedPhases = FIXED_PHASES.map((fixedPhase) => {
-          const existing = fetchedPhases.find(
-            (phase) => phase.name_phase === fixedPhase.name_phase
-          );
-          return existing || fixedPhase;
-        });
-
-        setPhases(mergedPhases);
+        const response = await getPhasesByProjectCode(projectCode);
+        setPhaseData(response.data);
       } catch (error) {
-        console.error("Error al obtener los detalles del proyecto", error);
-        setPhases(FIXED_PHASES);
+        toast.error("No se pudieron cargar las fases del proyecto");
+        console.error(error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchPhases();
   }, [projectCode]);
 
+  const handleStatusChange = (key: keyof Phase, value: PhaseStatus) => {
+    setPhaseData((prev) =>
+      prev
+        ? {
+            ...prev,
+            [key]: {
+              ...(typeof prev?.[key] === "object" && prev[key] !== null
+                ? prev[key]
+                : {}),
+              status: value,
+            },
+          }
+        : prev
+    );
+  };
+
+  const handleSave = async () => {
+    if (!phaseData) return;
+    try {
+      await updatePhasesByProjectCode(projectCode, phaseData);
+      toast.success("Fases actualizadas correctamente");
+    } catch (error) {
+      toast.error("Error al actualizar las fases");
+      console.error(error);
+    }
+  };
+
+  if (loading) return <p>Cargando fases...</p>;
+  if (!phaseData) return <p>No se encontraron fases para este proyecto.</p>;
+
   return (
-    <div className="container mt-4">
-      <h3>Fases del Proyecto {projectCode}</h3>
-      <table className="table table-bordered">
+    <div className="table-responsive">
+      <table className="table table-bordered mt-3">
         <thead>
           <tr>
-            <th>Nombre de la Fase</th>
+            <th>Fase</th>
             <th>Estado</th>
           </tr>
         </thead>
         <tbody>
-          {phases.map((phase, index) => (
-            <tr key={index}>
-              <td>
-                {linkToDetails ? (
-                  <Link
-                    to={`/projects/${projectCode}/phase/${phase.name_phase}`}
-                    className="text-primary"
+          {PHASES_MAP.map(({ key, label }) => {
+            const currentStatus =
+              (phaseData[key as keyof Phase] as any)?.status || "N/A";
+            return (
+              <tr key={key}>
+                <td>{label}</td>
+                <td>
+                  <select
+                    className="form-select"
+                    value={currentStatus}
+                    onChange={(e) =>
+                      handleStatusChange(
+                        key as keyof Phase,
+                        e.target.value as PhaseStatus
+                      )
+                    }
                   >
-                    {phase.name_phase}
-                  </Link>
-                ) : (
-                  phase.name_phase
-                )}
-              </td>
-              <td>{phase.status}</td>
-            </tr>
-          ))}
+                    <option value="En progreso">En progreso</option>
+                    <option value="Pausado">Pausado</option>
+                    <option value="Completado">Completado</option>
+                    <option value="N/A">N/A</option>
+                  </select>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
 
-      {showBackButton && (
-        <button
-          onClick={() => navigate(-1)}
-          className="btn btn-secondary mb-3"
-        >
-          ← Volver
-        </button>
-      )}
+      <button className="btn btn-success mt-2" onClick={handleSave}>
+        Guardar cambios
+      </button>
     </div>
   );
 };
