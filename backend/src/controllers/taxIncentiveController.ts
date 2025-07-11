@@ -1,12 +1,16 @@
 import { RequestHandler } from "express";
 import { TaxIncentive } from "../models/taxIncentiveModel";
+import { Project } from "../models/projectModel";
 
 export const getAllTaxIncentives: RequestHandler = async (req, res) => {
   try {
     const taxIncentives = await TaxIncentive.find();
     res.json(taxIncentives);
   } catch (error) {
-    console.error("Error al obtener información de incentivos tributarios", error);
+    console.error(
+      "Error al obtener información de incentivos tributarios",
+      error
+    );
     res.status(500).json({ error: "Error interno del servidor" });
   }
 };
@@ -30,8 +34,34 @@ export const getByProjectTaxIncentive: RequestHandler = async (req, res) => {
     const taxIncentives = await TaxIncentive.find({ projectId });
     res.json(taxIncentives);
   } catch (error) {
-    console.error("Error al obtener incentivos tributarios del proyecto", error);
+    console.error(
+      "Error al obtener incentivos tributarios del proyecto",
+      error
+    );
     res.status(500).json({ error: "Error interno del servidor" });
+  }
+};
+
+export const getTaxIncentiveByProjectCode: RequestHandler = async (req, res) => {
+  try {
+    const { code } = req.params;
+
+    const project = await Project.findOne({ code });
+    if (!project) {
+      res.status(404).json({ message: "Proyecto no encontrado" })
+      return;
+    }
+
+    const taxIncentive = await TaxIncentive.findOne({ projectId: project._id });
+    if (!taxIncentive) {
+      res.status(404).json({ message: "Incentivo tributario no encontrado" })
+      return;
+    }
+
+    res.json(taxIncentive);
+  } catch (error) {
+    console.error("Error al obtener incentivo tributario por código:", error);
+    res.status(500).json({ message: "Error interno del servidor" });
   }
 };
 
@@ -95,7 +125,7 @@ export const updateSecondaryBeneficiary: RequestHandler = async (req, res) => {
     const { projectId, beneficiaryId } = req.params;
     const { name, numberDocument } = req.body;
 
-    const taxIncentive = await TaxIncentive.findOne({projectId});
+    const taxIncentive = await TaxIncentive.findOne({ projectId });
     if (!taxIncentive) {
       res.status(404).json({ message: "Incentivo tributario no encontrado" });
       return;
@@ -103,7 +133,9 @@ export const updateSecondaryBeneficiary: RequestHandler = async (req, res) => {
 
     const beneficiary = taxIncentive.secondaryBeneficiaries.id(beneficiaryId);
     if (!beneficiary) {
-      res.status(404).json({ message: "Beneficiario secundario no encontrado" });
+      res
+        .status(404)
+        .json({ message: "Beneficiario secundario no encontrado" });
       return;
     }
 
@@ -121,7 +153,9 @@ export const updateSecondaryBeneficiary: RequestHandler = async (req, res) => {
 
 export const deleteTaxIncentive: RequestHandler = async (req, res) => {
   try {
-    const taxIncentiveDelete = await TaxIncentive.findByIdAndDelete(req.params.id);
+    const taxIncentiveDelete = await TaxIncentive.findByIdAndDelete(
+      req.params.id
+    );
     if (!taxIncentiveDelete) {
       res.status(404).json({ message: "Incentivo tributario no encontrado" });
       return;
@@ -136,7 +170,7 @@ export const deleteSecondaryBeneficiary: RequestHandler = async (req, res) => {
   try {
     const { projectId, beneficiaryId } = req.params;
 
-    const taxIncentive = await TaxIncentive.findOne({projectId});
+    const taxIncentive = await TaxIncentive.findOne({ projectId });
     if (!taxIncentive) {
       res.status(404).json({ message: "Incentivo tributario no encontrado" });
       return;
@@ -147,7 +181,9 @@ export const deleteSecondaryBeneficiary: RequestHandler = async (req, res) => {
     );
 
     if (index === -1) {
-      res.status(404).json({ message: "Beneficiario secundario no encontrado" });
+      res
+        .status(404)
+        .json({ message: "Beneficiario secundario no encontrado" });
       return;
     }
 
@@ -160,4 +196,3 @@ export const deleteSecondaryBeneficiary: RequestHandler = async (req, res) => {
     res.status(500).json({ error: "Error interno del servidor" });
   }
 };
-

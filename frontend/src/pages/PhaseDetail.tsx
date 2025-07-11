@@ -3,8 +3,8 @@ import DocumentalDetail from "../components/DocumentalDetail";
 import InstallationDetail from "../components/InstallationDetail";
 import EngineeringDetail from "../components/EngineeringDetail";
 import ShoppingDetail from "../components/ShoppingDetail";
+import TaxIncentiveDetail from "../components/TaxIncentiveDetail";
 import { PHASES_MAP } from "../components/ProjectPhases";
-
 
 const PhaseDetail = () => {
   const { phaseKey } = useParams();
@@ -18,7 +18,9 @@ const PhaseDetail = () => {
       return <EngineeringDetail />;
     case "Shopping":
       return <ShoppingDetail />;
-    // Agrega más casos según los componentes que tengas
+    case "TaxIncentive":
+      return <TaxIncentiveDetail/>;
+
     default: {
       const phase = PHASES_MAP.find((p) => p.key === phaseKey);
       const label = phase?.label || phaseKey;
