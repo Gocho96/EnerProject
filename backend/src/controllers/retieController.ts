@@ -1,5 +1,6 @@
 import { RequestHandler } from "express";
 import { Retie } from "../models/retieModel";
+import { Project } from "../models/projectModel";
 
 export const getAllReties: RequestHandler = async (req, res) => {
   try {
@@ -32,6 +33,29 @@ export const getByProjectRetie: RequestHandler = async (req, res) => {
     res.json(retieInfo);
   } catch (error) {
     console.error("Error al obtener información RETIE por proyecto", error);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+};
+
+export const getRetieByProjectCode: RequestHandler = async (req, res) => {
+  try {
+    const { code } = req.params;
+
+    const project = await Project.findOne({ code });
+    if (!project) {
+      res.status(404).json({ message: "Proyecto no encontrado" })
+      return;
+    }
+
+    const retieInfo = await Retie.findOne({ projectId: project._id });
+    if (!retieInfo) {
+      res.status(404).json({ message: "Información RETIE no encontrada" })
+      return;
+    }
+
+    res.json(retieInfo);
+  } catch (error) {
+    console.error("Error al obtener información RETIE por código de proyecto", error);
     res.status(500).json({ error: "Error interno del servidor" });
   }
 };

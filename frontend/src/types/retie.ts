@@ -1,7 +1,6 @@
 export interface Retie {
   _id: string;
   projectId: string;
-
   applicationDateRetie?: string;
   commercialOfferNumberRetie?: number;
   supplierRetie?: string;
@@ -9,7 +8,6 @@ export interface Retie {
   inspectionDateRetie?: string;
   dictamenDateRetie?: string;
   dictamenNumberRetie?: number;
-
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }

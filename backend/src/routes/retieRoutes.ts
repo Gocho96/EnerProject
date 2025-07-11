@@ -8,6 +8,7 @@ const router = Router();
 router.get("/retie", retieController.getAllReties);
 router.get("/retie/:id", retieController.getRetie);
 router.get("/retie/project/:projectId", retieController.getByProjectRetie);
+router.get("/retie/project/code/:code", retieController.getRetieByProjectCode);
 router.post("/retie", validateSchema(createRetieSchema), retieController.createRetie);
 router.put("/retie/:id", retieController.updateRetie);
 router.delete("/retie/:id", retieController.deleteRetie);
