@@ -1,5 +1,6 @@
 import { RequestHandler } from "express";
 import { NetworkOperator } from "../models/networkOperatorModel";
+import { Project } from "../models/projectModel";
 
 export const getAllNetworkOperators: RequestHandler = async (req, res) => {
   try {
@@ -36,6 +37,30 @@ export const getByProjectNetworkOperator: RequestHandler = async (req, res) => {
     res.json(networkOperators);
   } catch (error) {
     console.error("Error al obtener información del operador de red", error);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+};
+
+export const getNetworkOperatorByProjectCode: RequestHandler = async (req, res) => {
+  try {
+    const { code } = req.params;
+    const project = await Project.findOne({ code });
+
+    if (!project) {
+      res.status(404).json({ message: "Proyecto no encontrado con ese código" })
+      return;
+    }
+
+    const networkOperator = await NetworkOperator.findOne({ projectId: project._id });
+
+    if (!networkOperator) {
+      res.status(404).json({ message: "Información del operador de red no encontrada para este proyecto" })
+      return;
+    }
+
+    res.json(networkOperator);
+  } catch (error) {
+    console.error("Error al buscar operador de red por código", error);
     res.status(500).json({ error: "Error interno del servidor" });
   }
 };
