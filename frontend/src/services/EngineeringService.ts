@@ -7,6 +7,7 @@ export const getAllEngineerings = async () => {
     return await axios.get<Engineering[]>(`${API_URL}/engineering`);
   } catch (error) {
     console.log(error);
+    throw error;
   }
 };
 
@@ -15,16 +16,16 @@ export const getEngineeringById = async (id: string) => {
     return await axios.get<Engineering>(`${API_URL}/engineering/${id}`);
   } catch (error) {
     console.log(error);
+    throw error;
   }
 };
 
-export const getEngineeringsByProject = async (projectId: string) => {
+export const getEngineeringByProjectCode = async (code: string) => {
   try {
-    return await axios.get<Engineering[]>(
-      `${API_URL}/engineering/project/${projectId}`
-    );
+    return await axios.get<Engineering>(`${API_URL}/engineering/project/code/${code}`);
   } catch (error) {
     console.log(error);
+    throw error;
   }
 };
 
@@ -47,6 +48,7 @@ export const updateEngineering = async (
     return await axios.put(`${API_URL}/engineering/${id}`, engineering);
   } catch (error) {
     console.log(error);
+    throw error;
   }
 };
 
@@ -55,5 +57,6 @@ export const deleteEngineering = async (id: string) => {
     return await axios.delete(`${API_URL}/engineering/${id}`);
   } catch (error) {
     console.log(error);
+    throw error;
   }
 };

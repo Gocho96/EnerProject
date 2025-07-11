@@ -1,5 +1,6 @@
 import { RequestHandler } from "express";
 import { Engineering } from "../models/engineeringModel";
+import { Project } from "../models/projectModel";
 
 export const getAllEngineerings: RequestHandler = async (req, res) => {
   try {
@@ -35,6 +36,30 @@ export const getByProjectEngineering: RequestHandler = async (req, res) => {
   } catch (error) {
     console.error("Error al obtener la información de ingeniería", error);
     res.status(500).json({ error: "Error interno del servidor" });
+  }
+};
+
+export const getEngineeringByProjectCode: RequestHandler = async (req, res) => {
+  try {
+    const { code } = req.params;
+    const project = await Project.findOne({ code });
+
+    if (!project) {
+      res.status(404).json({ message: "Proyecto no encontrado" })
+      return;
+    }
+
+    const engineering = await Engineering.findOne({ projectId: project._id });
+
+    if (!engineering) {
+      res.status(404).json({ message: "Información de ingeniería no encontrada" })
+      return;
+    }
+
+    res.json(engineering);
+  } catch (error) {
+    console.error("Error al obtener ingeniería por código:", error);
+    res.status(500).json({ message: "Error interno del servidor" });
   }
 };
 
