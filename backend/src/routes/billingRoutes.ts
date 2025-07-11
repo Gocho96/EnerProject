@@ -8,6 +8,7 @@ const router = Router();
 router.get("/billing", billingController.getAllBillings);
 router.get("/billing/:id", billingController.getBilling);
 router.get("/billing/project/:projectId", billingController.getByProjectBillings);
+router.get("/billing/project/code/:code", billingController.getByProjectCodeBilling);
 router.post("/billing", validateSchema(createBillingSchema), billingController.createBilling);
 router.post("/billing/project/:projectId", validateSchema(createBillingSchema), billingController.createBillingByProject);
 router.put("/billing/:id", billingController.updateBilling);

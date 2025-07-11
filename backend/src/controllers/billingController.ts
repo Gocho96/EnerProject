@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 import { Types } from "mongoose";
 import { Billing } from "../models/billingModel";
+import { Project } from "../models/projectModel";
 
 export const getAllBillings: RequestHandler = async (req, res) => {
   try {
@@ -34,6 +35,29 @@ export const getByProjectBillings: RequestHandler = async (req, res) => {
   } catch (error) {
     console.error("Error al obtener facturas de venta del proyecto", error);
     res.status(500).json({ error: "Error interno del servidor" });
+  }
+};
+
+export const getByProjectCodeBilling: RequestHandler = async (req, res) => {
+  try {
+    const { code } = req.params;
+
+    const project = await Project.findOne({ code });
+    if (!project) {
+      res.status(404).json({ message: "Proyecto no encontrado" });
+      return;
+    }
+
+    const billings = await Billing.find({ projectId: project._id });
+    if (!billings || billings.length === 0) {
+      res.status(404).json({ message: "No se encontraron facturas para este proyecto" });
+      return;
+    }
+
+    res.json(billings);
+  } catch (error) {
+    console.error("Error al obtener facturación por código:", error);
+    res.status(500).json({ message: "Error interno del servidor" });
   }
 };
 
