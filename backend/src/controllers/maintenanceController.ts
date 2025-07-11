@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 import { Maintenance } from "../models/maintenanceModel";
 import { getNextProjectSequence } from "../utils/getNextProjectSequence";
+import { Project } from "../models/projectModel";
 import mongoose from "mongoose";
 
 export const getAllMaintenances: RequestHandler = async (req, res) => {
@@ -39,6 +40,55 @@ export const getByProjectMaintenances: RequestHandler = async (req, res) => {
     res.json(doc.maintenance);
   } catch (error) {
     res.status(500).json({ error: "Error al obtener mantenimientos" });
+  }
+};
+
+export const getMaintenancesByProjectCode: RequestHandler = async (req, res) => {
+  try {
+    const { code } = req.params;
+
+    const project = await Project.findOne({ code });
+    if (!project) {
+      res.status(404).json({ message: "Proyecto no encontrado" })
+      return;
+    }
+
+    const doc = await Maintenance.findOne({ projectId: project._id });
+    if (!doc) {
+      res.status(404).json({
+        message: "No se encontró información de mantenimiento para este proyecto.",
+      })
+      return;
+    }
+
+    res.json(doc);
+  } catch (error) {
+    console.error("Error al obtener mantenimientos por code:", error);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+};
+
+export const getByProjectCodeMaintenances: RequestHandler = async (req, res) => {
+  try {
+    const { code } = req.params;
+
+    const project = await Project.findOne({ code });
+    if (!project) {
+      res.status(404).json({ message: "Proyecto no encontrado" });
+      return;
+    }
+
+    const doc = await Maintenance.findOne({ projectId: project._id });
+
+    if (!doc) {
+      res.status(404).json({ message: "No se encontró el registro de mantenimientos para este proyecto." });
+      return;
+    }
+
+    res.json(doc);
+  } catch (error) {
+    console.error("Error al obtener mantenimiento por código:", error);
+    res.status(500).json({ error: "Error interno del servidor" });
   }
 };
 

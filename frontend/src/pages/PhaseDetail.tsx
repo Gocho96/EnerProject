@@ -7,6 +7,7 @@ import TaxIncentiveDetail from "../components/TaxIncentiveDetail";
 import RetieDetail from "../components/RetieDetail";
 import NetworkOperatorDetail from "../components/NetworkOperatorDetail";
 import MarketingDetail from "../components/MarketingDetail";
+import MaintenanceDetail from "../components/MaintenanceDetail";
 import { PHASES_MAP } from "../components/ProjectPhases";
 
 const PhaseDetail = () => {
@@ -29,6 +30,8 @@ const PhaseDetail = () => {
       return <NetworkOperatorDetail />;
     case "Marketing":
       return <MarketingDetail />;
+    case "Maintenance":
+      return <MaintenanceDetail />;
 
     default: {
       const phase = PHASES_MAP.find((p) => p.key === phaseKey);

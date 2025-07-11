@@ -1,6 +1,7 @@
 export type TypeMaintenance = "Preventivo" | "Correctivo";
 
 export interface MaintenanceRecord {
+  _id: string;
   maintenanceNumber: number;
   maintenanceDate?: string;
   typeMaintenance?: TypeMaintenance;
