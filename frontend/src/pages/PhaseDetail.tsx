@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import DocumentalDetail from "../components/DocumentalDetail";
 import InstallationDetail from "../components/InstallationDetail";
 import EngineeringDetail from "../components/EngineeringDetail";
+import ShoppingDetail from "../components/ShoppingDetail";
 import { PHASES_MAP } from "../components/ProjectPhases";
 
 
@@ -14,7 +15,9 @@ const PhaseDetail = () => {
     case "Installation":
       return <InstallationDetail />;
     case "Engineering":
-      return <EngineeringDetail/>;
+      return <EngineeringDetail />;
+    case "Shopping":
+      return <ShoppingDetail />;
     // Agrega más casos según los componentes que tengas
     default: {
       const phase = PHASES_MAP.find((p) => p.key === phaseKey);

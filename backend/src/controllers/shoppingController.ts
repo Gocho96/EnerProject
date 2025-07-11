@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 import { Types } from "mongoose";
 import { Shopping } from "../models/shoppingModel";
+import { Project } from "../models/projectModel";
 
 export const getAllShoppings: RequestHandler = async (req, res) => {
   try {
@@ -34,6 +35,40 @@ export const getShoppingsByProject: RequestHandler = async (req, res) => {
   } catch (error) {
     console.error("Error al obtener compras del proyecto", error);
     res.status(500).json({ error: "Error interno del servidor" });
+  }
+};
+
+export const getShoppingByProjectCode: RequestHandler = async (req, res) => {
+  try {
+    const { code } = req.params;
+    const project = await Project.findOne({ code });
+
+    if (!project) {
+      res.status(404).json({ message: "Proyecto no encontrado" })
+      return;
+    }
+
+    const shopping = await Shopping.find({ projectId: project._id });
+    res.json(shopping);
+  } catch (error) {
+    console.error("Error al obtener compras por código del proyecto", error);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+};
+
+export const getShoppingsByProjectCode: RequestHandler = async (req, res) => {
+  try {
+    const { code } = req.params;
+    const project = await Project.findOne({ code });
+    if (!project) {
+      res.status(404).json({ message: "Proyecto no encontrado" });
+      return;
+    }
+    const shoppings = await Shopping.find({ projectId: project._id });
+    res.json(shoppings);
+  } catch (error) {
+    console.error("Error al obtener compras por código:", error);
+    res.status(500).json({ message: "Error interno del servidor" });
   }
 };
 

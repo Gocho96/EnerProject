@@ -1,7 +1,6 @@
 export interface Shopping {
   _id: string;
   projectId: string;
-
   materialDescription?: string;
   materialQuantity?: number;
   materialSupplier?: string;
@@ -10,7 +9,6 @@ export interface Shopping {
   materialSubtotal?: number;
   materialIVA?: number;
   materialTotal?: number;
-
   createdAt: string;
   updatedAt: string;
 }

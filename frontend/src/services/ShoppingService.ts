@@ -4,63 +4,74 @@ import { API_URL } from "../config/api";
 
 export const getAllShoppings = async () => {
   try {
-    const res = await axios.get<Shopping[]>(`${API_URL}/shopping`);
-    return res.data;
+    return await axios.get<Shopping[]>(`${API_URL}/shopping`);
   } catch (error) {
-    throw new Error("Error al obtener las compras");
+    console.log(error);
   }
 };
 
 export const getShoppingById = async (id: string) => {
   try {
-    const res = await axios.get<Shopping>(`${API_URL}/shopping/${id}`);
-    return res.data;
+    return await axios.get<Shopping>(`${API_URL}/shopping/${id}`);
   } catch (error) {
-    throw new Error("Error al obtener la compra por ID");
+    console.log(error);
   }
 };
 
-export const getShoppingsByProject = async (projectId: string) => {
+export const getShoppingsByProjectId = async (projectId: string) => {
   try {
-    const res = await axios.get<Shopping[]>(`${API_URL}/shopping/project/${projectId}`);
-    return res.data;
+    return await axios.get<Shopping[]>(`${API_URL}/shopping/project/${projectId}`);
   } catch (error) {
-    throw new Error("Error al obtener las compras del proyecto");
+    console.log(error);
   }
 };
 
-export const createShopping = async (data: any) => {
+export const getShoppingsByProjectCode = async (code: string) => {
   try {
-    const res = await axios.post(`${API_URL}/shopping`, data);
-    return res.data;
+    return await axios.get<Shopping[]>(`${API_URL}/shopping/project/code/${code}`);
   } catch (error) {
-    throw new Error("Error al crear la compra");
+    console.log(error);
   }
 };
 
-export const createShoppingByProjectId = async (projectId: string, data: any) => {
+export const createShopping = async (
+  shopping: Omit<Shopping, "_id" | "createdAt" | "updatedAt" | "materialTotal">
+) => {
   try {
-    const res = await axios.post(`${API_URL}/shopping/project/${projectId}`, data);
-    return res.data;
+    return await axios.post(`${API_URL}/shopping`, shopping);
   } catch (error) {
-    throw new Error("Error al crear la compra para el proyecto");
+    console.log(error);
+    throw error;
   }
 };
 
-export const updateShopping = async (id: string, data: any) => {
+export const createShoppingByProjectId = async (
+  projectId: string,
+  shopping: Omit<Shopping, "_id" | "createdAt" | "updatedAt" | "materialTotal">
+) => {
   try {
-    const res = await axios.put(`${API_URL}/shopping/${id}`, data);
-    return res.data;
+    return await axios.post(`${API_URL}/shopping/project/${projectId}`, shopping);
   } catch (error) {
-    throw new Error("Error al actualizar la compra");
+    console.log(error);
+    throw error;
+  }
+};
+
+export const updateShopping = async (
+  id: string,
+  shopping: Partial<Shopping>
+) => {
+  try {
+    return await axios.put(`${API_URL}/shopping/${id}`, shopping);
+  } catch (error) {
+    console.log(error);
   }
 };
 
 export const deleteShopping = async (id: string) => {
   try {
-    const res = await axios.delete(`${API_URL}/shopping/${id}`);
-    return res.data;
+    return await axios.delete(`${API_URL}/shopping/${id}`);
   } catch (error) {
-    throw new Error("Error al eliminar la compra");
+    console.log(error);
   }
 };
