@@ -7,6 +7,7 @@ const ProjectPhasesPage = () => {
   if (!code) return <p>Proyecto no especificado</p>;
 
   return <ProjectPhases projectCode={code} />;
+  
 };
 
 export default ProjectPhasesPage;

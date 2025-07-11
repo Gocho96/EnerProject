@@ -8,6 +8,7 @@ const router = Router();
 router.get("/installation", installationController.getAllInstallations);
 router.get("/installation/:id", installationController.getInstallation);
 router.get("/installation/project/:projectId", installationController.getByProjectInstallations);
+router.get("/installation/project/code/:code", installationController.getInstallationByProjectCode);
 router.post("/installation", validateSchema(dailyLogSchema), installationController.createInstallation);
 router.post("/installation/dailylog/:projectId", installationController.createDailyLogByProject);
 router.put("/installation/:id", installationController.updateInstallation);

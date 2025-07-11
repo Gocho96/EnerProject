@@ -14,7 +14,7 @@ const phaseSchema = new Schema(
       required: true,
     },
 
-    phaseDocumental: {
+    Documental: {
       status: {
         type: String,
         enum: ["En progreso", "Pausado", "Completado", "N/A"],
@@ -35,7 +35,7 @@ const phaseSchema = new Schema(
       },
     },
 
-    phaseEngineering: {
+    Engineering: {
       status: {
         type: String,
         enum: ["En progreso", "Pausado", "Completado", "N/A"],
@@ -56,7 +56,7 @@ const phaseSchema = new Schema(
       },
     },
 
-    phaseShopping: {
+    Shopping: {
       status: {
         type: String,
         enum: ["En progreso", "Pausado", "Completado", "N/A"],
@@ -77,7 +77,7 @@ const phaseSchema = new Schema(
       },
     },
 
-    phaseInstallation: {
+    Installation: {
       status: {
         type: String,
         enum: ["En progreso", "Pausado", "Completado", "N/A"],
@@ -98,7 +98,7 @@ const phaseSchema = new Schema(
       },
     },
 
-    phaseTaxIncentive: {
+    TaxIncentive: {
       status: {
         type: String,
         enum: ["En progreso", "Pausado", "Completado", "N/A"],
@@ -119,7 +119,7 @@ const phaseSchema = new Schema(
       },
     },
 
-    phaseRetie: {
+    Retie: {
       status: {
         type: String,
         enum: ["En progreso", "Pausado", "Completado", "N/A"],
@@ -140,7 +140,7 @@ const phaseSchema = new Schema(
       },
     },
 
-    phaseNetworkOperator: {
+    NetworkOperator: {
       status: {
         type: String,
         enum: ["En progreso", "Pausado", "Completado", "N/A"],
@@ -161,7 +161,7 @@ const phaseSchema = new Schema(
       },
     },
 
-    phaseMarketing: {
+    Marketing: {
       status: {
         type: String,
         enum: ["En progreso", "Pausado", "Completado", "N/A"],
@@ -182,7 +182,7 @@ const phaseSchema = new Schema(
       },
     },
 
-    phaseMaintenance: {
+    Maintenance: {
       status: {
         type: String,
         enum: ["En progreso", "Pausado", "Completado", "N/A"],
@@ -203,7 +203,7 @@ const phaseSchema = new Schema(
       },
     },
 
-    phaseBilling: {
+    Billing: {
       status: {
         type: String,
         enum: ["En progreso", "Pausado", "Completado", "N/A"],

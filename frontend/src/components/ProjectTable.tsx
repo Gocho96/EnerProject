@@ -10,7 +10,7 @@ const ProjectTable: React.FC<ProjectTableProps> = ({ projects }) => {
   const navigate = useNavigate();
 
   const handleProjectClick = (code: string) => {
-    navigate(`/projects/${code}`);
+    navigate(`/project/${code}`);
   };
 
   return (

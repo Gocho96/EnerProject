@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 import { Types } from "mongoose";
 import { Installation } from "../models/installationModel";
+import { Project } from "../models/projectModel";
 
 export const getAllInstallations: RequestHandler = async (req, res) => {
   try {
@@ -34,6 +35,29 @@ export const getByProjectInstallations: RequestHandler = async (req, res) => {
   } catch (error) {
     console.error("Error al obtener informacion de instalación por proyecto", error);
     res.status(500).json({ error: "Error interno del servidor" });
+  }
+};
+
+export const getInstallationByProjectCode: RequestHandler = async (req, res) => {
+  try {
+    const { code } = req.params;
+
+    const project = await Project.findOne({ code });
+    if (!project) {
+      res.status(404).json({ message: "Proyecto no encontrado" })
+      return;
+    }
+
+    const installation = await Installation.findOne({ projectId: project._id });
+    if (!installation) {
+      res.status(404).json({ message: "Instalación no encontrada" })
+      return;
+    }
+
+    res.json(installation);
+  } catch (error) {
+    console.error("Error al obtener instalación por código:", error);
+    res.status(500).json({ message: "Error interno del servidor" });
   }
 };
 

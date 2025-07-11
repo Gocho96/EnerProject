@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { getPhasesByProjectCode, updatePhasesByProjectCode } from "../services/PhaseService";
 import { Phase, PhaseStatus } from "../types/phase";
 import { toast } from "react-toastify";
@@ -7,27 +8,29 @@ interface Props {
   projectCode: string;
 }
 
-const PHASES_MAP = [
-  { key: "phaseDocumental", label: "Documental" },
-  { key: "phaseEngineering", label: "Ingeniería" },
-  { key: "phaseShopping", label: "Compras" },
-  { key: "phaseInstallation", label: "Instalación" },
-  { key: "phaseTaxIncentive", label: "Incentivos Tributarios" },
-  { key: "phaseRetie", label: "RETIE" },
-  { key: "phaseNetworkOperator", label: "Operador de Red" },
-  { key: "phaseMarketing", label: "Marketing" },
-  { key: "phaseMaintenance", label: "Mantenimiento" },
-  { key: "phaseBilling", label: "Facturación" },
+export const PHASES_MAP = [
+  { key: "Documental", label: "Documental" },
+  { key: "Engineering", label: "Ingeniería" },
+  { key: "Shopping", label: "Compras" },
+  { key: "Installation", label: "Instalación" },
+  { key: "TaxIncentive", label: "Incentivos Tributarios" },
+  { key: "Retie", label: "RETIE" },
+  { key: "NetworkOperator", label: "Operador de Red" },
+  { key: "Marketing", label: "Marketing" },
+  { key: "Maintenance", label: "Mantenimiento" },
+  { key: "Billing", label: "Facturación" },
 ];
 
 const ProjectPhases = ({ projectCode }: Props) => {
   const [phaseData, setPhaseData] = useState<Phase | null>(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPhases = async () => {
       try {
         const response = await getPhasesByProjectCode(projectCode);
+        console.log("phaseData cargado:", response.data);
         setPhaseData(response.data);
       } catch (error) {
         toast.error("No se pudieron cargar las fases del proyecto");
@@ -67,6 +70,10 @@ const ProjectPhases = ({ projectCode }: Props) => {
     }
   };
 
+  const handlePhaseClick = (phaseKey: string) => {
+    navigate(`/project/${projectCode}/phase/${phaseKey}`);
+  };
+
   if (loading) return <p>Cargando fases...</p>;
   if (!phaseData) return <p>No se encontraron fases para este proyecto.</p>;
 
@@ -85,7 +92,16 @@ const ProjectPhases = ({ projectCode }: Props) => {
               (phaseData[key as keyof Phase] as any)?.status || "N/A";
             return (
               <tr key={key}>
-                <td>{label}</td>
+                <td
+                  style={{
+                    cursor: "pointer",
+                    color: "#0d6efd",
+                    textDecoration: "underline",
+                  }}
+                  onClick={() => handlePhaseClick(key)}
+                >
+                  {label}
+                </td>
                 <td>
                   <select
                     className="form-select"
@@ -111,6 +127,10 @@ const ProjectPhases = ({ projectCode }: Props) => {
 
       <button className="btn btn-success mt-2" onClick={handleSave}>
         Guardar cambios
+      </button>
+
+      <button onClick={() => navigate(-1)} className="btn btn-secondary">
+        ← Volver
       </button>
     </div>
   );

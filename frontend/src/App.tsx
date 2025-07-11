@@ -4,7 +4,7 @@ import { ToastContainer } from "react-toastify";
 import LoginPage from "./pages/LoginPage";
 import Dashboard from "./pages/Dashboard";
 import ProjectPhases from "./pages/PhasesPage";
-import DocumentalDetail from "./components/DocumentalDetail";
+import PhaseDetail from "./pages/PhaseDetail";
 import "./styles/App.css";
 
 
@@ -16,10 +16,8 @@ function App() {
         <Route path="/" element={<Dashboard />}/>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/dashboard" />
-        <Route path="/projects/:code" element={<ProjectPhases/>} />
-
-        <Route path="/projects/:code/phase/documental" element={<DocumentalDetail />} />
-
+        <Route path="/project/:code" element={<ProjectPhases/>} />
+        <Route path="/project/:code/phase/:phaseKey" element={<PhaseDetail/>} />
       </Routes>
       <ToastContainer />
     </BrowserRouter>

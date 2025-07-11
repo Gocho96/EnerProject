@@ -1,7 +1,8 @@
 export interface DailyLogEntry {
-  date: string;              
-  content?: string;         
-  installationNews?: string; 
+  _id?: string;
+  date: string;
+  content?: string;
+  installationNews?: string;
 }
 
 export interface Installation {

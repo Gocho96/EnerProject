@@ -11,16 +11,16 @@ export interface Phase {
   code: string;
   projectId: string;
 
-  phaseDocumental: PhaseSection;
-  phaseEngineering: PhaseSection;
-  phaseShopping: PhaseSection;
-  phaseInstallation: PhaseSection;
-  phaseTaxIncentive: PhaseSection;
-  phaseRetie: PhaseSection;
-  phaseNetworkOperator: PhaseSection;
-  phaseMarketing: PhaseSection;
-  phaseMaintenance: PhaseSection;
-  phaseBilling: PhaseSection;
+  Documental: PhaseSection;
+  Engineering: PhaseSection;
+  Shopping: PhaseSection;
+  Installation: PhaseSection;
+  TaxIncentive: PhaseSection;
+  Retie: PhaseSection;
+  NetworkOperator: PhaseSection;
+  Marketing: PhaseSection;
+  Maintenance: PhaseSection;
+  Billing: PhaseSection;
 
   createdAt?: string;
   updatedAt?: string;

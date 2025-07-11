@@ -4,7 +4,7 @@ import { API_URL } from "../config/api";
 
 export const getProjects = async () => {
   try {
-    return await axios.get<Project[]>(`${API_URL}/projects`);
+    return await axios.get<Project[]>(`${API_URL}/project`);
   } catch (error) {
     console.log(error);
   }
@@ -12,7 +12,7 @@ export const getProjects = async () => {
 
 export const getProject = async (id: string) => {
   try {
-    return await axios.get<Project>(`${API_URL}/projects/${id}`);
+    return await axios.get<Project>(`${API_URL}/project/${id}`);
   } catch (error) {
     console.log(error);
   }
@@ -20,7 +20,7 @@ export const getProject = async (id: string) => {
 
 export const createProject = async (project: Project) => {
   try {
-    return await axios.post(`${API_URL}/projects`, project);
+    return await axios.post(`${API_URL}/project`, project);
   } catch (error: any) {
     if (error.response) {
       throw error.response;
@@ -31,7 +31,7 @@ export const createProject = async (project: Project) => {
 
 export const updateProject = async (id: string, project: Project) => {
   try {
-    return await axios.put<Project>(`${API_URL}/projects/${id}`, project);
+    return await axios.put<Project>(`${API_URL}/project/${id}`, project);
   } catch (error) {
     console.log(error);
   }
@@ -39,7 +39,7 @@ export const updateProject = async (id: string, project: Project) => {
 
 export const deleteProject = async (id: string) => {
   try {
-    return await axios.delete<Project>(`${API_URL}/projects/${id}`);
+    return await axios.delete<Project>(`${API_URL}/project/${id}`);
   } catch (error) {
     console.log(error);
   }
