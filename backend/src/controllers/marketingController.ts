@@ -1,5 +1,6 @@
 import { RequestHandler } from "express";
 import { Marketing } from "../models/marketingModel";
+import { Project } from "../models/projectModel";
 
 export const getAllMarketings: RequestHandler = async (req, res) => {
   try {
@@ -33,6 +34,29 @@ export const getByProjectMarketing: RequestHandler = async (req, res) => {
     res.json(marketings);
   } catch (error) {
     console.error("Error al obtener la información de marketing", error);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+};
+
+export const getMarketingByProjectCode: RequestHandler = async (req, res) => {
+  try {
+    const { code } = req.params;
+
+    const project = await Project.findOne({ code });
+    if (!project) {
+      res.status(404).json({ message: "Proyecto no encontrado" })
+      return  ;
+    }
+
+    const marketing = await Marketing.findOne({ projectId: project._id });
+    if (!marketing) {
+      res.status(404).json({ message: "Información de marketing no encontrada" })
+      return;
+    }
+
+    res.json(marketing);
+  } catch (error) {
+    console.error("Error al obtener marketing por código de proyecto:", error);
     res.status(500).json({ error: "Error interno del servidor" });
   }
 };

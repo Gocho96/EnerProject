@@ -1,100 +1,74 @@
 import axios from "axios";
-import { Marketing } from "../types/marketing";
 import { API_URL } from "../config/api";
 
-export const getAllMarketing = async () => {
+export const getMarketingByProjectCode = async (code: string) => {
   try {
-    return await axios.get<Marketing[]>(`${API_URL}/marketing`);
+    const response = await axios.get(`${API_URL}/marketing/project/code/${code}`);
+    return response.data;
   } catch (error) {
-    console.error(error);
-  }
-};
-
-export const getMarketingById = async (id: string) => {
-  try {
-    return await axios.get<Marketing>(`${API_URL}/marketing/${id}`);
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-export const getMarketingByProject = async (projectId: string) => {
-  try {
-    return await axios.get(`${API_URL}/marketing/project/${projectId}`);
-  } catch (error) {
-    console.error(error);
+    throw new Error("No se pudo obtener la información de marketing");
   }
 };
 
 export const createMarketing = async (data: any) => {
   try {
-    return await axios.post(`${API_URL}/marketing`, data);
+    const response = await axios.post(`${API_URL}/marketing`, data);
+    return response.data;
   } catch (error) {
-    console.error(error);
-    throw error;
-  }
-};
-
-export const addPublicationEntry = async (projectId: string, data: any) => {
-  try {
-    return await axios.post(`${API_URL}/marketing/project/${projectId}`, data);
-  } catch (error) {
-    console.error(error);
-    throw error;
+    throw new Error("Error al crear el registro de marketing");
   }
 };
 
 export const updateMarketing = async (id: string, data: any) => {
   try {
-    return await axios.put(`${API_URL}/marketing/${id}`, data);
+    const response = await axios.put(`${API_URL}/marketing/${id}`, data);
+    return response.data;
   } catch (error) {
-    console.error(error);
-  }
-};
-
-export const updatePublicationEntry = async (
-  projectId: string,
-  publicationId: string,
-  data: any
-) => {
-  try {
-    return await axios.put(
-      `${API_URL}/marketing/project/${projectId}/${publicationId}`,
-      data
-    );
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-export const updateSurveyInfo = async (
-  projectId: string,
-  data: { sendSurvey?: boolean; sendSurveyDate?: string }
-) => {
-  try {
-    return await axios.put(`${API_URL}/marketing/survey/${projectId}`, data);
-  } catch (error) {
-    console.error(error);
+    throw new Error("Error al actualizar el registro de marketing");
   }
 };
 
 export const deleteMarketing = async (id: string) => {
   try {
-    return await axios.delete(`${API_URL}/marketing/${id}`);
+    const response = await axios.delete(`${API_URL}/marketing/${id}`);
+    return response.data;
   } catch (error) {
-    console.error(error);
+    throw new Error("Error al eliminar el registro de marketing");
   }
 };
 
-export const deletePublicationEntry = async (
-  projectId: string,
-  publicationId: string
-) => {
+export const addPublicationEntry = async (code: string, data: any) => {
   try {
-    return await axios.delete(
-      `${API_URL}/marketing/project/${projectId}/${publicationId}`
-    );
+    const response = await axios.post(`${API_URL}/marketing/project/${code}`, data);
+    return response.data;
   } catch (error) {
-    console.error(error);
+    throw new Error("Error al agregar publicación");
+  }
+};
+
+export const updatePublicationEntry = async (code: string, publicationId: string, data: any) => {
+  try {
+    const response = await axios.put(`${API_URL}/marketing/project/${code}/${publicationId}`, data);
+    return response.data;
+  } catch (error) {
+    throw new Error("Error al actualizar la publicación");
+  }
+};
+
+export const deletePublicationEntry = async (code: string, publicationId: string) => {
+  try {
+    const response = await axios.delete(`${API_URL}/marketing/project/${code}/${publicationId}`);
+    return response.data;
+  } catch (error) {
+    throw new Error("Error al eliminar la publicación");
+  }
+};
+
+export const updateSurveyInfo = async (code: string, data: any) => {
+  try {
+    const response = await axios.put(`${API_URL}/marketing/survey/${code}`, data);
+    return response.data;
+  } catch (error) {
+    throw new Error("Error al actualizar información de encuesta");
   }
 };
