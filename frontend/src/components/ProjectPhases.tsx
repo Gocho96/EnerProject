@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getPhasesByProjectCode, updatePhasesByProjectCode } from "../services/PhaseService";
+import {
+  getPhasesByProjectCode,
+  updatePhasesByProjectCode,
+} from "../services/PhaseService";
 import { Phase, PhaseStatus } from "../types/phase";
 import { toast } from "react-toastify";
 
@@ -79,6 +82,13 @@ const ProjectPhases = ({ projectCode }: Props) => {
 
   return (
     <div className="table-responsive">
+      <button
+        onClick={() => navigate(`/project-details/${projectCode}`)}
+        className="btn btn-outline-primary mt-3"
+      >
+        Ver Detalles del Proyecto
+      </button>
+
       <table className="table table-bordered mt-3">
         <thead>
           <tr>

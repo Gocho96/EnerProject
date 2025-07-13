@@ -31,6 +31,15 @@ export const getProjectDetailsByProject = async (projectId: string) => {
   }
 };
 
+export const getProjectDetailsByProjectCode = async (code: string) => {
+  try {
+    const res = await axios.get<ProjectDetails>(`${API_URL}/project-details/code/${code}`);
+    return res.data;
+  } catch (error) {
+    throw new Error("Error al obtener detalles del proyecto por código");
+  }
+};
+
 export const createProjectDetails = async (data: any) => {
   try {
     const res = await axios.post(`${API_URL}/project-details`, data);

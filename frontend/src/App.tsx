@@ -5,6 +5,7 @@ import LoginPage from "./pages/LoginPage";
 import Dashboard from "./pages/Dashboard";
 import ProjectPhases from "./pages/PhasesPage";
 import PhaseDetail from "./pages/PhaseDetail";
+import ProjectDetailsView from "./components/ProjectDetailsView";
 import "./styles/App.css";
 
 
@@ -18,6 +19,7 @@ function App() {
         <Route path="/dashboard" />
         <Route path="/project/:code" element={<ProjectPhases/>} />
         <Route path="/project/:code/phase/:phaseKey" element={<PhaseDetail/>} />
+        <Route path="/project-details/:code" element={<ProjectDetailsView />} />
       </Routes>
       <ToastContainer />
     </BrowserRouter>
