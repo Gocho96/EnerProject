@@ -1,23 +1,11 @@
 import { useState, ChangeEvent, FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { Project } from "../types/project";
-import { createProject } from "../services/ProjectService";
-import { createDocumental } from "../services/DocumentalService";
-import { createEngineering } from "../services/EngineeringService";
-import { createShopping } from "../services/ShoppingService";
-import { createInstallation } from "../services/InstallationService";
-import { createTaxIncentive } from "../services/TaxIncentiveService";
-import { createRetie } from "../services/RetieService";
-import { createNetworkOperator } from "../services/NetworkOperadorService";
-import { createMarketing } from "../services/MarketingService";
-import { createMaintenanceDocument } from "../services/MaintenanceService";
-import { createBilling } from "../services/BillingService";
-import { createProjectDetails } from "../services/ProjectDetailsService";
+import { toast } from "react-toastify";
 
 interface ProjectFormProps {
   onSubmit: (project: Project) => void;
   initialData?: Project;
+  loading?: boolean;
 }
 
 interface ProjectFormValues {
@@ -29,8 +17,7 @@ interface ProjectFormValues {
   endContract: string;
 }
 
-const ProjectForm = ({ onSubmit, initialData }: ProjectFormProps) => {
-  const navigate = useNavigate();
+const ProjectForm = ({ onSubmit, initialData, loading = false }: ProjectFormProps) => {
   const [project, setProject] = useState<ProjectFormValues>({
     code: initialData?.code || "",
     name: initialData?.name || "",
@@ -43,8 +30,6 @@ const ProjectForm = ({ onSubmit, initialData }: ProjectFormProps) => {
       ? new Date(initialData.endContract).toISOString().split("T")[0]
       : "",
   });
-
-  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -62,7 +47,7 @@ const ProjectForm = ({ onSubmit, initialData }: ProjectFormProps) => {
     return true;
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!validateForm()) return;
 
@@ -72,57 +57,10 @@ const ProjectForm = ({ onSubmit, initialData }: ProjectFormProps) => {
       typeOfService: project.typeOfService as Project["typeOfService"],
       state: project.state as Project["state"],
       startContract: new Date(project.startContract),
-      endContract: project.endContract
-        ? new Date(project.endContract)
-        : undefined,
+      endContract: project.endContract ? new Date(project.endContract) : undefined,
     };
 
-    setLoading(true);
-
-    try {
-      const newProject = await createProject(parsedProject);
-
-      await Promise.all([
-        createDocumental({ projectId: newProject._id }),
-        createEngineering({ projectId: newProject._id }),
-        createShopping({ projectId: newProject._id }),
-        createInstallation({ projectId: newProject._id }),
-        createTaxIncentive({ projectId: newProject._id }),
-        createRetie({ projectId: newProject._id }),
-        createNetworkOperator({ projectId: newProject._id }),
-        createMarketing({ projectId: newProject._id }),
-        createMaintenanceDocument({ projectId: newProject._id }),
-        createBilling({ projectId: newProject._id }),
-        createProjectDetails({
-          projectId: newProject._id,
-          projectOwner: "",
-          typeDocument: undefined,
-          documentNumber: "",
-          address: "",
-          location: "",
-          city: "",
-          department: "",
-          contactPerson: [],
-          solarPanels: [],
-          inverters: [],
-          batteries: [],
-        }),
-      ]);
-
-      toast.success("Proyecto creado correctamente.");
-      navigate(`/project/${newProject.code}`);
-
-      onSubmit?.(newProject);
-    } catch (error: any) {
-      console.error("Error al crear el proyecto");
-
-      const errorMessage =
-        error?.response?.data?.message || "Error al crear el proyecto.";
-
-      toast.error(errorMessage);
-    } finally {
-      setLoading(false);
-    }
+    onSubmit(parsedProject);
   };
 
   return (

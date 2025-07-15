@@ -33,7 +33,7 @@ const ProjectPhases = ({ projectCode }: Props) => {
     const fetchPhases = async () => {
       try {
         const response = await getPhasesByProjectCode(projectCode);
-        console.log("phaseData cargado:", response.data);
+        console.log("Cargando fases:", response.data);
         setPhaseData(response.data);
       } catch (error) {
         toast.error("No se pudieron cargar las fases del proyecto");
@@ -82,13 +82,6 @@ const ProjectPhases = ({ projectCode }: Props) => {
 
   return (
     <div className="table-responsive">
-      <button
-        onClick={() => navigate(`/project-details/${projectCode}`)}
-        className="btn btn-outline-primary mt-3"
-      >
-        Ver Detalles del Proyecto
-      </button>
-
       <table className="table table-bordered mt-3">
         <thead>
           <tr>

@@ -5,10 +5,24 @@ import * as ProjectService from "../services/ProjectService";
 import { toast } from "react-toastify";
 import { Project } from "../types/project";
 import ProjectTable from "../components/ProjectTable";
+import { useNavigate } from "react-router-dom";
+import { createDocumental } from "../services/DocumentalService";
+import { createEngineering } from "../services/EngineeringService";
+import { createShopping } from "../services/ShoppingService";
+import { createInstallation } from "../services/InstallationService";
+import { createTaxIncentive } from "../services/TaxIncentiveService";
+import { createRetie } from "../services/RetieService";
+import { createNetworkOperator } from "../services/NetworkOperadorService";
+import { createMarketing } from "../services/MarketingService";
+import { createMaintenanceDocument } from "../services/MaintenanceService";
+import { createBilling } from "../services/BillingService";
+import { createProjectDetails } from "../services/ProjectDetailsService";
 
 const Dashboard = () => {
   const [showModal, setShowModal] = useState(false);
   const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleOpenModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
@@ -27,46 +41,56 @@ const Dashboard = () => {
   }, []);
 
   const handleProjectSubmit = async (project: Project) => {
+    setLoading(true);
+
     try {
-      const payload: Project = {
-        code: project.code,
-        name: project.name,
-        typeOfService: project.typeOfService,
-        state: project.state,
-        startContract: project.startContract
-          ? new Date(project.startContract)
-          : undefined,
-        endContract: project.endContract
-          ? new Date(project.endContract)
-          : undefined,
-      };
+      const newProject = await ProjectService.createProject(project);
 
-      const response = await ProjectService.createProject(payload);
+      await Promise.all([
+        createDocumental({ projectId: newProject._id }),
+        createEngineering({ projectId: newProject._id }),
+        createShopping({ projectId: newProject._id }),
+        createInstallation({ projectId: newProject._id }),
+        createTaxIncentive({ projectId: newProject._id }),
+        createRetie({ projectId: newProject._id }),
+        createNetworkOperator({ projectId: newProject._id }),
+        createMarketing({ projectId: newProject._id }),
+        createMaintenanceDocument({ projectId: newProject._id }),
+        createBilling({ projectId: newProject._id }),
+        createProjectDetails({
+          projectId: newProject._id,
+          projectOwner: "",
+          typeDocument: undefined,
+          documentNumber: "",
+          address: "",
+          location: "",
+          city: "",
+          department: "",
+          contactPerson: [],
+          solarPanels: [],
+          inverters: [],
+          batteries: [],
+        }),
+      ]);
 
-      if (response?.status === 200 || response?.status === 201) {
-        toast.success("Proyecto creado exitosamente");
-        handleCloseModal();
-        fetchProjects();
-      }
+      toast.success("Proyecto creado correctamente.");
+      handleCloseModal();
+      fetchProjects();
+      navigate(`/project/${newProject.code}`);
     } catch (error: any) {
-      console.error("Error al crear el proyecto:", error);
+      console.error("Error al crear el proyecto", error);
 
-      if (typeof error.data === "string") {
-        toast.error(error.data);
-        return;
-      }
+      const errorMessage =
+        error?.data?.message || error?.response?.data?.message ||
+        "Error al crear el proyecto.";
 
-      if (error.status === 400 || error.status === 409) {
-        const message = error.data?.message;
-
-        if (Array.isArray(message)) {
-          message.forEach((msg: string) => toast.error(msg));
-        } else {
-          toast.error(message || "Error de validación en el proyecto.");
-        }
+      if (Array.isArray(errorMessage)) {
+        errorMessage.forEach((msg: string) => toast.error(msg));
       } else {
-        toast.error("Error inesperado al crear el proyecto.");
+        toast.error(errorMessage);
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -80,7 +104,7 @@ const Dashboard = () => {
       <Modal show={showModal} onHide={handleCloseModal} centered>
         <Modal.Header closeButton></Modal.Header>
         <Modal.Body>
-          <ProjectForm onSubmit={handleProjectSubmit} />
+          <ProjectForm onSubmit={handleProjectSubmit} loading={loading} />
         </Modal.Body>
       </Modal>
     </div>
