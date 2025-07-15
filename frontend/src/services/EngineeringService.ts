@@ -29,11 +29,9 @@ export const getEngineeringByProjectCode = async (code: string) => {
   }
 };
 
-export const createEngineering = async (
-  engineering: Omit<Engineering, "_id" | "createdAt" | "updatedAt">
-) => {
+export const createEngineering = async (data: { projectId: string }) => {
   try {
-    return await axios.post(`${API_URL}/engineering`, engineering);
+    return await axios.post(`${API_URL}/engineering`, data);
   } catch (error) {
     console.log(error);
     throw error;

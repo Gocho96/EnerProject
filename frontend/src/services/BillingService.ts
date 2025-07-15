@@ -32,7 +32,7 @@ export const getBillingsByProject = async (projectId: string) => {
   }
 };
 
-export const getBillingsByProjectCode = async (code: string) => {
+export const getByProjectCodeBilling = async (code: string) => {
   try {
     const response = await axios.get<Billing[]>(`${API_URL}/billing/project/code/${code}`);
     return response.data;
@@ -42,13 +42,12 @@ export const getBillingsByProjectCode = async (code: string) => {
   }
 };
 
-export const createBilling = async (data: any) => {
+export const createBilling = async (data: { projectId: string }) => {
   try {
-    const response = await axios.post(`${API_URL}/billing`, data);
-    return response.data;
+    return await axios.post(`${API_URL}/billing`, data);
   } catch (error) {
-    console.error(error);
-    throw new Error("Error al crear la factura");
+    console.log(error);
+    throw error;
   }
 };
 

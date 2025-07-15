@@ -17,7 +17,9 @@ export const getInstallation: RequestHandler = async (req, res) => {
   try {
     const installationFound = await Installation.findById(req.params.id);
     if (!installationFound) {
-      res.status(404).json({ message: "Información de instalación no encontrada" });
+      res
+        .status(404)
+        .json({ message: "Información de instalación no encontrada" });
       return;
     }
     res.json(installationFound);
@@ -33,24 +35,30 @@ export const getByProjectInstallations: RequestHandler = async (req, res) => {
     const installations = await Installation.find({ projectId });
     res.json(installations);
   } catch (error) {
-    console.error("Error al obtener informacion de instalación por proyecto", error);
+    console.error(
+      "Error al obtener informacion de instalación por proyecto",
+      error
+    );
     res.status(500).json({ error: "Error interno del servidor" });
   }
 };
 
-export const getInstallationByProjectCode: RequestHandler = async (req, res) => {
+export const getInstallationByProjectCode: RequestHandler = async (
+  req,
+  res
+) => {
   try {
     const { code } = req.params;
 
     const project = await Project.findOne({ code });
     if (!project) {
-      res.status(404).json({ message: "Proyecto no encontrado" })
+      res.status(404).json({ message: "Proyecto no encontrado" });
       return;
     }
 
     const installation = await Installation.findOne({ projectId: project._id });
     if (!installation) {
-      res.status(404).json({ message: "Instalación no encontrada" })
+      res.status(404).json({ message: "Instalación no encontrada" });
       return;
     }
 
@@ -69,7 +77,9 @@ export const createDailyLogByProject: RequestHandler = async (req, res) => {
     const installation = await Installation.findOne({ projectId });
 
     if (!installation) {
-      res.status(404).json({ message: "No se encontró instalación para el proyecto." });
+      res
+        .status(404)
+        .json({ message: "No se encontró instalación para el proyecto." });
       return;
     }
 
@@ -81,7 +91,10 @@ export const createDailyLogByProject: RequestHandler = async (req, res) => {
 
     const saved = await installation.save();
 
-    res.status(201).json({ message: "Bitácora(s) agregada(s) correctamente", installation: saved });
+    res.status(201).json({
+      message: "Bitácora(s) agregada(s) correctamente",
+      installation: saved,
+    });
   } catch (error) {
     console.error("Error al agregar bitácora:", error);
     res.status(500).json({ message: "Error interno del servidor" });
@@ -93,19 +106,19 @@ export const createInstallation: RequestHandler = async (req, res) => {
     const { projectId } = req.body;
 
     if (!projectId || !Types.ObjectId.isValid(projectId)) {
-      res
-        .status(400)
-        .json({
-          message: "No hay proyecto asociado a la información de la instalación",
-        });
+      res.status(400).json({
+        message: "No hay proyecto asociado a la información de la instalación",
+      });
       return;
     }
 
     const installationFound = await Installation.findOne({
-      date: req.body.date,
+      projectId: req.body.projectId,
     });
     if (installationFound) {
-      res.status(409).json({ message: "La bitacora del: " + req.body.date + " ya existe" });
+      res.status(409).json({
+        message: "La información de instalación ya existe para este proyecto",
+      });
       return;
     }
 
@@ -113,7 +126,8 @@ export const createInstallation: RequestHandler = async (req, res) => {
     const savedInstallation = await installation.save();
     res.status(201).json(savedInstallation);
   } catch (error) {
-    console.log(error);
+    console.error("Error al crear instalación:", error);
+    res.status(500).json({ message: "Error interno del servidor" });
   }
 };
 
@@ -140,7 +154,10 @@ export const updateDailyLogById: RequestHandler = async (req, res) => {
     const { installationId, logId } = req.params;
     const updatedData = req.body;
 
-    if (!Types.ObjectId.isValid(installationId) || !Types.ObjectId.isValid(logId)) {
+    if (
+      !Types.ObjectId.isValid(installationId) ||
+      !Types.ObjectId.isValid(logId)
+    ) {
       res.status(400).json({ message: "ID inválido" });
       return;
     }
@@ -160,7 +177,9 @@ export const updateDailyLogById: RequestHandler = async (req, res) => {
     Object.assign(log, updatedData);
     await installation.save();
 
-    res.status(200).json({ message: "Bitácora actualizada correctamente", installation });
+    res
+      .status(200)
+      .json({ message: "Bitácora actualizada correctamente", installation });
   } catch (error) {
     console.error("Error al actualizar bitácora:", error);
     res.status(500).json({ message: "Error interno del servidor" });
@@ -169,9 +188,13 @@ export const updateDailyLogById: RequestHandler = async (req, res) => {
 
 export const deleteInstallation: RequestHandler = async (req, res) => {
   try {
-    const instalacionDelete = await Installation.findByIdAndDelete(req.params.id);
+    const instalacionDelete = await Installation.findByIdAndDelete(
+      req.params.id
+    );
     if (!instalacionDelete) {
-      res.status(404).json({ message: "Información de instalación no encontrada" });
+      res
+        .status(404)
+        .json({ message: "Información de instalación no encontrada" });
       return;
     }
     res.status(200).json({ message: "Bitacora eliminada" });
@@ -184,7 +207,10 @@ export const deleteDailyLogById: RequestHandler = async (req, res) => {
   try {
     const { installationId, logId } = req.params;
 
-    if (!Types.ObjectId.isValid(installationId) || !Types.ObjectId.isValid(logId)) {
+    if (
+      !Types.ObjectId.isValid(installationId) ||
+      !Types.ObjectId.isValid(logId)
+    ) {
       res.status(400).json({ message: "ID inválido" });
       return;
     }

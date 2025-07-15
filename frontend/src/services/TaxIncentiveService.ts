@@ -29,13 +29,11 @@ export const getTaxIncentiveByProjectCode = async (code: string) => {
   }
 };
 
-export const createTaxIncentive = async (
-  data: Omit<TaxIncentive, "_id" | "createdAt" | "updatedAt">
-) => {
+export const createTaxIncentive = async (data: { projectId: string }) => {
   try {
     return await axios.post(`${API_URL}/taxincentive`, data);
   } catch (error) {
-    console.error(error);
+    console.log(error);
     throw error;
   }
 };

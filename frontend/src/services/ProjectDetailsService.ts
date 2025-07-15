@@ -13,7 +13,9 @@ export const getAllProjectDetails = async () => {
 
 export const getProjectDetailsById = async (id: string) => {
   try {
-    const res = await axios.get<ProjectDetails>(`${API_URL}/project-details/${id}`);
+    const res = await axios.get<ProjectDetails>(
+      `${API_URL}/project-details/${id}`
+    );
     return res.data;
   } catch (error) {
     throw new Error("Error al obtener detalles del proyecto por ID");
@@ -33,18 +35,51 @@ export const getProjectDetailsByProject = async (projectId: string) => {
 
 export const getProjectDetailsByProjectCode = async (code: string) => {
   try {
-    const res = await axios.get<ProjectDetails>(`${API_URL}/project-details/code/${code}`);
+    const res = await axios.get<ProjectDetails>(
+      `${API_URL}/project-details/code/${code}`
+    );
     return res.data;
   } catch (error) {
     throw new Error("Error al obtener detalles del proyecto por código");
   }
 };
 
-export const createProjectDetails = async (data: any) => {
+interface CreateProjectDetailsInput {
+  projectId: string;
+  projectOwner?: string;
+  typeDocument?: string;
+  documentNumber?: string;
+  address?: string;
+  location?: string;
+  city?: string;
+  department?: string;
+  contactPerson?: any[];
+  solarPanels?: any[];
+  inverters?: any[];
+  batteries?: any[];
+}
+
+export const createProjectDetails = async ({
+  projectId,
+}: CreateProjectDetailsInput) => {
   try {
-    const res = await axios.post(`${API_URL}/project-details`, data);
+    const res = await axios.post(`${API_URL}/project-details`, {
+      projectId,
+      projectOwner: "",
+      typeDocument: undefined,
+      documentNumber: "",
+      address: "",
+      location: "",
+      city: "",
+      department: "",
+      contactPerson: [],
+      solarPanels: [],
+      inverters: [],
+      batteries: [],
+    });
     return res.data;
   } catch (error) {
+    console.error("Error al crear detalles del proyecto:", error);
     throw new Error("Error al crear detalles del proyecto");
   }
 };

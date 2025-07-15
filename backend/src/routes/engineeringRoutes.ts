@@ -9,7 +9,7 @@ router.get("/engineering", EngineeringController.getAllEngineerings);
 router.get("/engineering/:id", EngineeringController.getEngineering);
 router.get("/engineering/project/:projectId", EngineeringController.getByProjectEngineering);
 router.get("/engineering/project/code/:code", EngineeringController.getEngineeringByProjectCode);
-router.post("/engineering", validateSchema(engineeringSchema), EngineeringController.createEngineering);
+router.post("/engineering", EngineeringController.createEngineering);
 router.put("/engineering/:id", validateSchema(engineeringSchema), EngineeringController.updateEngineering);
 router.delete("/engineering/:id", EngineeringController.deleteEngineering);
 

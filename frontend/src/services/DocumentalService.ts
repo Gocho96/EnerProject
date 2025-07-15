@@ -28,11 +28,9 @@ export const getDocumentalsByProject = async (projectId: string) => {
   }
 };
 
-export const createDocumental = async (
-  documental: Omit<Documental, "_id" | "createdAt" | "updatedAt">
-) => {
+export const createDocumental = async (data: { projectId: string }) => {
   try {
-    return await axios.post(`${API_URL}/documental`, documental);
+    return await axios.post(`${API_URL}/documental`, data);
   } catch (error) {
     console.log(error);
     throw error;

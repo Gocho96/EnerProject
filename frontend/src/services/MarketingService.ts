@@ -10,12 +10,12 @@ export const getMarketingByProjectCode = async (code: string) => {
   }
 };
 
-export const createMarketing = async (data: any) => {
+export const createMarketing = async (data: { projectId: string }) => {
   try {
-    const response = await axios.post(`${API_URL}/marketing`, data);
-    return response.data;
+    return await axios.post(`${API_URL}/marketing`, data);
   } catch (error) {
-    throw new Error("Error al crear el registro de marketing");
+    console.log(error);
+    throw error;
   }
 };
 

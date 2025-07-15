@@ -42,13 +42,12 @@ export const getMaintenancesByProjectCode = async (code: string) => {
   }
 };
 
-export const createMaintenanceDocument = async (data: any) => {
+export const createMaintenanceDocument = async (data: { projectId: string }) => {
   try {
-    const response = await axios.post(`${API_URL}/maintenance`, data);
-    return response.data;
+    return await axios.post(`${API_URL}/maintenance`, data);
   } catch (error) {
-    console.error("Error al crear documento de mantenimiento:", error);
-    throw new Error("Error al crear documento de mantenimiento");
+    console.log(error);
+    throw error;
   }
 };
 

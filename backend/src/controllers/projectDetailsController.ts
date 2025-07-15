@@ -1,5 +1,6 @@
 import { RequestHandler } from "express";
 import { ProjectDetails } from "../models/projectDetailsModel";
+import { Project } from "../models/projectModel";
 
 export const getAllProjectDetails: RequestHandler = async (req, res) => {
   try {
@@ -32,6 +33,29 @@ export const getByProjectDetails: RequestHandler = async (req, res) => {
   } catch (error) {
     console.error("Error al obtener los detalles del proyecto", error);
     res.status(500).json({ error: "Error interno del servidor" });
+  }
+};
+
+export const getProjectDetailsByCode: RequestHandler = async (req, res) => {
+  try {
+    const { code } = req.params;
+
+    const project = await Project.findOne({ code });
+    if (!project) {
+      res.status(404).json({ message: "Proyecto no encontrado con ese código" })
+      return;
+    }
+
+    const details = await ProjectDetails.findOne({ projectId: project._id });
+    if (!details) {
+      res.status(404).json({ message: "Detalles del proyecto no encontrados" })
+      return;
+    }
+
+    res.json(details);
+  } catch (error) {
+    console.error("Error al obtener detalles por código", error);
+    res.status(500).json({ message: "Error interno del servidor" });
   }
 };
 

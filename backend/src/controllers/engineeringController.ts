@@ -45,14 +45,16 @@ export const getEngineeringByProjectCode: RequestHandler = async (req, res) => {
     const project = await Project.findOne({ code });
 
     if (!project) {
-      res.status(404).json({ message: "Proyecto no encontrado" })
+      res.status(404).json({ message: "Proyecto no encontrado" });
       return;
     }
 
     const engineering = await Engineering.findOne({ projectId: project._id });
 
     if (!engineering) {
-      res.status(404).json({ message: "Información de ingeniería no encontrada" })
+      res
+        .status(404)
+        .json({ message: "Información de ingeniería no encontrada" });
       return;
     }
 

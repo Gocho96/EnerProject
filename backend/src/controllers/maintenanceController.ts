@@ -33,7 +33,12 @@ export const getByProjectMaintenances: RequestHandler = async (req, res) => {
     const doc = await Maintenance.findOne({ projectId });
 
     if (!doc) {
-      res.status(404).json({ message: "No se encontró el registro de mantenimientos para este proyecto." });
+      res
+        .status(404)
+        .json({
+          message:
+            "No se encontró el registro de mantenimientos para este proyecto.",
+        });
       return;
     }
 
@@ -43,21 +48,25 @@ export const getByProjectMaintenances: RequestHandler = async (req, res) => {
   }
 };
 
-export const getMaintenancesByProjectCode: RequestHandler = async (req, res) => {
+export const getMaintenancesByProjectCode: RequestHandler = async (
+  req,
+  res
+) => {
   try {
     const { code } = req.params;
 
     const project = await Project.findOne({ code });
     if (!project) {
-      res.status(404).json({ message: "Proyecto no encontrado" })
+      res.status(404).json({ message: "Proyecto no encontrado" });
       return;
     }
 
     const doc = await Maintenance.findOne({ projectId: project._id });
     if (!doc) {
       res.status(404).json({
-        message: "No se encontró información de mantenimiento para este proyecto.",
-      })
+        message:
+          "No se encontró información de mantenimiento para este proyecto.",
+      });
       return;
     }
 
@@ -68,7 +77,10 @@ export const getMaintenancesByProjectCode: RequestHandler = async (req, res) => 
   }
 };
 
-export const getByProjectCodeMaintenances: RequestHandler = async (req, res) => {
+export const getByProjectCodeMaintenances: RequestHandler = async (
+  req,
+  res
+) => {
   try {
     const { code } = req.params;
 
@@ -81,7 +93,12 @@ export const getByProjectCodeMaintenances: RequestHandler = async (req, res) => 
     const doc = await Maintenance.findOne({ projectId: project._id });
 
     if (!doc) {
-      res.status(404).json({ message: "No se encontró el registro de mantenimientos para este proyecto." });
+      res
+        .status(404)
+        .json({
+          message:
+            "No se encontró el registro de mantenimientos para este proyecto.",
+        });
       return;
     }
 
@@ -94,32 +111,41 @@ export const getByProjectCodeMaintenances: RequestHandler = async (req, res) => 
 
 export const createMaintenance: RequestHandler = async (req, res) => {
   try {
-    const projectId = new mongoose.Types.ObjectId(req.body.projectId);
+    const { projectId } = req.body;
+
+    if (!projectId || !mongoose.Types.ObjectId.isValid(projectId)) {
+      res.status(400).json({
+        message: "No hay un projectId válido en la solicitud.",
+      });
+      return;
+    }
 
     const existing = await Maintenance.findOne({ projectId });
-
     if (existing) {
       res.status(400).json({
-        message: "Ya existe la información de mantenimiento para este proyecto.",
+        message:
+          "Ya existe la información de mantenimiento para este proyecto.",
       });
       return;
     }
 
     const nextNumber = await getNextProjectSequence(projectId, "maintenance");
 
+    const now = new Date();
+
     const maintenance = {
       maintenanceNumber: nextNumber,
-      maintenanceDate: req.body.maintenanceDate,
-      typeMaintenance: req.body.typeMaintenance,
-      maintenanceReportDate: req.body.maintenanceReportDate,
-      maintenanceInvoiceDate: req.body.maintenanceInvoiceDate,
-      maintenanceNotes: req.body.maintenanceNotes,
+      maintenanceDate: now,
+      typeMaintenance: "Preventivo",
+      maintenanceReportDate: now,
+      maintenanceInvoiceDate: now,
+      maintenanceNotes: "Registro automático inicial",
     };
 
     const newDocument = new Maintenance({
       projectId,
-      maintenanceFrequency: req.body.maintenanceFrequency,
-      nextMaintenance: req.body.nextMaintenance,
+      maintenanceFrequency: 6,
+      nextMaintenance: new Date(now.setMonth(now.getMonth() + 6)),
       maintenance: [maintenance],
     });
 
@@ -197,8 +223,10 @@ export const updateMaintenance: RequestHandler = async (req, res) => {
         $set: {
           "maintenance.$.maintenanceDate": updateData.maintenanceDate,
           "maintenance.$.typeMaintenance": updateData.typeMaintenance,
-          "maintenance.$.maintenanceReportDate": updateData.maintenanceReportDate,
-          "maintenance.$.maintenanceInvoiceDate": updateData.maintenanceInvoiceDate,
+          "maintenance.$.maintenanceReportDate":
+            updateData.maintenanceReportDate,
+          "maintenance.$.maintenanceInvoiceDate":
+            updateData.maintenanceInvoiceDate,
           "maintenance.$.maintenanceNotes": updateData.maintenanceNotes,
         },
       },
@@ -234,12 +262,15 @@ export const updateMaintenanceFrequency: RequestHandler = async (req, res) => {
     if (!updated) {
       res
         .status(404)
-        .json({ message: "Documento de mantenimiento no encontrado para el proyecto." });
-        return;
+        .json({
+          message: "Documento de mantenimiento no encontrado para el proyecto.",
+        });
+      return;
     }
 
     res.json({
-      message: "Frecuencia y próxima fecha de mantenimiento actualizadas correctamente.",
+      message:
+        "Frecuencia y próxima fecha de mantenimiento actualizadas correctamente.",
       data: updated,
     });
   } catch (error) {
@@ -266,7 +297,9 @@ export const deleteMaintenance: RequestHandler = async (req, res) => {
     );
 
     if (!updatedDoc) {
-      res.status(404).json({ message: "No se encontró el mantenimiento para eliminar" });
+      res
+        .status(404)
+        .json({ message: "No se encontró el mantenimiento para eliminar" });
       return;
     }
 

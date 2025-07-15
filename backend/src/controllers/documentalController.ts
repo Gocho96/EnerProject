@@ -54,7 +54,9 @@ export const getDocumentalByProjectCode: RequestHandler = async (req, res) => {
 
     const documental = await Documental.findOne({ projectId: project._id });
     if (!documental) {
-      res.status(404).json({ message: "Información documental no encontrada." });
+      res
+        .status(404)
+        .json({ message: "Información documental no encontrada." });
       return;
     }
 
@@ -78,16 +80,22 @@ export const createDocumental: RequestHandler = async (req, res) => {
     const savedDocumental = await documental.save();
     res.status(201).json(savedDocumental);
   } catch (error) {
-    console.log(error);
+    console.error("Error al crear información documental:", error);
+    res.status(500).json({ message: "Error interno del servidor" });
   }
 };
 
-export const addContractToDocumental = async (req: Request, res: Response): Promise<void> => {
+export const addContractToDocumental = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const { id } = req.params;
     const newContract = req.body;
 
-    const documental = await Documental.findById(id) as HydratedDocument<DocumentalType>;
+    const documental = (await Documental.findById(
+      id
+    )) as HydratedDocument<DocumentalType>;
 
     if (!documental) {
       res.status(404).json({ message: "Documental no encontrado." });
@@ -98,14 +106,19 @@ export const addContractToDocumental = async (req: Request, res: Response): Prom
 
     const saved = await documental.save();
 
-    res.status(201).json({ message: "Contrato agregado correctamente.", documental: saved });
+    res
+      .status(201)
+      .json({ message: "Contrato agregado correctamente.", documental: saved });
   } catch (error) {
     console.error("Error al agregar contrato:", error);
     res.status(500).json({ message: "Error interno del servidor." });
   }
 };
 
-export const addPolicyToContract = async (req: Request, res: Response): Promise<void> => {
+export const addPolicyToContract = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const { documentalId, contractId } = req.params;
     const newPolicy = req.body;
@@ -133,7 +146,9 @@ export const addPolicyToContract = async (req: Request, res: Response): Promise<
 
     await documental.save();
 
-    res.status(201).json({ message: "Póliza agregada correctamente.", documental });
+    res
+      .status(201)
+      .json({ message: "Póliza agregada correctamente.", documental });
   } catch (error) {
     console.error("Error al agregar póliza:", error);
     res.status(500).json({ message: "Error interno del servidor." });
@@ -158,7 +173,10 @@ export const updateDocumental: RequestHandler = async (req, res) => {
   }
 };
 
-export const updateContract = async (req: Request, res: Response): Promise<void> => {
+export const updateContract = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const { documentalId, contractId } = req.params;
     const updatedContractData = req.body;
@@ -178,14 +196,19 @@ export const updateContract = async (req: Request, res: Response): Promise<void>
     Object.assign(contract, updatedContractData);
 
     await documental.save();
-    res.status(200).json({ message: "Contrato actualizado correctamente.", documental });
+    res
+      .status(200)
+      .json({ message: "Contrato actualizado correctamente.", documental });
   } catch (error) {
     console.error("Error al actualizar contrato:", error);
     res.status(500).json({ message: "Error interno del servidor." });
   }
 };
 
-export const updatePolicy = async (req: Request, res: Response): Promise<void> => {
+export const updatePolicy = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const { documentalId, contractId, policyId } = req.params;
     const updatedPolicyData = req.body;
@@ -211,7 +234,9 @@ export const updatePolicy = async (req: Request, res: Response): Promise<void> =
     Object.assign(policy, updatedPolicyData);
 
     await documental.save();
-    res.status(200).json({ message: "Póliza actualizada correctamente.", documental });
+    res
+      .status(200)
+      .json({ message: "Póliza actualizada correctamente.", documental });
   } catch (error) {
     console.error("Error al actualizar póliza:", error);
     res.status(500).json({ message: "Error interno del servidor." });
@@ -231,7 +256,10 @@ export const deleteDocumental: RequestHandler = async (req, res) => {
   }
 };
 
-export const deleteContractFromDocumental = async (req: Request, res: Response): Promise<void> => {
+export const deleteContractFromDocumental = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const { documentalId, contractId } = req.params;
 
@@ -257,7 +285,10 @@ export const deleteContractFromDocumental = async (req: Request, res: Response):
   }
 };
 
-export const deletePolicyFromContract = async (req: Request, res: Response): Promise<void> => {
+export const deletePolicyFromContract = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const { documentalId, contractId, policyId } = req.params;
 

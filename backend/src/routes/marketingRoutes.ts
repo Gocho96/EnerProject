@@ -9,7 +9,7 @@ router.get("/marketing", marketingController.getAllMarketings);
 router.get("/marketing/:id", marketingController.getMarketing);
 router.get("/marketing/project/:projectId", marketingController.getByProjectMarketing);
 router.get("/marketing/project/code/:code", marketingController.getMarketingByProjectCode);
-router.post("/marketing", validateSchema(createMarketingSchema), marketingController.createMarketing);
+router.post("/marketing", marketingController.createMarketing);
 router.post("/marketing/project/:projectId", validateSchema(publicationSchema), marketingController.addPublicationEntry);
 router.put("/marketing/:id", marketingController.updateMarketing);
 router.put("/marketing/project/:projectId/:publicationId", marketingController.updatePublicationEntry);

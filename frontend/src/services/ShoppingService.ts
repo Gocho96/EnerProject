@@ -34,11 +34,9 @@ export const getShoppingsByProjectCode = async (code: string) => {
   }
 };
 
-export const createShopping = async (
-  shopping: Omit<Shopping, "_id" | "createdAt" | "updatedAt" | "materialTotal">
-) => {
+export const createShopping = async (data: { projectId: string }) => {
   try {
-    return await axios.post(`${API_URL}/shopping`, shopping);
+    return await axios.post(`${API_URL}/shopping`, data);
   } catch (error) {
     console.log(error);
     throw error;

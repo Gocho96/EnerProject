@@ -9,7 +9,7 @@ router.get("/maintenance", maintenanceController.getAllMaintenances);
 router.get("/maintenance/:id", maintenanceController.getMaintenance);
 router.get("/maintenance/project/:projectId", maintenanceController.getByProjectMaintenances);
 router.get("/maintenance/project/code/:code", maintenanceController.getByProjectCodeMaintenances);
-router.post("/maintenance", validateSchema(createMaintenanceSchema), maintenanceController.createMaintenance);
+router.post("/maintenance", maintenanceController.createMaintenance);
 router.post("/maintenance/project/:projectId", validateSchema(entryMaintenanceSchema), maintenanceController.addMaintenanceEntry);
 router.put("/maintenance/project/:projectId/:maintenanceId", validateSchema(entryMaintenanceSchema),maintenanceController.updateMaintenance);
 router.put("/maintenance/frequency/:projectId", (validateSchema(updateFrequencySchema)),maintenanceController.updateMaintenanceFrequency);

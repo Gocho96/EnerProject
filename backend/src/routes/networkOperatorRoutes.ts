@@ -9,7 +9,7 @@ router.get("/network-operator", networkOperatorController.getAllNetworkOperators
 router.get("/network-operator/:id", networkOperatorController.getNetworkOperator);
 router.get("/network-operator/project/code/:code", networkOperatorController.getNetworkOperatorByProjectCode);
 router.get("/network-operator/project/:projectId", networkOperatorController.getByProjectNetworkOperator);
-router.post("/network-operator", validateSchema(createNetworkOperatorSchema), networkOperatorController.createNetworkOperator);
+router.post("/network-operator", networkOperatorController.createNetworkOperator);
 router.put("/network-operator/:id", networkOperatorController.updateNetworkOperator);
 router.delete("/network-operator/:id", networkOperatorController.deleteNetworkOperator);
 

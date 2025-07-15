@@ -9,7 +9,7 @@ router.get("/shopping", shoppingController.getAllShoppings);
 router.get("/shopping/:id", shoppingController.getShopping);
 router.get("/shopping/project/:projectId", shoppingController.getShoppingsByProject);
 router.get("/shopping/project/code/:code", shoppingController.getShoppingsByProjectCode);
-router.post("/shopping", validateSchema(createShoppingSchema), shoppingController.createShopping);
+router.post("/shopping", shoppingController.createShopping);
 router.post("/shopping/project/:projectId", validateSchema(createShoppingSchema), shoppingController.createShoppingByProjectId);
 router.put("/shopping/:id", shoppingController.updateShopping);
 router.delete("/shopping/:id", shoppingController.deleteShopping);

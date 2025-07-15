@@ -9,7 +9,7 @@ router.get("/documental", documentalController.getAllDocumentals);
 router.get("/documental/:id", documentalController.getDocumental);
 router.get("/documental/project/:projectId", documentalController.getByProjectDocumentals);
 router.get("/documental/code/:code", documentalController.getDocumentalByProjectCode);
-router.post("/documental", validateSchema(createDocumentalSchema), documentalController.createDocumental);
+router.post("/documental", documentalController.createDocumental);
 router.post("/documental/:id/contracts",validateSchema(contractSchema), documentalController.addContractToDocumental);
 router.post("/documental/:documentalId/contracts/:contractId/policies",validateSchema(policySchema), documentalController.addPolicyToContract);
 router.put("/documental/:id", documentalController.updateDocumental);

@@ -38,16 +38,14 @@ export const getNetworkOperatorByProjectCode = async (code: string) => {
   }
 };
 
-export const createNetworkOperator = async (
-  data: Omit<NetworkOperator, "_id" | "createdAt" | "updatedAt">
-) => {
+export const createNetworkOperator = async (data: { projectId: string }) => {
   try {
     return await axios.post(`${API_URL}/network-operator`, data);
   } catch (error) {
-    console.error("Error al crear operador de red", error);
+    console.log(error);
     throw error;
   }
-};
+}
 
 export const updateNetworkOperator = async (
   id: string,

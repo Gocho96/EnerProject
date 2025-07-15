@@ -63,29 +63,25 @@ export const getByProjectCodeBilling: RequestHandler = async (req, res) => {
 
 export const createBilling: RequestHandler = async (req, res) => {
   try {
-    const { projectId, billingSubtotal, billingIva } = req.body;
+    const { projectId } = req.body;
 
     if (!projectId || !Types.ObjectId.isValid(projectId)) {
-      res
-        .status(400)
-        .json({
-          message: "No hay proyecto asociado a la factura de venta",
-        });
+      res.status(400).json({ message: "ID de proyecto no válido" });
       return;
     }
 
-    req.body.billingTotal = (billingSubtotal || 0) + (billingIva || 0);
-
-    const billingFound = await Billing.findOne({
-      billingNumber: req.body.billingNumber,
+    const newBilling = new Billing({
+      projectId,
+      billingNumber: `TEMP-${Date.now()}`,
+      billingConcept: "Factura inicial",
+      billingDate: new Date(),
+      billingSubtotal: 0,
+      billingIva: 0,
+      billingTotal: 0,
     });
-    if (billingFound) {
-      res.status(409).json({ message: "La factura de venta ya existe" });
-      return;
-    }
-    const billing = new Billing(req.body);
-    const savedBilling = await billing.save();
-    res.status(201).json(savedBilling);
+
+    const saved = await newBilling.save();
+    res.status(201).json(saved);
   } catch (error) {
     console.error("Error al crear factura de venta", error);
     res.status(500).json({ error: "Error interno del servidor" });

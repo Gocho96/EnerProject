@@ -9,34 +9,55 @@ export const getInstallationByProjectCode = async (code: string): Promise<Instal
   return response.data;
 };
 
+export const createInstallation = async (data: { projectId: string }) => {
+  try {
+    return await axios.post(`${API_URL}/installation`, data);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
 export const createDailyLog = async (
   projectId: string,
-  log: DailyLogEntry
-): Promise<Installation> => {
-  const response = await axios.post(`${API_URL}/installation/dailylog/${projectId}`, {
-    dailyLog: log,
-  });
-  return response.data;
+  log: DailyLogEntry | DailyLogEntry[]
+) => {
+  try {
+    return await axios.post(`${API_URL}/installation/dailylog/${projectId}`, {
+      dailyLog: log,
+    });
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
 };
 
 export const updateDailyLog = async (
   installationId: string,
   logId: string,
   log: DailyLogEntry
-): Promise<Installation> => {
-  const response = await axios.put(
-    `${API_URL}/installation/${installationId}/dailylog/${logId}`,
-    { dailyLog: log }
-  );
-  return response.data;
+) => {
+  try {
+    return await axios.put(
+      `${API_URL}/installation/${installationId}/dailylog/${logId}`,
+      { dailyLog: log }
+    );
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
 };
 
 export const deleteDailyLog = async (
   installationId: string,
   logId: string
-): Promise<{ message: string }> => {
-  const response = await axios.delete(
-    `${API_URL}/installation/${installationId}/dailylog/${logId}`
-  );
-  return response.data;
+) => {
+  try {
+    return await axios.delete(
+      `${API_URL}/installation/${installationId}/dailylog/${logId}`
+    );
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
 };

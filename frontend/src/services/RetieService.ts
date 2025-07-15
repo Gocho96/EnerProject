@@ -29,13 +29,11 @@ export const getRetieByProjectCode = async (code: string) => {
   }
 };
 
-export const createRetie = async (
-  retie: Omit<Retie, "_id" | "createdAt" | "updatedAt">
-) => {
+export const createRetie = async (data: { projectId: string }) => {
   try {
-    return await axios.post(`${API_URL}/retie`, retie);
+    return await axios.post(`${API_URL}/retie`, data);
   } catch (error) {
-    console.error("Error al crear RETIE", error);
+    console.log(error);
     throw error;
   }
 };
