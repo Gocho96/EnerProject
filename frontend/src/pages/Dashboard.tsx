@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { Modal } from "react-bootstrap";
-import ProjectForm from "../components/ProjectForm";
+import ProjectForm from "../components/forms/ProjectForm";
 import * as ProjectService from "../services/ProjectService";
 import { toast } from "react-toastify";
 import { Project } from "../types/project";
-import ProjectTable from "../components/ProjectTable";
+import ProjectTable from "../components/tables/ProjectTable";
 import { useNavigate } from "react-router-dom";
 import { createDocumental } from "../services/DocumentalService";
 import { createEngineering } from "../services/EngineeringService";

@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
-import ProjectPhases from "../components/ProjectPhases";
+import ProjectPhases from "../components/phases/ProjectPhases";
 
 const ProjectPhasesPage = () => {
   const { code } = useParams<{ code: string }>();

@@ -1,15 +1,15 @@
 import { useParams } from "react-router-dom";
-import DocumentalDetail from "../components/DocumentalDetail";
-import InstallationDetail from "../components/InstallationDetail";
-import EngineeringDetail from "../components/EngineeringDetail";
-import ShoppingDetail from "../components/ShoppingDetail";
-import TaxIncentiveDetail from "../components/TaxIncentiveDetail";
-import RetieDetail from "../components/RetieDetail";
-import NetworkOperatorDetail from "../components/NetworkOperatorDetail";
-import MarketingDetail from "../components/MarketingDetail";
-import MaintenanceDetail from "../components/MaintenanceDetail";
-import BillingDetail from "../components/BillingDetail";
-import { PHASES_MAP } from "../components/ProjectPhases";
+import DocumentalDetail from "../components/phases/DocumentalDetail";
+import InstallationDetail from "../components/phases/InstallationDetail";
+import EngineeringDetail from "../components/phases/EngineeringDetail";
+import ShoppingDetail from "../components/phases/ShoppingDetail";
+import TaxIncentiveDetail from "../components/phases/TaxIncentiveDetail";
+import RetieDetail from "../components/phases/RetieDetail";
+import NetworkOperatorDetail from "../components/phases/NetworkOperatorDetail";
+import MarketingDetail from "../components/phases/MarketingDetail";
+import MaintenanceDetail from "../components/phases/MaintenanceDetail";
+import BillingDetail from "../components/phases/BillingDetail";
+import { PHASES_MAP } from "../components/phases/ProjectPhases";
 
 const PhaseDetail = () => {
   const { phaseKey } = useParams();

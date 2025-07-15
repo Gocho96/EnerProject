@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { getMarketingByProjectCode } from "../services/MarketingService";
-import { Marketing } from "../types/marketing";
+import { getMarketingByProjectCode } from "../../services/MarketingService";
+import { Marketing } from "../../types/marketing";
 
 const MarketingDetail: React.FC = () => {
   const { code } = useParams<{ code: string }>();

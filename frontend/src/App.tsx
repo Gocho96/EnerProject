@@ -5,7 +5,7 @@ import LoginPage from "./pages/LoginPage";
 import Dashboard from "./pages/Dashboard";
 import ProjectPhases from "./pages/PhasesPage";
 import PhaseDetail from "./pages/PhaseDetail";
-import ProjectDetailsView from "./components/ProjectDetailsView";
+import ProjectDetailsView from "./components/details/ProjectDetailsView";
 import "./styles/App.css";
 
 

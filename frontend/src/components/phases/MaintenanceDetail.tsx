@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { getMaintenancesByProjectCode } from "../services/MaintenanceService";
-import { Maintenance } from "../types/maintenance";
+import { getMaintenancesByProjectCode } from "../../services/MaintenanceService";
+import { Maintenance } from "../../types/maintenance";
 
 const MaintenanceDetail: React.FC = () => {
   const { code } = useParams<{ code: string }>();

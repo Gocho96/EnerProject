@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { getNetworkOperatorByProjectCode } from "../services/NetworkOperadorService";
-import { NetworkOperator } from "../types/networkOperador";
+import { getNetworkOperatorByProjectCode } from "../../services/NetworkOperadorService";
+import { NetworkOperator } from "../../types/networkOperador";
 
 const NetworkOperatorDetail: React.FC = () => {
   const { code } = useParams<{ code: string }>();

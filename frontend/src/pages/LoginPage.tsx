@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "../context/AuthContext";
 import { login } from "../services/AuthService";
-import LoginForm from "../components/LoginForm";
+import LoginForm from "../components/forms/LoginForm";
 
 interface LoginInputs {
   email: string;

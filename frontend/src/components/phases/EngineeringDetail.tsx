@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Engineering } from "../types/engineering";
-import { getEngineeringByProjectCode } from "../services/EngineeringService";
+import { Engineering } from "../../types/engineering";
+import { getEngineeringByProjectCode } from "../../services/EngineeringService";
 import axios from "axios";
 
 const EngineeringDetail: React.FC = () => {

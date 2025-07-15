@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Installation } from "../types/installation";
-import { getInstallationByProjectCode } from "../services/InstallationService";
+import { Installation } from "../../types/installation";
+import { getInstallationByProjectCode } from "../../services/InstallationService";
 
 const InstallationDetail: React.FC = () => {
   const { code } = useParams<{ code: string }>();

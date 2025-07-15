@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Shopping } from "../types/shopping";
-import { getShoppingsByProjectCode } from "../services/ShoppingService";
+import { Shopping } from "../../types/shopping";
+import { getShoppingsByProjectCode } from "../../services/ShoppingService";
 
 const ShoppingDetail: React.FC = () => {
   const { code } = useParams<{ code: string }>();

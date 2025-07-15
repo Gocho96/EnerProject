@@ -1,5 +1,5 @@
 import { useState, ChangeEvent, FormEvent } from "react";
-import { Project } from "../types/project";
+import { Project } from "../../types/project";
 import { toast } from "react-toastify";
 
 interface ProjectFormProps {

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { getRetieByProjectCode } from "../services/RetieService";
-import { Retie } from "../types/retie";
+import { getRetieByProjectCode } from "../../services/RetieService";
+import { Retie } from "../../types/retie";
 
 const RetieDetail: React.FC = () => {
   const { code } = useParams<{ code: string }>();

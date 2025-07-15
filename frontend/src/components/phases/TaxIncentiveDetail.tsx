@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { TaxIncentive } from "../types/taxIncentive";
-import { getTaxIncentiveByProjectCode } from "../services/TaxIncentiveService";
+import { TaxIncentive } from "../../types/taxIncentive";
+import { getTaxIncentiveByProjectCode } from "../../services/TaxIncentiveService";
 
 const TaxIncentiveDetail: React.FC = () => {
   const { code } = useParams<{ code: string }>();

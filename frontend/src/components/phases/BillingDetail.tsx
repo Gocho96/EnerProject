@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getByProjectCodeBilling } from "../services/BillingService";
+import { getByProjectCodeBilling } from "../../services/BillingService";
 import { toast } from "react-toastify";
-import { Billing } from "../types/billing";
+import { Billing } from "../../types/billing";
 
 const BillingDetail: React.FC = () => {
   const { code } = useParams<{ code: string }>();

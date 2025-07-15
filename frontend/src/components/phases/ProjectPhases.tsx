@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import {
   getPhasesByProjectCode,
   updatePhasesByProjectCode,
-} from "../services/PhaseService";
-import { Phase, PhaseStatus } from "../types/phase";
+} from "../../services/PhaseService";
+import { Phase, PhaseStatus } from "../../types/phase";
 import { toast } from "react-toastify";
 
 interface Props {

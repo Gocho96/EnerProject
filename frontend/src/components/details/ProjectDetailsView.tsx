@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { ProjectDetails } from "../types/projectDetails";
-import { getProjectDetailsByProjectCode } from "../services/ProjectDetailsService";
-import GeneralInfoView from "./details/GeneralInfoView";
-import ContactPersonView from "./details/ContactPersonView";
-import SolarPanelView from "./details/SolarPanelView";
-import InverterView from "./details/InverterView";
-import BatteryView from "./details/BatteryView";
+import { ProjectDetails } from "../../types/projectDetails";
+import { getProjectDetailsByProjectCode } from "../../services/ProjectDetailsService";
+import GeneralInfoView from "./GeneralInfoView";
+import ContactPersonView from "./ContactPersonView";
+import SolarPanelView from "./SolarPanelView";
+import InverterView from "./InverterView";
+import BatteryView from "./BatteryView";
 
 const ProjectDetailsView: React.FC = () => {
   const { code } = useParams<{ code: string }>();
