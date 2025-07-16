@@ -10,7 +10,7 @@ router.get("/engineering/:id", EngineeringController.getEngineering);
 router.get("/engineering/project/:projectId", EngineeringController.getByProjectEngineering);
 router.get("/engineering/project/code/:code", EngineeringController.getEngineeringByProjectCode);
 router.post("/engineering", EngineeringController.createEngineering);
-router.put("/engineering/:id", validateSchema(engineeringSchema), EngineeringController.updateEngineering);
+router.patch("/engineering/:id", EngineeringController.updateEngineering);
 router.delete("/engineering/:id", EngineeringController.deleteEngineering);
 
 export default router;

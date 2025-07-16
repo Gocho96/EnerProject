@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { API_URL } from "../../config/api";
+import { API_URL } from "../../../config/api";
 import { toast } from "react-toastify";
-import ContractForm from "./Documental/ContractForm";
-import PolicyForm from "./Documental/PolicyForm";
-import { PolicyType } from "../../types/documental";
+import ContractForm from "./ContractForm";
+import PolicyForm from "./PolicyForm";
+import { PolicyType } from "../../../types/documental";
 
 interface Policy {
   _id: string;

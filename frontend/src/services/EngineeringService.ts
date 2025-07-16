@@ -43,7 +43,7 @@ export const updateEngineering = async (
   engineering: Partial<Engineering>
 ) => {
   try {
-    return await axios.put(`${API_URL}/engineering/${id}`, engineering);
+    return await axios.patch(`${API_URL}/engineering/${id}`, engineering);
   } catch (error) {
     console.log(error);
     throw error;
