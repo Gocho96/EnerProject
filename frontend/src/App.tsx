@@ -8,7 +8,6 @@ import PhaseDetail from "./pages/PhaseDetail";
 import ProjectDetailsView from "./components/details/ProjectDetailsView";
 import "./styles/App.css";
 
-
 function App() {
   return (
     <AuthProvider>
