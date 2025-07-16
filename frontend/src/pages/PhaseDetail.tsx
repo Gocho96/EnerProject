@@ -4,7 +4,7 @@ import InstallationDetail from "../components/phases/installation/InstallationDe
 import EngineeringDetail from "../components/phases/engineering/EngineeringDetail";
 import ShoppingDetail from "../components/phases/shooping/ShoppingDetail";
 import TaxIncentiveDetail from "../components/phases/taxIncentive/TaxIncentiveDetail";
-import RetieDetail from "../components/phases/RetieDetail";
+import RetieDetail from "../components/phases/retie/RetieDetail";
 import NetworkOperatorDetail from "../components/phases/NetworkOperatorDetail";
 import MarketingDetail from "../components/phases/MarketingDetail";
 import MaintenanceDetail from "../components/phases/MaintenanceDetail";
