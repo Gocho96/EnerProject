@@ -111,20 +111,30 @@ export const addPublicationEntry: RequestHandler = async (req, res) => {
 
 export const updateMarketing: RequestHandler = async (req, res) => {
   try {
+    const { sendSurveyDate, ...rest } = req.body;
+
+    const updatePayload = {
+      ...rest,
+      ...(sendSurveyDate && { sendSurveyDate: new Date(sendSurveyDate) }),
+    };
+
     const marketingUpdate = await Marketing.findByIdAndUpdate(
       req.params.id,
-      req.body,
+      updatePayload,
       { new: true }
     );
+
     if (!marketingUpdate) {
       res
         .status(404)
         .json({ message: "Información de marketing no encontrada" });
       return;
     }
+
     res.json(marketingUpdate);
   } catch (error) {
-    console.log(error);
+    console.error("Error al actualizar marketing:", error);
+    res.status(500).json({ message: "Error interno del servidor" });
   }
 };
 

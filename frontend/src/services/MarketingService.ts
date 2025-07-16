@@ -37,36 +37,45 @@ export const deleteMarketing = async (id: string) => {
   }
 };
 
-export const addPublicationEntry = async (code: string, data: any) => {
+export const addPublicationEntry = async (projectId: string, data: any) => {
   try {
-    const response = await axios.post(`${API_URL}/marketing/project/${code}`, data);
+    const response = await axios.post(`${API_URL}/marketing/project/${projectId}`, data);
     return response.data;
   } catch (error) {
     throw new Error("Error al agregar publicación");
   }
 };
 
-export const updatePublicationEntry = async (code: string, publicationId: string, data: any) => {
+export const updatePublicationEntry = async (
+  projectId: string,
+  publicationId: string,
+  data: any
+) => {
   try {
-    const response = await axios.put(`${API_URL}/marketing/project/${code}/${publicationId}`, data);
+    const response = await axios.put(
+      `${API_URL}/marketing/project/${projectId}/${publicationId}`,
+      data
+    );
     return response.data;
   } catch (error) {
     throw new Error("Error al actualizar la publicación");
   }
 };
 
-export const deletePublicationEntry = async (code: string, publicationId: string) => {
+export const deletePublicationEntry = async (projectId: string, publicationId: string) => {
   try {
-    const response = await axios.delete(`${API_URL}/marketing/project/${code}/${publicationId}`);
+    const response = await axios.delete(
+      `${API_URL}/marketing/project/${projectId}/${publicationId}`
+    );
     return response.data;
   } catch (error) {
     throw new Error("Error al eliminar la publicación");
   }
 };
 
-export const updateSurveyInfo = async (code: string, data: any) => {
+export const updateSurveyInfo = async (projectId: string, data: any) => {
   try {
-    const response = await axios.put(`${API_URL}/marketing/survey/${code}`, data);
+    const response = await axios.put(`${API_URL}/marketing/survey/${projectId}`, data);
     return response.data;
   } catch (error) {
     throw new Error("Error al actualizar información de encuesta");

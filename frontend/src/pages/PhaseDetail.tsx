@@ -5,8 +5,8 @@ import EngineeringDetail from "../components/phases/engineering/EngineeringDetai
 import ShoppingDetail from "../components/phases/shooping/ShoppingDetail";
 import TaxIncentiveDetail from "../components/phases/taxIncentive/TaxIncentiveDetail";
 import RetieDetail from "../components/phases/retie/RetieDetail";
-import NetworkOperatorDetail from "../components/phases/NetworkOperatorDetail";
-import MarketingDetail from "../components/phases/MarketingDetail";
+import NetworkOperatorDetail from "../components/phases/networkOperator/NetworkOperatorDetail";
+import MarketingDetail from "../components/phases/marketing/MarketingDetail";
 import MaintenanceDetail from "../components/phases/MaintenanceDetail";
 import BillingDetail from "../components/phases/BillingDetail";
 import { PHASES_MAP } from "../components/phases/ProjectPhases";
