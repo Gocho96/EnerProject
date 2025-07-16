@@ -10,8 +10,8 @@ router.get("/shopping/:id", shoppingController.getShopping);
 router.get("/shopping/project/:projectId", shoppingController.getShoppingsByProject);
 router.get("/shopping/project/code/:code", shoppingController.getShoppingsByProjectCode);
 router.post("/shopping", shoppingController.createShopping);
-router.post("/shopping/project/:projectId", validateSchema(createShoppingSchema), shoppingController.createShoppingByProjectId);
-router.put("/shopping/:id", shoppingController.updateShopping);
+router.post("/shopping/project/:projectId", shoppingController.createShoppingByProjectId);
+router.patch("/shopping/:id", shoppingController.updateShopping);
 router.delete("/shopping/:id", shoppingController.deleteShopping);
 
 export default router;

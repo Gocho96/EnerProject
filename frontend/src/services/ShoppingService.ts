@@ -60,7 +60,7 @@ export const updateShopping = async (
   shopping: Partial<Shopping>
 ) => {
   try {
-    return await axios.put(`${API_URL}/shopping/${id}`, shopping);
+    return await axios.patch(`${API_URL}/shopping/${id}`, shopping);
   } catch (error) {
     console.log(error);
   }
