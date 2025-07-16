@@ -3,7 +3,7 @@ import DocumentalDetail from "../components/phases/documental/DocumentalDetail";
 import InstallationDetail from "../components/phases/installation/InstallationDetail";
 import EngineeringDetail from "../components/phases/engineering/EngineeringDetail";
 import ShoppingDetail from "../components/phases/shooping/ShoppingDetail";
-import TaxIncentiveDetail from "../components/phases/TaxIncentiveDetail";
+import TaxIncentiveDetail from "../components/phases/taxIncentive/TaxIncentiveDetail";
 import RetieDetail from "../components/phases/RetieDetail";
 import NetworkOperatorDetail from "../components/phases/NetworkOperatorDetail";
 import MarketingDetail from "../components/phases/MarketingDetail";
