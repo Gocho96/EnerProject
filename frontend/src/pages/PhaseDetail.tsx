@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import DocumentalDetail from "../components/phases/documental/DocumentalDetail";
-import InstallationDetail from "../components/phases/InstallationDetail";
+import InstallationDetail from "../components/phases/installation/InstallationDetail";
 import EngineeringDetail from "../components/phases/engineering/EngineeringDetail";
 import ShoppingDetail from "../components/phases/shooping/ShoppingDetail";
 import TaxIncentiveDetail from "../components/phases/TaxIncentiveDetail";

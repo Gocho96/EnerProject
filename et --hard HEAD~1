@@ -1,0 +1,41 @@
+[33m0cb239a[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m 2025-07-16
+[33m5b08427[m[33m ([m[1;31morigin/main[m[33m)[m 2025-07-16 Update CRUD Shopping
+[33m4e9487d[m 2025-07-16 Update CRUD Engineering
+[33m29dbc1d[m 2025-07-16 Update CRUD Document
+[33m0298bc4[m 2025-07-15 Update components folders
+[33m0958593[m 2025-07-15 Correctly update components on pages to avoid duplication of information
+[33m404993b[m 2025-07-15 Update error duplicate Project in form
+[33meac3eb3[m 2025-07-15 Update ProjectForm: create phases and details of the project
+[33mcacf3d9[m 2025-07-12 Update Project Details in Frontend
+[33mdb4c7e2[m 2025-07-11 Update Billing in Frontend
+[33m9347132[m 2025-07-011 Update Maintenance in Frontend
+[33m3f35263[m 2025-07-11 Update Marketing in Frontend
+[33m416f135[m 2025-07-11 Update Network Operator in Frontend
+[33mb1d4cc1[m 2025-07-11 Update Retie in Frontend
+[33m4783020[m 2025-07-11 Update TaxIncentive in Frontend
+[33m4a893ba[m 2025-07-11 Update Shopping in Frontend
+[33m96fc443[m 2025-07-11 Update Engineering in Frontend
+[33m1ba624e[m 2025-07-11 Update Installation in  frontend
+[33m5389569[m 2025-07-09 Update phases
+[33mf7cbab1[m 2025-07-07 Added documental in frontend Beta Version
+[33m46546b9[m 2025-07-07 Update Beta Phases
+[33m353368e[m 2025-07-07 ProjectForm is updated and works correctly
+[33meeb47e2[m 2025-07-04 Added config api (API_URL)
+[33m682e838[m 2025-07-04 Added Services to the frontend
+[33m10ed10a[m 2025-07-03 UPDATE: Previous update was types and not services
+[33m17397b5[m 2025-07-03 services added to the frontend
+[33m3950bec[m 2025-07-03 taxIncentive pass test
+[33m14a6cfc[m 2025-07-03 #1 shopping pass test and update billing
+[33mb8eb34f[m 2025-07-02 retie pass test
+[33mfa8e188[m 2025-07-02 #2 project details pass test
+[33mfbcaeb5[m 2025-07-02 #1 network operator pass test
+[33m5ba79e9[m 2025-07-01 #2 marketing pass test
+[33m08873c4[m 2025-07-01 #1 add sequence and install and maintenance pass test
+[33mc5739f3[m 2025-06-28 added module engineering and update status billing, documental and engineering
+[33mb5313e2[m 2025-06-26 #1 documental pass test
+[33mb6d8bf9[m 2025-06-25 #3 billing pass test
+[33m2937956[m 2025-06-25 #2 added retie, shopping, taxincentive modules
+[33mad186f9[m Added project details modules
+[33m5a2cdcc[m Second Push
+[33m1c37ead[m first commit
+[33m27d13fa[m first commit
