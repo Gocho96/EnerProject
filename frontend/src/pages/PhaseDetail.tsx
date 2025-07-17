@@ -7,9 +7,9 @@ import TaxIncentiveDetail from "../components/phases/taxIncentive/TaxIncentiveDe
 import RetieDetail from "../components/phases/retie/RetieDetail";
 import NetworkOperatorDetail from "../components/phases/networkOperator/NetworkOperatorDetail";
 import MarketingDetail from "../components/phases/marketing/MarketingDetail";
-import MaintenanceDetail from "../components/phases/MaintenanceDetail";
-import BillingDetail from "../components/phases/BillingDetail";
-import { PHASES_MAP } from "../components/phases/ProjectPhases";
+import MaintenanceDetail from "../components/phases/maintenance/MaintenanceDetail";
+import BillingDetail from "../components/phases/billing/BillingDetail";
+import { PHASES_MAP } from "../components/tables/ProjectPhases";
 
 const PhaseDetail = () => {
   const { phaseKey } = useParams();

@@ -53,27 +53,27 @@ export const createMaintenanceDocument = async (data: { projectId: string }) => 
 
 export const addMaintenanceEntry = async (projectId: string, data: any) => {
   try {
-    const response = await axios.post(`${API_URL}/maintenance/project/${projectId}`, data);
+     const response = await axios.post(`${API_URL}/maintenance/project/${projectId}`, data);
     return response.data;
   } catch (error) {
-    console.error(`Error al agregar entrada de mantenimiento al proyecto ${projectId}:`, error);
+    console.error(`Error al agregar mantenimiento:`, error);
     throw new Error("Error al agregar entrada de mantenimiento");
   }
 };
 
-export const updateMaintenanceEntry = async (
+export const updateMaintenance = async (
   projectId: string,
   maintenanceId: string,
   data: any
 ) => {
   try {
-    const response = await axios.put(
+    const response = await axios.patch(
       `${API_URL}/maintenance/project/${projectId}/${maintenanceId}`,
       data
     );
     return response.data;
   } catch (error) {
-    console.error(`Error al actualizar mantenimiento ${maintenanceId}:`, error);
+    console.error(`Error al actualizar mantenimiento`, error);
     throw new Error("Error al actualizar la entrada de mantenimiento");
   }
 };
@@ -83,7 +83,7 @@ export const updateMaintenanceFrequency = async (
   data: { maintenanceFrequency?: number; nextMaintenance?: string }
 ) => {
   try {
-    const response = await axios.put(`${API_URL}/maintenance/frequency/${projectId}`, data);
+    const response = await axios.patch(`${API_URL}/maintenance/frequency/${projectId}`, data);
     return response.data;
   } catch (error) {
     console.error(`Error al actualizar frecuencia para el proyecto ${projectId}:`, error);
@@ -91,17 +91,12 @@ export const updateMaintenanceFrequency = async (
   }
 };
 
-export const deleteMaintenanceEntry = async (
-  projectId: string,
-  maintenanceId: string
-) => {
+export const deleteMaintenance = async (projectId: string, maintenanceId: string) => {
   try {
-    const response = await axios.delete(
-      `${API_URL}/maintenance/project/${projectId}/${maintenanceId}`
-    );
+    const response = await axios.delete(`${API_URL}/maintenance/project/${projectId}/${maintenanceId}`);
     return response.data;
   } catch (error) {
     console.error(`Error al eliminar mantenimiento ${maintenanceId}:`, error);
-    throw new Error("Error al eliminar el mantenimiento");
+    throw new Error("Error al eliminar la entrada de mantenimiento");
   }
 };
