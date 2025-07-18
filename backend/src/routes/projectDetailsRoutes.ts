@@ -14,7 +14,7 @@ router.post("/project-details/project/:projectId/contact-person", validateSchema
 router.post("/project-details/project/:projectId/solar-panels", validateSchema(solarPanelSchema), projectDetailsController.addSolarPanel);
 router.post("/project-details/project/:projectId/inverters", validateSchema(inverterSchema), projectDetailsController.addInverter);
 router.post("/project-details/project/:projectId/batteries", validateSchema(batterySchema), projectDetailsController.addBattery);
-router.put("/project-details/project/:projectId", projectDetailsController.updateProjectDetails);
+router.patch("/project-details/project/:projectId", projectDetailsController.updateProjectDetails);
 router.put("/project-details/project/:projectId/contact-person/:contactId", validateSchema(contactPersonSchema), projectDetailsController.updateContactPerson);
 router.put("/project-details/project/:projectId/solar-panels/:panelId", validateSchema(solarPanelSchema), projectDetailsController.updateSolarPanel);
 router.put("/project-details/project/:projectId/inverters/:inverterId", validateSchema(inverterSchema), projectDetailsController.updateInverter);

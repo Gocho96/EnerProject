@@ -200,37 +200,27 @@ export const addBattery: RequestHandler = async (req, res) => {
     res.status(500).json({ error: "Error al agregar batería" });
   }
 };
+
 export const updateProjectDetails: RequestHandler = async (req, res) => {
   try {
-    const { id } = req.params;
-    const updates = req.body;
+    const { projectId } = req.params;
+    const updatedData = req.body;
 
-    const project = await ProjectDetails.findById(id);
-    if (!project) {
+    const updated = await ProjectDetails.findOneAndUpdate(
+      { projectId },
+      updatedData,
+      { new: true }
+    );
+
+    if (!updated) {
       res.status(404).json({ message: "Detalles del proyecto no encontrados" });
       return;
     }
 
-    Object.assign(project, updates);
-
-    if (updates.inverters) {
-      project.acPower = updates.inverters.reduce((total: number, inverter: any) => {
-        return total + (inverter.inverterPower || 0) * (inverter.numberInverter || 0);
-      }, 0);
-    }
-
-    if (updates.solarPanels) {
-      project.dcPower =
-        updates.solarPanels.reduce((total: number, panel: any) => {
-          return total + (panel.panelPower || 0) * (panel.numberPanels || 0);
-        }, 0) / 1000;
-    }
-
-    const updated = await project.save();
     res.json(updated);
   } catch (error) {
-    console.error("Error al actualizar ProjectDetails", error);
-    res.status(500).json({ error: "Error al actualizar ProjectDetails" });
+    console.error("Error actualizando detalles del proyecto:", error);
+    res.status(500).json({ message: "Error interno del servidor" });
   }
 };
 

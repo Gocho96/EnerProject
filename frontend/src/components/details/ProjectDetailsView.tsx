@@ -8,6 +8,7 @@ import ContactPersonView from "./ContactPersonView";
 import SolarPanelView from "./SolarPanelView";
 import InverterView from "./InverterView";
 import BatteryView from "./BatteryView";
+import { updateProjectDetails } from "../../services/ProjectDetailsService";
 
 const ProjectDetailsView: React.FC = () => {
   const { code } = useParams<{ code: string }>();
@@ -36,9 +37,19 @@ const ProjectDetailsView: React.FC = () => {
     fetchDetails();
   }, [code]);
 
-  const handleUpdate = (updated: Partial<ProjectDetails>) => {
+  const handleUpdate = async (updated: Partial<ProjectDetails>) => {
     if (!details) return;
-    setDetails({ ...details, ...updated });
+
+    try {
+      await updateProjectDetails(details.projectId, updated);
+      setDetails((prev) => ({ ...prev!, ...updated }));
+      toast.success("Información general actualizada");
+    } catch (error: any) {
+      console.error("Error al actualizar información:", error);
+      toast.error(
+        error.response?.data?.message || "Error al actualizar información"
+      );
+    }
   };
 
   if (loading) return <div className="container mt-4">Cargando...</div>;
@@ -47,7 +58,8 @@ const ProjectDetailsView: React.FC = () => {
     return (
       <div className="container mt-4">
         <p>
-          No se encontraron detalles del proyecto con código <strong>{code}</strong>.
+          No se encontraron detalles del proyecto con código{" "}
+          <strong>{code}</strong>.
         </p>
         <button onClick={() => navigate(-1)} className="btn btn-secondary">
           ← Volver

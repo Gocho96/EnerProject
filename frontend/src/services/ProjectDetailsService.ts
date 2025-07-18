@@ -86,7 +86,7 @@ export const createProjectDetails = async ({
 
 export const updateProjectDetails = async (projectId: string, data: any) => {
   try {
-    const res = await axios.put(
+    const res = await axios.patch(
       `${API_URL}/project-details/project/${projectId}`,
       data
     );
