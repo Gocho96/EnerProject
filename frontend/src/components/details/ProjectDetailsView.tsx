@@ -37,20 +37,24 @@ const ProjectDetailsView: React.FC = () => {
     fetchDetails();
   }, [code]);
 
-  const handleUpdate = async (updated: Partial<ProjectDetails>) => {
-    if (!details) return;
+ const handleUpdate = async (updated: Partial<ProjectDetails>) => {
+  if (!details) return;
 
-    try {
-      await updateProjectDetails(details.projectId, updated);
-      setDetails((prev) => ({ ...prev!, ...updated }));
-      toast.success("Información general actualizada");
-    } catch (error: any) {
-      console.error("Error al actualizar información:", error);
-      toast.error(
-        error.response?.data?.message || "Error al actualizar información"
-      );
-    }
-  };
+  try {
+    await updateProjectDetails(details.projectId, updated);
+
+    const refreshed = await getProjectDetailsByProjectCode(code!);
+    setDetails(refreshed);
+
+    toast.success("Información actualizada");
+  } catch (error: any) {
+    console.error("Error al actualizar información:", error);
+    toast.error(
+      error.response?.data?.message || "Error al actualizar información"
+    );
+  }
+};
+
 
   if (loading) return <div className="container mt-4">Cargando...</div>;
 
