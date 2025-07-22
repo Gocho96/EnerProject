@@ -17,12 +17,16 @@ interface ProjectFormValues {
   endContract: string;
 }
 
-const ProjectForm = ({ onSubmit, initialData, loading = false }: ProjectFormProps) => {
+const ProjectForm = ({
+  onSubmit,
+  initialData,
+  loading = false,
+}: ProjectFormProps) => {
   const [project, setProject] = useState<ProjectFormValues>({
     code: initialData?.code || "",
     name: initialData?.name || "",
     typeOfService: initialData?.typeOfService || "",
-    state: initialData?.state || "Por iniciar",
+    state: initialData?.state || "",
     startContract: initialData?.startContract
       ? new Date(initialData.startContract).toISOString().split("T")[0]
       : "",
@@ -57,7 +61,9 @@ const ProjectForm = ({ onSubmit, initialData, loading = false }: ProjectFormProp
       typeOfService: project.typeOfService as Project["typeOfService"],
       state: project.state as Project["state"],
       startContract: new Date(project.startContract),
-      endContract: project.endContract ? new Date(project.endContract) : undefined,
+      endContract: project.endContract
+        ? new Date(project.endContract)
+        : undefined,
     };
 
     onSubmit(parsedProject);
@@ -66,12 +72,15 @@ const ProjectForm = ({ onSubmit, initialData, loading = false }: ProjectFormProp
   return (
     <form onSubmit={handleSubmit} className="p-4 border border-2 rounded">
       <h2 className="text-center">Nuevo Proyecto</h2>
+      <p className="text-center">
+        Los campos marcados con (*) son obligatorios.
+      </p>
 
       <div className="form-group p-2">
         <input
           type="text"
           name="code"
-          placeholder="Código del proyecto"
+          placeholder="Código del proyecto *"
           className="form-control"
           onChange={handleInputChange}
           value={project.code}
@@ -83,7 +92,7 @@ const ProjectForm = ({ onSubmit, initialData, loading = false }: ProjectFormProp
         <input
           type="text"
           name="name"
-          placeholder="Nombre del proyecto"
+          placeholder="Nombre del proyecto *"
           className="form-control"
           onChange={handleInputChange}
           value={project.name}
@@ -97,7 +106,9 @@ const ProjectForm = ({ onSubmit, initialData, loading = false }: ProjectFormProp
           onChange={handleInputChange}
           value={project.typeOfService}
         >
-          <option value="">Selecciona el tipo de servicio</option>
+          <option value="" disabled hidden>
+            Selecciona el tipo *
+          </option>
           <option value="Diseño, suministro e instalación SSFV">
             Diseño, suministro e instalación SSFV
           </option>
@@ -126,7 +137,9 @@ const ProjectForm = ({ onSubmit, initialData, loading = false }: ProjectFormProp
           onChange={handleInputChange}
           value={project.state}
         >
-          <option value="">Selecciona el estado</option>
+          <option value="" disabled hidden>
+            Selecciona el estado *
+          </option>
           <option value="Por iniciar">Por iniciar</option>
           <option value="En curso">En curso</option>
           <option value="Pausado">Pausado</option>
@@ -136,24 +149,32 @@ const ProjectForm = ({ onSubmit, initialData, loading = false }: ProjectFormProp
       </div>
 
       <div className="form-group p-2">
-        <label className="fw-bold">Inicio del proyecto:</label>
+        <label className="fw-bold">Fecha de inicio: *</label>
         <input
           type="date"
           name="startContract"
           className="form-control"
           onChange={handleInputChange}
-          value={project.startContract}
+          value={
+            project.startContract
+              ? new Date(project.startContract).toISOString().slice(0, 10)
+              : ""
+          }
         />
       </div>
 
       <div className="form-group p-2">
-        <label className="fw-bold">Fin del proyecto:</label>
+        <label className="fw-bold">Fecha de finalización:</label>
         <input
           type="date"
           name="endContract"
           className="form-control"
           onChange={handleInputChange}
-          value={project.endContract}
+          value={
+            project.endContract
+              ? new Date(project.endContract).toISOString().slice(0, 10)
+              : ""
+          }
         />
       </div>
 

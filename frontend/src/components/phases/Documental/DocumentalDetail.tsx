@@ -127,6 +127,7 @@ const DocumentalDetail: React.FC = () => {
         <input
           type="date"
           className="form-control mb-2"
+          placeholder=""
           value={documental.serviceOrderDate?.slice(0, 10) || ""}
           onChange={(e) =>
             setDocumental((prev) =>
@@ -138,6 +139,7 @@ const DocumentalDetail: React.FC = () => {
         <input
           type="date"
           className="form-control mb-2"
+          placeholder=""
           value={documental.startDate?.slice(0, 10) || ""}
           onChange={(e) =>
             setDocumental((prev) =>
@@ -149,6 +151,7 @@ const DocumentalDetail: React.FC = () => {
         <input
           type="date"
           className="form-control mb-2"
+          placeholder=""
           value={documental.endDate?.slice(0, 10) || ""}
           onChange={(e) =>
             setDocumental((prev) =>
@@ -160,6 +163,7 @@ const DocumentalDetail: React.FC = () => {
         <input
           type="date"
           className="form-control mb-2"
+          placeholder=""
           value={documental.certificateDate?.slice(0, 10) || ""}
           onChange={(e) =>
             setDocumental((prev) =>

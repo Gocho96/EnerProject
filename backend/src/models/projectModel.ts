@@ -37,7 +37,6 @@ const projectSchema = new Schema(
       type: String,
       enum: ["Por iniciar", "En curso", "Pausado", "Finalizado", "Cancelado"],
       required: true,
-      default: "Por iniciar",
     },
 
     startContract: {
