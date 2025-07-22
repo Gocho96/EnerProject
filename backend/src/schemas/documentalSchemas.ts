@@ -1,59 +1,57 @@
 import { z } from "zod";
 
 export const policySchema = z.object({
-  policyType: z.enum([
-    "Cumplimiento",
-    "Estabilidad y calidad",
-    "Buen manejo del anticipo",
-    "Prestaciones sociales",
-    "Responsabilidad civil",
-    "Montaje",
-  ]),
-  policyNumber: z.string().trim(),
-  policyValue: z.number(),
-  policyDate: z.coerce.date(),
-  policyExpiration: z.coerce.date(),
-  policyIssuer: z.string().trim(),
+  policyType: z
+    .enum([
+      "Cumplimiento",
+      "Estabilidad y calidad",
+      "Buen manejo del anticipo",
+      "Prestaciones sociales",
+      "Responsabilidad civil",
+      "Montaje",
+    ])
+    .refine((val) => !!val, {
+      message: "El tipo de póliza es obligatorio.",
+    }),
+
+  policyNumber: z
+    .string()
+    .trim()
+    .min(1, { message: "El número de la póliza es obligatorio." }),
+
+  policyDate: z.coerce.date({
+    message: "La fecha de elaboración es obligatoria.",
+  }),
+
+  policyExpiration: z.coerce.date({
+    message: "La fecha de vencimiento es obligatoria.",
+  }),
+
+  policyValue: z.number({
+    message: "El valor de la póliza es obligatorio.",
+  }),
+
+  policyIssuer: z
+    .string()
+    .trim()
+    .min(1, { message: "El emisor de la póliza es obligatorio." }),
 });
 
 export const contractSchema = z.object({
-  contractNumber: z.string().trim().optional(),
-  contractDate: z.coerce.date().optional(),
-  contractValue: z.number().optional(),
-  contractExpiration: z.coerce.date().optional(),
-  policies: z
-    .array(policySchema)
-    .optional()
-    .refine(
-      (policies) =>
-        !policies || policies.every((p) => policySchema.safeParse(p).success),
-      {
-        message: "Debes ingeresar todos los datos de la poliza.",
-      }
-    ),
-});
+  contractNumber: z
+    .string()
+    .trim()
+    .min(1, { message: "El número de contrato es obligatorio." }),
 
-export const createDocumentalSchema = z.object({
-  projectId: z.string().refine((val) => /^[a-f\d]{24}$/i.test(val), {
-    message: "projectId debe ser un ObjectId válido",
-  }),
-  serviceOrderDate: z.coerce.date().optional(),
-  startDate: z.coerce.date().optional(),
-  endDate: z.coerce.date().optional(),
-  certificateDate: z.coerce.date().optional(),
-  contracts: z
-    .array(contractSchema)
-    .optional()
-    .refine(
-      (contracts) =>
-        !contracts ||
-        contracts.every((c) => {
-          const result = contractSchema.safeParse(c);
-          return result.success;
-        }),
-      {
-        message:
-          "Cada contrato debe tener contractNumber, contractDate, contractValue y contractExpiration.",
-      }
-    ),
+  contractValue: z
+    .number({ required_error: "El valor del contrato es obligatorio." })
+    .gt(0, { message: "El valor del contrato debe ser mayor a 0." }),
+
+  contractDate: z
+    .string()
+    .min(1, { message: "La fecha de firma del contrato es obligatoria." }),
+
+  contractExpiration: z
+    .string()
+    .min(1, { message: "La fecha de vencimiento del contrato es obligatoria." })
 });

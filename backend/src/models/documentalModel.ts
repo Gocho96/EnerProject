@@ -26,9 +26,9 @@ const policySchema = new Schema(
 const contractSchema = new Schema(
   {
     contractNumber: { type: String, trim: true, required: true },
-    contractDate: { type: Date, required: true },
     contractValue: { type: Number, required: true },
-    contractExpiration: { type: Date, required: true },
+    contractDate: { type: String, required: true },
+    contractExpiration: { type: String, required: true },
     policies: {
       type: [policySchema],
       default: [], 

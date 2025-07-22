@@ -7,6 +7,7 @@ export const getAllDocumentals = async () => {
     return await axios.get<Documental[]>(`${API_URL}/documental`);
   } catch (error) {
     console.log(error);
+    throw error;
   }
 };
 
@@ -15,6 +16,7 @@ export const getDocumentalById = async (id: string) => {
     return await axios.get<Documental>(`${API_URL}/documental/${id}`);
   } catch (error) {
     console.log(error);
+    throw error;
   }
 };
 
@@ -25,6 +27,7 @@ export const getDocumentalsByProject = async (projectId: string) => {
     );
   } catch (error) {
     console.log(error);
+    throw error;
   }
 };
 
@@ -42,9 +45,10 @@ export const updateDocumental = async (
   documental: Partial<Documental>
 ) => {
   try {
-    return await axios.put(`${API_URL}/documental/${id}`, documental);
+    return await axios.patch(`${API_URL}/documental/${id}`, documental);
   } catch (error) {
     console.log(error);
+    throw error;
   }
 };
 
@@ -53,6 +57,7 @@ export const deleteDocumental = async (id: string) => {
     return await axios.delete(`${API_URL}/documental/${id}`);
   } catch (error) {
     console.log(error);
+    throw error;
   }
 };
 
@@ -80,6 +85,7 @@ export const updateContract = async (
     );
   } catch (error) {
     console.log(error);
+    throw error;
   }
 };
 
@@ -93,6 +99,7 @@ export const deleteContract = async (
     );
   } catch (error) {
     console.log(error);
+    throw error;
   }
 };
 
@@ -125,6 +132,7 @@ export const updatePolicy = async (
     );
   } catch (error) {
     console.log(error);
+    throw error;
   }
 };
 
@@ -139,5 +147,6 @@ export const deletePolicy = async (
     );
   } catch (error) {
     console.log(error);
+    throw error;
   }
 };

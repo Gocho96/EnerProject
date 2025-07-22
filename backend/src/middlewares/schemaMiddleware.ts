@@ -1,16 +1,20 @@
+import { ZodSchema, ZodError } from "zod";
+import { Request, Response, NextFunction } from "express";
+
 export const validateSchema =
-  (schema: any) =>
-  (
-    req: { body: any },
-    res: { status: (arg0: number) => { json: (arg0: string[]) => void } },
-    next: () => void
-  ): void => {
+  (schema: ZodSchema) =>
+  (req: Request, res: Response, next: NextFunction): void => {
     try {
       schema.parse(req.body);
       next();
     } catch (error) {
-      res
-        .status(400)
-        .json((error as any).errors.map((e: { message: string }) => e.message));
+      if (error instanceof ZodError) {
+        res.status(400).json({
+          error: error.errors.map((e) => e.message),
+        });
+        return;
+      }
+      res.status(500).json({ error: ["Error desconocido en validación"] });
+      return;
     }
   };

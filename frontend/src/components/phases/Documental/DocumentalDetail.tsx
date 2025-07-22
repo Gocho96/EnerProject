@@ -5,35 +5,8 @@ import { API_URL } from "../../../config/api";
 import { toast } from "react-toastify";
 import ContractForm from "./ContractForm";
 import PolicyForm from "./PolicyForm";
-import { PolicyType } from "../../../types/documental";
-
-interface Policy {
-  _id: string;
-  policyType: PolicyType;
-  policyNumber: string;
-  policyValue: number;
-  policyDate: string;
-  policyExpiration: string;
-  policyIssuer: string;
-}
-
-interface Contract {
-  _id: string;
-  contractNumber: string;
-  contractDate: string;
-  contractValue: number;
-  contractExpiration: string;
-  policies: Policy[];
-}
-
-interface Documental {
-  _id: string;
-  serviceOrderDate?: string;
-  startDate?: string;
-  endDate?: string;
-  certificateDate?: string;
-  contracts: Contract[];
-}
+import { Policy, Contract, Documental } from "../../../types/documental";
+import { formatLocalDate } from "../../../utils/dateUtils";
 
 const DocumentalDetail: React.FC = () => {
   const { code } = useParams<{ code: string }>();
@@ -94,7 +67,9 @@ const DocumentalDetail: React.FC = () => {
     if (!confirm) return;
 
     try {
-      await axios.delete(`${API_URL}/documental/${documental._id}/contract/${contractId}`);
+      await axios.delete(
+        `${API_URL}/documental/${documental._id}/contract/${contractId}`
+      );
       toast.success("Contrato eliminado correctamente");
       refreshData();
     } catch (error) {
@@ -123,7 +98,9 @@ const DocumentalDetail: React.FC = () => {
       <h3>Información Documental del Proyecto {code}</h3>
 
       <div className="mb-3">
-        <label><strong>Fecha Orden de Servicio:</strong></label>
+        <label>
+          <strong>Fecha Orden de Servicio:</strong>
+        </label>
         <input
           type="date"
           className="form-control mb-2"
@@ -135,7 +112,9 @@ const DocumentalDetail: React.FC = () => {
             )
           }
         />
-        <label><strong>Fecha de Inicio:</strong></label>
+        <label>
+          <strong>Fecha de Inicio:</strong>
+        </label>
         <input
           type="date"
           className="form-control mb-2"
@@ -147,7 +126,9 @@ const DocumentalDetail: React.FC = () => {
             )
           }
         />
-        <label><strong>Fecha de Fin:</strong></label>
+        <label>
+          <strong>Fecha de Fin:</strong>
+        </label>
         <input
           type="date"
           className="form-control mb-2"
@@ -159,7 +140,9 @@ const DocumentalDetail: React.FC = () => {
             )
           }
         />
-        <label><strong>Fecha de Certificado:</strong></label>
+        <label>
+          <strong>Fecha de Certificado:</strong>
+        </label>
         <input
           type="date"
           className="form-control mb-2"
@@ -175,7 +158,7 @@ const DocumentalDetail: React.FC = () => {
           className="btn btn-success mt-2"
           onClick={async () => {
             try {
-              await axios.put(`${API_URL}/documental/${documental._id}`, {
+              await axios.patch(`${API_URL}/documental/${documental._id}`, {
                 serviceOrderDate: documental.serviceOrderDate,
                 startDate: documental.startDate,
                 endDate: documental.endDate,
@@ -207,11 +190,22 @@ const DocumentalDetail: React.FC = () => {
             />
           ) : (
             <div key={contract._id} className="border p-3 mb-3 rounded">
-              <p><strong>Número:</strong> {contract.contractNumber}</p>
-              <p><strong>Fecha:</strong> {new Date(contract.contractDate).toLocaleDateString()}</p>
-              <p><strong>Valor:</strong> ${contract.contractValue.toLocaleString()}</p>
-              <p><strong>Vencimiento:</strong> {new Date(contract.contractExpiration).toLocaleDateString()}</p>
-              
+              <p>
+                <strong>Número de contrato: </strong> {contract.contractNumber}
+              </p>
+              <p>
+                <strong>Valor de contrato: </strong> $
+                {contract.contractValue.toLocaleString()}
+              </p>
+              <p>
+                <strong>Fecha de firma del contrato: </strong>{" "}
+                {formatLocalDate(contract.contractDate)}
+              </p>
+              <p>
+                <strong>Fecha de vencimiento del contrato: </strong>{" "}
+                {formatLocalDate(contract.contractExpiration)}
+              </p>
+
               <div className="mb-2 d-flex gap-2 justify-content-center">
                 <button
                   className="btn btn-sm btn-outline-secondary"
@@ -245,13 +239,21 @@ const DocumentalDetail: React.FC = () => {
                       ) : (
                         <div className="d-flex justify-content-between align-items-center">
                           <span>
-                            <strong>{policy.policyType}</strong> - N° {policy.policyNumber} por ${policy.policyValue.toLocaleString()} emitida por {policy.policyIssuer} desde {new Date(policy.policyDate).toLocaleDateString()} hasta {new Date(policy.policyExpiration).toLocaleDateString()}
+                            <strong>{policy.policyType}</strong> - N°{" "}
+                            {policy.policyNumber} por $
+                            {policy.policyValue.toLocaleString()} emitida por{" "}
+                            {policy.policyIssuer} desde{" "}
+                            {formatLocalDate(policy.policyDate)} hasta{" "}
+                            {formatLocalDate(policy.policyExpiration)}
                           </span>
                           <div>
                             <button
                               className="btn btn-sm btn-link text-primary"
                               onClick={() =>
-                                setActivePolicyForm({ contractId: contract._id, policy })
+                                setActivePolicyForm({
+                                  contractId: contract._id,
+                                  policy,
+                                })
                               }
                             >
                               Editar
@@ -278,15 +280,20 @@ const DocumentalDetail: React.FC = () => {
                     className="btn btn-sm btn-outline-primary mb-2"
                     onClick={() =>
                       setActivePolicyForm((prev) =>
-                        prev?.contractId === contract._id ? null : { contractId: contract._id }
+                        prev?.contractId === contract._id
+                          ? null
+                          : { contractId: contract._id }
                       )
                     }
                   >
-                    {activePolicyForm?.contractId === contract._id ? "Cancelar" : "Agregar póliza"}
+                    {activePolicyForm?.contractId === contract._id
+                      ? "Cancelar"
+                      : "Agregar póliza"}
                   </button>
 
                   {activePolicyForm?.contractId === contract._id &&
-                    !activePolicyForm.policy && documental && (
+                    !activePolicyForm.policy &&
+                    documental && (
                       <PolicyForm
                         documentalId={documental._id}
                         contractId={contract._id}
