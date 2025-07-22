@@ -93,27 +93,27 @@ const EngineeringDetail: React.FC = () => {
         <div className="list-group">
           {[
             {
-              label: "Plano Eléctrico",
+              label: "¿Se cuenta con el diseño del plano electrico?",
               statusField: "statusElectricalPlan",
               dateField: "dateElectricalPlan",
             },
             {
-              label: "Plano Constructivo",
+              label: "¿Se cuenta con el diseño del plano constructivo?",
               statusField: "statusConstructionPlan",
               dateField: "dateConstructionPlan",
             },
             {
-              label: "Diagrama Unifilar",
+              label: "¿Se cuenta con el diagrama unifilar?",
               statusField: "statusUnifilar",
               dateField: "dateUnifilar",
             },
             {
-              label: "Modelo de Planta",
+              label: "¿Se realizó un modelado de la planta?",
               statusField: "statusPlantModel",
               dateField: "datePlantModel",
             },
             {
-              label: "Memorias",
+              label: "¿Ya están listas las memorias de calculo?",
               statusField: "statusMemories",
               dateField: "dateMemories",
             },
@@ -142,7 +142,7 @@ const EngineeringDetail: React.FC = () => {
                   <option value="No">No</option>
                 </select>
               </div>
-              <label className="form-label">Fecha:</label>
+              <label className="form-label">Fecha de elaboración</label>
               <input
                 type="date"
                 className="form-control"
