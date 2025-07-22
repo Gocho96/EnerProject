@@ -41,7 +41,19 @@ const EngineeringDetail: React.FC = () => {
 
   const handleChange = (field: keyof Engineering, value: boolean | string) => {
     if (!engineering) return;
-    setEngineering({ ...engineering, [field]: value });
+    const updated = { ...engineering, [field]: value };
+    if (
+      typeof value === "boolean" &&
+      field.startsWith("status") &&
+      value === false
+    ) {
+      const dateField = field.replace("status", "date") as keyof Engineering;
+
+      if (dateField in updated) {
+        (updated as any)[dateField] = null;
+      }
+    }
+    setEngineering(updated);
   };
 
   const handleSave = async () => {
