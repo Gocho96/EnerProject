@@ -16,8 +16,8 @@ const policySchema = new Schema(
     },
     policyNumber: { type: String, required: true },
     policyValue: { type: Number, required: true },
-    policyDate: { type: Date, required: true },
-    policyExpiration: { type: Date, required: true },
+    policyDate: { type: String, required: true },
+    policyExpiration: { type: String, required: true },
     policyIssuer: { type: String, trim: true, required: true },
   },
   { _id: true }

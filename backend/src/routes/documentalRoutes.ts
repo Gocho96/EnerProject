@@ -10,20 +10,12 @@ router.get("/documental/project/:projectId", documentalController.getByProjectDo
 router.get("/documental/code/:code", documentalController.getDocumentalByProjectCode);
 router.post("/documental", documentalController.createDocumental);
 router.post("/documental/:id/contracts", validateSchema(contractSchema), documentalController.addContractToDocumental);
-router.put("/documental/:documentalId/contract/:contractId", validateSchema(contractSchema), documentalController.updateContract);
-
-router.post("/documental/:documentalId/contracts/:contractId/policies",validateSchema(policySchema), documentalController.addPolicyToContract);
-
+router.post("/documental/:documentalId/contract/:contractId/policy",validateSchema(policySchema), documentalController.addPolicyToContract);
 router.patch("/documental/:id", documentalController.updateDocumental);
-
-
-
-router.put("/documental/:documentalId/contract/:contractId/policy/:policyId", documentalController.updatePolicy);
-
+router.put("/documental/:documentalId/contract/:contractId", validateSchema(contractSchema), documentalController.updateContract);
+router.put("/documental/:documentalId/contract/:contractId/policy/:policyId", validateSchema(policySchema), documentalController.updatePolicy);
 router.delete("/documental/:id", documentalController.deleteDocumental);
-
 router.delete("/documental/:documentalId/contract/:contractId", documentalController.deleteContractFromDocumental);
-
 router.delete("/documental/:documentalId/contract/:contractId/policy/:policyId", documentalController.deletePolicyFromContract);
 
 export default router;

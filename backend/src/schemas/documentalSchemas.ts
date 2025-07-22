@@ -1,35 +1,32 @@
 import { z } from "zod";
 
 export const policySchema = z.object({
-  policyType: z
-    .enum([
-      "Cumplimiento",
-      "Estabilidad y calidad",
-      "Buen manejo del anticipo",
-      "Prestaciones sociales",
-      "Responsabilidad civil",
-      "Montaje",
-    ])
-    .refine((val) => !!val, {
-      message: "El tipo de póliza es obligatorio.",
-    }),
+  policyType: z.enum([
+    "Cumplimiento",
+    "Estabilidad y calidad",
+    "Buen manejo del anticipo",
+    "Prestaciones sociales",
+    "Responsabilidad civil",
+    "Montaje",
+  ]),
 
   policyNumber: z
     .string()
     .trim()
     .min(1, { message: "El número de la póliza es obligatorio." }),
 
-  policyDate: z.coerce.date({
-    message: "La fecha de elaboración es obligatoria.",
-  }),
+  policyDate: z
+    .string()
+    .min(1, { message: "La fecha de emisión de la póliza es obligatoria." }),
 
-  policyExpiration: z.coerce.date({
-    message: "La fecha de vencimiento es obligatoria.",
-  }),
+  policyExpiration: z
+    .string()
+    .min(1, {
+      message: "La fecha de vencimiento de la póliza es obligatoria.",
+    }),
 
-  policyValue: z.number({
-    message: "El valor de la póliza es obligatorio.",
-  }),
+  policyValue: z
+    .number({ required_error: "El valor de la póliza es obligatorio." }),
 
   policyIssuer: z
     .string()
@@ -53,5 +50,7 @@ export const contractSchema = z.object({
 
   contractExpiration: z
     .string()
-    .min(1, { message: "La fecha de vencimiento del contrato es obligatoria." })
+    .min(1, {
+      message: "La fecha de vencimiento del contrato es obligatoria.",
+    }),
 });

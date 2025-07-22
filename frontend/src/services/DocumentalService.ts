@@ -110,7 +110,7 @@ export const addPolicy = async (
 ) => {
   try {
     return await axios.post(
-      `${API_URL}/documental/${documentalId}/contracts/${contractId}/policies`,
+      `${API_URL}/documental/${documentalId}/contract/${contractId}/policy`,
       policy
     );
   } catch (error) {

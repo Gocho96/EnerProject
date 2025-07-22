@@ -32,11 +32,10 @@ const PolicyForm: React.FC<Props> = ({
   const [form, setForm] = useState<Partial<Policy>>({
     policyType: "Cumplimiento",
     policyNumber: "",
-    policyValue: 0,
+    policyValue: undefined,
     policyDate: "",
     policyExpiration: "",
     policyIssuer: "",
-
   });
 
   useEffect(() => {
@@ -67,18 +66,26 @@ const PolicyForm: React.FC<Props> = ({
         await addPolicy(documentalId, contractId, form as Policy);
         toast.success("Póliza agregada correctamente");
       }
-
       onPolicyAdded();
-    } catch (error) {
-      toast.error("Error al guardar póliza");
-      console.error(error);
+    } catch (error: any) {
+      const backendErrors =
+        error?.response?.data?.error || error?.response?.data?.message;
+
+      if (Array.isArray(backendErrors)) {
+        backendErrors.forEach((err: string) => toast.error(err));
+      } else {
+        toast.error(backendErrors || "Error al guardar la póliza");
+      }
+      console.error("Error al guardar la póliza:", error);
     }
   };
 
   return (
     <div className="border p-3 mt-3 rounded bg-light">
       <h6>{existingPolicy ? "Editar póliza" : "Nueva póliza"}</h6>
-
+      <p className="text-center">
+        Los campos marcados con (*) son obligatorios.
+      </p>
       <select
         className="form-control mb-2"
         name="policyType"
@@ -95,7 +102,7 @@ const PolicyForm: React.FC<Props> = ({
       <input
         className="form-control mb-2"
         name="policyNumber"
-        placeholder="Número de póliza"
+        placeholder="Número de póliza *"
         value={form.policyNumber}
         onChange={handleChange}
       />
@@ -103,10 +110,11 @@ const PolicyForm: React.FC<Props> = ({
         type="number"
         className="form-control mb-2"
         name="policyValue"
-        placeholder="Valor"
+        placeholder="Valor de la póliza *"
         value={form.policyValue}
         onChange={handleChange}
       />
+      <label className="form-label">Fecha de emisión *</label>
       <input
         type="date"
         className="form-control mb-2"
@@ -114,6 +122,7 @@ const PolicyForm: React.FC<Props> = ({
         value={form.policyDate?.slice(0, 10)}
         onChange={handleChange}
       />
+      <label className="form-label">Fecha de vencimiento *</label>
       <input
         type="date"
         className="form-control mb-2"
@@ -124,7 +133,7 @@ const PolicyForm: React.FC<Props> = ({
       <input
         className="form-control mb-2"
         name="policyIssuer"
-        placeholder="Entidad aseguradora"
+        placeholder="Entidad aseguradora *"
         value={form.policyIssuer}
         onChange={handleChange}
       />

@@ -58,9 +58,9 @@ const ContractForm: React.FC<Props> = ({
     if (Array.isArray(backendErrors)) {
       backendErrors.forEach((err: string) => toast.error(err));
     } else {
-      toast.error(backendErrors || "Error al guardar contrato");
+      toast.error(backendErrors || "Error al guardar el contrato");
     }
-    console.error("Error al guardar contrato:", error);
+    console.error("Error al guardar el contrato:", error);
   }
 };
 
