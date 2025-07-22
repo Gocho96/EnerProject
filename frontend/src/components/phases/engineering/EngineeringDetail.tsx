@@ -56,19 +56,35 @@ const EngineeringDetail: React.FC = () => {
     setEngineering(updated);
   };
 
-  const handleSave = async () => {
-    if (!engineering || !engineering._id) return;
-    try {
-      setSaving(true);
-      await updateEngineering(engineering._id, engineering);
-      toast.success("Datos de ingeniería actualizados");
-    } catch (error) {
-      console.error("Error al actualizar ingeniería:", error);
+const handleSave = async () => {
+  if (!engineering || !engineering._id) return;
+
+  try {
+    setSaving(true);
+    await updateEngineering(engineering._id, engineering);
+    toast.success("Datos de ingeniería actualizados");
+  } catch (error: any) {
+    console.error("Error al actualizar ingeniería:", error);
+
+    const response = error?.response?.data;
+
+    if (Array.isArray(response?.errors)) {
+      response.errors.forEach((err: any) => {
+        const path = Array.isArray(err.path) ? err.path[0] : "";
+        const message = err.message || "Error de validación";
+        toast.error(`${path}: ${message}`);
+      });
+    } else if (Array.isArray(response?.error)) {
+      response.error.forEach((msg: string) => toast.error(msg));
+    } else if (response?.message) {
+      toast.error(response.message);
+    } else {
       toast.error("Error al guardar cambios");
-    } finally {
-      setSaving(false);
     }
-  };
+  } finally {
+    setSaving(false);
+  }
+};
 
   if (loading) return <div className="container mt-4">Cargando...</div>;
 
