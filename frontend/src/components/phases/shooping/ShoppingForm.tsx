@@ -1,79 +1,93 @@
-import React, { useState } from "react";
-import { Shopping } from "../../../types/shopping";
-import {
-  createShoppingByProjectId,
-  updateShopping,
-} from "../../../services/ShoppingService";
+import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import {
+  addMaterialToShopping,
+  createShopping,
+  updateMaterial
+} from "../../../services/ShoppingService";
+import { MaterialItem } from "../../../types/shopping";
 
 interface Props {
+  shoppingId?: string;
   projectId: string;
-  initialData?: Shopping;
   onSuccess: () => void;
   onCancel: () => void;
+  existingMaterial?: MaterialItem;
 }
 
 const ShoppingForm: React.FC<Props> = ({
   projectId,
-  initialData,
   onSuccess,
   onCancel,
+  existingMaterial
 }) => {
-  const [form, setForm] = useState<Partial<Shopping>>({
-    materialDescription: initialData?.materialDescription ?? "",
-    materialQuantity: initialData?.materialQuantity ?? 0,
-    materialSupplier: initialData?.materialSupplier ?? "",
-    materialInvoice: initialData?.materialInvoice ?? "",
-    materialDate: initialData?.materialDate?.split("T")[0] ?? "",
-    materialSubtotal: initialData?.materialSubtotal ?? 0,
-    materialIVA: initialData?.materialIVA ?? 0,
-    materialTotal: initialData?.materialTotal ?? 0,
+  const [form, setForm] = useState<Omit<MaterialItem, "_id" | "materialTotal">>({
+    materialDescription: "",
+    materialQuantity: undefined,
+    materialSupplier: "",
+    materialInvoice: "",
+    materialDate: "",
+    materialSubtotal: undefined,
+    materialIVA: undefined,
   });
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  useEffect(() => {
+    if (existingMaterial) {
+      const { _id, materialTotal, ...rest } = existingMaterial;
+      setForm(rest);
+    }
+  }, [existingMaterial]);
+
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     const numericFields = [
       "materialQuantity",
       "materialSubtotal",
       "materialIVA",
-      "materialTotal",
     ];
-
     setForm((prev) => ({
       ...prev,
-      [name]: numericFields.includes(name)
-        ? Number(value)
-        : value,
+      [name]: numericFields.includes(name) ? Number(value) : value,
     }));
   };
 
-  const handleSubmit = async () => {
-    try {
-      const payload = {
-        ...form,
-        projectId,
-      };
 
-      if (initialData) {
-        await updateShopping(initialData._id, payload);
-        toast.success("Compra actualizada correctamente");
-      } else {
-        await createShoppingByProjectId(projectId, payload);
-        toast.success("Compra agregada correctamente");
+const handleSubmit = async () => {
+  try {
+    if (existingMaterial && existingMaterial._id) {
+      await updateMaterial(projectId, existingMaterial._id, form);
+      toast.success("Material actualizado correctamente");
+    } else {
+      const existing = await addMaterialToShopping(projectId, form);
+      if (!existing.data) {
+        await createShopping({ projectId, ...form });
       }
-
-      onSuccess();
-    } catch (error: any) {
-      console.error("Error al guardar la compra:", error);
-      toast.error("Error al guardar la compra");
+      toast.success("Material guardado correctamente");
     }
-  };
+
+    onSuccess();
+  } catch (error: any) {
+    console.error("Error al guardar material:", error);
+
+    const backendMessage =
+      error?.response?.data?.message || error?.response?.data?.error;
+
+    const backendErrors = error?.response?.data?.errors;
+
+    if (backendMessage) {
+      toast.error(backendMessage);
+    } else if (Array.isArray(backendErrors)) {
+      backendErrors.forEach((err: string) => toast.error(err));
+    } else {
+      toast.error("Error al guardar material");
+    }
+  }
+};
 
   return (
     <div className="card card-body mb-3">
-      <h5>{initialData ? "Editar Compra" : "Nueva Compra"}</h5>
+      <h5>Agregar material</h5>
       <div className="row">
         <div className="col-md-4 mb-2">
           <input
@@ -90,7 +104,7 @@ const ShoppingForm: React.FC<Props> = ({
           <input
             type="number"
             name="materialQuantity"
-            value={form.materialQuantity}
+            value={form.materialQuantity ?? ""}
             onChange={handleChange}
             placeholder="Cantidad"
             className="form-control"
@@ -133,7 +147,7 @@ const ShoppingForm: React.FC<Props> = ({
           <input
             type="number"
             name="materialSubtotal"
-            value={form.materialSubtotal}
+            value={form.materialSubtotal ?? ""}
             onChange={handleChange}
             placeholder="Subtotal"
             className="form-control"
@@ -144,20 +158,9 @@ const ShoppingForm: React.FC<Props> = ({
           <input
             type="number"
             name="materialIVA"
-            value={form.materialIVA}
+            value={form.materialIVA ?? ""}
             onChange={handleChange}
             placeholder="IVA"
-            className="form-control"
-          />
-        </div>
-
-        <div className="col-md-3 mb-2">
-          <input
-            type="number"
-            name="materialTotal"
-            value={form.materialTotal}
-            onChange={handleChange}
-            placeholder="Total"
             className="form-control"
           />
         </div>

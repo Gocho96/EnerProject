@@ -1,17 +1,17 @@
 import { Router } from "express";
 import * as shoppingController from "../controllers/shoppingController";
 import { validateSchema } from "../middlewares/schemaMiddleware";
-import { createShoppingSchema } from "../schemas/shoppingSchemas";
+import { materialSchema } from "../schemas/shoppingSchemas";
 
 const router = Router();
 
 router.get("/shopping", shoppingController.getAllShoppings);
 router.get("/shopping/:id", shoppingController.getShopping);
-router.get("/shopping/project/:projectId", shoppingController.getShoppingsByProject);
-router.get("/shopping/project/code/:code", shoppingController.getShoppingsByProjectCode);
+router.get("/shopping/project/code/:code", shoppingController.getShoppingByProjectCode);
 router.post("/shopping", shoppingController.createShopping);
-router.post("/shopping/project/:projectId", shoppingController.createShoppingByProjectId);
-router.patch("/shopping/:id", shoppingController.updateShopping);
-router.delete("/shopping/:id", shoppingController.deleteShopping);
+router.post("/shopping/project/:projectId/material", validateSchema(materialSchema), shoppingController.addMaterialToShopping);
+router.put("/shopping/project/:projectId/material/:materialId", validateSchema(materialSchema), shoppingController.updateMaterial);
+router.delete("/shopping/project/:projectId/material/:materialId", shoppingController.deleteMaterial);
+
 
 export default router;

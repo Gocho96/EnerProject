@@ -8,40 +8,44 @@ const shoppingSchema = new Schema(
       required: true,
     },
 
-    materialDescription: {
-      type: String,
-      trim: true,
-    },
+    materialItem: [
+      {
+        materialDescription: {
+          type: String,
+          trim: true,
+        },
 
-    materialQuantity: {
-      type: Number,
-    },
+        materialQuantity: {
+          type: Number,
+        },
 
-    materialSupplier: {
-      type: String,
-      trim: true,
-    },
+        materialSupplier: {
+          type: String,
+          trim: true,
+        },
 
-    materialInvoice: {
-      type: String,
-      trim: true,
-    },
+        materialInvoice: {
+          type: String,
+          trim: true,
+        },
 
-    materialDate: {
-      type: Date,
-    },
+        materialDate: {
+          type: String,
+        },
 
-    materialSubtotal: {
-      type: Number,
-    },
+        materialSubtotal: {
+          type: Number,
+        },
 
-    materialIVA: {
-      type: Number,
-    },
+        materialIVA: {
+          type: Number,
+        },
 
-    materialTotal: {
-      type: Number,
-    },
+        materialTotal: {
+          type: Number,
+        },
+      },
+    ],
   },
   {
     timestamps: true,

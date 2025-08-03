@@ -4,27 +4,27 @@ export const engineeringSchema = z.object({
   statusElectricalPlan: z.boolean({
     required_error: "El estado del plano eléctrico es obligatorio",
   }),
-  dateElectricalPlan: z.coerce.date().nullable(),
+  dateElectricalPlan: z.coerce.date().optional().nullable(),
 
   statusConstructionPlan: z.boolean({
     required_error: "El estado del plano constructivo es obligatorio",
   }),
-  dateConstructionPlan: z.coerce.date().nullable(),
+  dateConstructionPlan: z.coerce.date().optional().nullable(),
 
   statusUnifilar: z.boolean({
     required_error: "El estado del diagrama unifilar es obligatorio",
   }),
-  dateUnifilar: z.coerce.date().nullable(),
+  dateUnifilar: z.coerce.date().optional().nullable(),
 
   statusPlantModel: z.boolean({
     required_error: "El estado del modelo de planta es obligatorio",
   }),
-  datePlantModel: z.coerce.date().nullable(),
+  datePlantModel: z.coerce.date().optional().nullable(),
 
   statusMemories: z.boolean({
     required_error: "El estado de las memorias es obligatorio",
   }),
-  dateMemories: z.coerce.date().nullable(),
+  dateMemories: z.coerce.date().optional().nullable(),
 }).superRefine((data, ctx) => {
   if (data.statusElectricalPlan && !(data.dateElectricalPlan instanceof Date && !isNaN(data.dateElectricalPlan.getTime()))) {
     ctx.addIssue({
