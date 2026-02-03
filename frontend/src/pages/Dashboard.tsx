@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { Project } from "../types/project";
 import ProjectTable from "../components/tables/ProjectTable";
 import { useNavigate } from "react-router-dom";
-import { createDocumental } from "../services/DocumentalService";
+import { createDocumentPhase } from "../services/DocumentService";
 import { createEngineering } from "../services/EngineeringService";
 import { createShopping } from "../services/ShoppingService";
 import { createInstallation } from "../services/InstallationService";
@@ -30,7 +30,7 @@ const Dashboard = () => {
   const fetchProjects = async () => {
     try {
       const response = await ProjectService.getProjects();
-      setProjects(response?.data || []);
+      setProjects(response || []);
     } catch (error) {
       console.error("Error al cargar proyectos:", error);
     }
@@ -47,7 +47,7 @@ const Dashboard = () => {
       const newProject = await ProjectService.createProject(project);
 
       await Promise.all([
-        createDocumental({ projectId: newProject._id }),
+        createDocumentPhase({ projectId: newProject._id }),
         createEngineering({ projectId: newProject._id }),
         createShopping({ projectId: newProject._id }),
         createInstallation({ projectId: newProject._id }),

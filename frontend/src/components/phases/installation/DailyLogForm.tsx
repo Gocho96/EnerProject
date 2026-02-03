@@ -8,7 +8,6 @@ interface Props {
   onCancel?: () => void;
   submitLabel?: string;
 }
-
 const DailyLogForm: React.FC<Props> = ({
   log,
   onChange,

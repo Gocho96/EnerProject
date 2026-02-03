@@ -2,6 +2,27 @@ import axios from "axios";
 import { API_URL } from "../config/api";
 import { Billing } from "../types/billing";
 
+// ----- CREATE -----
+export const createBilling = async (data: { projectId: string }) => {
+  try {
+    return await axios.post(`${API_URL}/billing`, data);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const createBillingByProject = async (projectId: string, data: any) => {
+  try {
+    const response = await axios.post(`${API_URL}/billing/project/${projectId}`, data);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error al crear la factura por proyecto");
+  }
+};
+
+// ----- READ -----
 export const getAllBillings = async () => {
   try {
     const response = await axios.get<Billing[]>(`${API_URL}/billing`);
@@ -42,25 +63,7 @@ export const getByProjectCodeBilling = async (code: string) => {
   }
 };
 
-export const createBilling = async (data: { projectId: string }) => {
-  try {
-    return await axios.post(`${API_URL}/billing`, data);
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-};
-
-export const createBillingByProject = async (projectId: string, data: any) => {
-  try {
-    const response = await axios.post(`${API_URL}/billing/project/${projectId}`, data);
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    throw new Error("Error al crear la factura por proyecto");
-  }
-};
-
+// ----- UPDATE -----
 export const updateBilling = async (id: string, data: any) => {
   try {
     const response = await axios.put(`${API_URL}/billing/${id}`, data);
@@ -71,6 +74,7 @@ export const updateBilling = async (id: string, data: any) => {
   }
 };
 
+// ----- DELETE -----
 export const deleteBilling = async (id: string) => {
   try {
     const response = await axios.delete(`${API_URL}/billing/${id}`);

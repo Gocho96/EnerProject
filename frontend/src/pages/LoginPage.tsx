@@ -16,7 +16,7 @@ const LoginPage = () => {
   const handleLogin = async (data: LoginInputs) => {
     try {
       const response = await login(data);
-      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("token", response?.data.token || "");
       navigate("/dashboard");
     } catch (error) {
       toast.error("Usuario y/o contraseña incorrecta");

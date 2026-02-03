@@ -10,7 +10,7 @@ const ProjectPhasesPage = () => {
   return (
     <div className="container mt-4">
       <button
-        onClick={() => navigate(`/project-details/${code}`)}
+        onClick={() => navigate(`/project/${code}/details`)}
         className="btn btn-outline-primary mb-3"
       >
         Ver Detalles del Proyecto

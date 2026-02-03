@@ -12,16 +12,16 @@ interface Props {
 }
 
 export const PHASES_MAP = [
-  { key: "Documental", label: "Documental" },
-  { key: "Engineering", label: "Ingeniería" },
-  { key: "Shopping", label: "Compras" },
-  { key: "Installation", label: "Instalación" },
-  { key: "TaxIncentive", label: "Incentivos Tributarios" },
-  { key: "Retie", label: "RETIE" },
-  { key: "NetworkOperator", label: "Operador de Red" },
-  { key: "Marketing", label: "Marketing" },
-  { key: "Maintenance", label: "Mantenimiento" },
-  { key: "Billing", label: "Facturación" },
+  { key: "document", label: "Documentación" },
+  { key: "engineering", label: "Ingeniería" },
+  { key: "shopping", label: "Compras" },
+  { key: "installation", label: "Instalación" },
+  { key: "taxincentive", label: "Incentivos Tributarios" },
+  { key: "retie", label: "RETIE" },
+  { key: "networkoperator", label: "Operador de Red" },
+  { key: "marketing", label: "Marketing" },
+  { key: "maintenance", label: "Mantenimiento" },
+  { key: "billing", label: "Facturación" },
 ];
 
 const ProjectPhases = ({ projectCode }: Props) => {
@@ -74,7 +74,7 @@ const ProjectPhases = ({ projectCode }: Props) => {
   };
 
   const handlePhaseClick = (phaseKey: string) => {
-    navigate(`/project/${projectCode}/phase/${phaseKey}`);
+    navigate(`/project/${projectCode}/${phaseKey}`);
   };
 
   if (loading) return <p>Cargando fases...</p>;

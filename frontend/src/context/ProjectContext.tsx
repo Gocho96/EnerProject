@@ -57,8 +57,8 @@ import {
     const getProjectsRequest = useCallback(async () => {
       try {
         const res = await getProjects();
-        if (res && res.data) {
-          setProjects(res.data);
+        if (res && res) {
+          setProjects(res);
         }
       } catch (error) {
         console.error("Proyectos no encontrados:", error);

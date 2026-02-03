@@ -84,7 +84,6 @@ const handleSubmit = async () => {
     }
   }
 };
-
   return (
     <div className="card card-body mb-3">
       <h5>Agregar material</h5>

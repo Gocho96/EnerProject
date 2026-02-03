@@ -5,19 +5,20 @@ import { Installation, DailyLogEntry } from "../../../types/installation";
 import {
   getInstallationByProjectCode,
   createDailyLog,
-  updateDailyLog,
+  updateDailyLogById,
   deleteDailyLog,
 } from "../../../services/InstallationService";
 import DailyLogForm from "./DailyLogForm";
 
 const parseLocalDate = (dateStr: string): Date => {
   const [year, month, day] = dateStr.split("-").map(Number);
-  return new Date(year, month - 1, day, 12, 0, 0); // 12 PM evita desfases por zona horaria
+  return new Date(year, month - 1, day, 12, 0, 0);
 };
 
 const InstallationDetail: React.FC = () => {
   const { code } = useParams<{ code: string }>();
   const navigate = useNavigate();
+
   const [installation, setInstallation] = useState<Installation | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -35,17 +36,18 @@ const InstallationDetail: React.FC = () => {
     const fetchInstallation = async () => {
       try {
         if (!code) return;
-        const data = await getInstallationByProjectCode(code);
+        const installationData = await getInstallationByProjectCode(code);
+
         setInstallation({
-          ...data,
-          dailyLog: data.dailyLog.filter(
-            (log: any) => log && typeof log === "object"
-          ),
+          ...installationData,
+          dailyLog: Array.isArray(installationData.dailyLog)
+            ? installationData.dailyLog.filter((log: any) => log && typeof log === "object")
+            : [],
         });
       } catch (error: any) {
         console.error("Error al obtener instalación:", error);
         toast.error(
-          error.response?.data?.message ||
+          error.response?.installationData?.message ||
             "Error al obtener datos de instalación"
         );
       } finally {
@@ -58,12 +60,25 @@ const InstallationDetail: React.FC = () => {
 
   const handleAddLog = async () => {
     try {
-      if (!installation || !installation.projectId) return;
-      const res = await createDailyLog(installation.projectId, {
+      if (!installation?._id) return;
+
+      const createdLog = await createDailyLog(
+        installation._id, 
+        {
         ...newLog,
         date: parseLocalDate(newLog.date).toISOString(),
-      });
-      setInstallation(res.data.installation);
+      }
+      );
+
+      setInstallation((prev) =>
+        prev
+          ? {
+              ...prev,
+              dailyLog: [...prev.dailyLog, createdLog],
+            }
+          : prev
+      );
+
       setNewLog({
         date: new Date().toISOString().split("T")[0],
         content: "",
@@ -71,19 +86,41 @@ const InstallationDetail: React.FC = () => {
       });
       setShowNewLogForm(false);
       toast.success("Bitácora agregada");
-    } catch (err) {
-      toast.error("Error al agregar bitácora");
+    } catch (err: any) {
+      console.error("Error al crear bitácora:", err);
+      console.log("Respuesta backend:", err.response?.data);
+
+      const data = err.response?.data;
+
+      if (data?.errors && Array.isArray(data.errors)) {
+        data.errors.forEach((error: any) => {
+          toast.error(error.message || "Error de validación");
+        });
+      } else if (data?.message) {
+        toast.error(data.message);
+      } else {
+        toast.error("Error bitácora");
+      }
     }
   };
 
   const handleUpdateLog = async (logId: string) => {
     try {
       if (!installation || !editLog) return;
-      const res = await updateDailyLog(installation._id, logId, {
+      const updatedLog = await updateDailyLogById(installation._id, logId, {
         ...editLog,
         date: parseLocalDate(editLog.date).toISOString(),
       });
-      setInstallation(res.data.installation);
+
+      setInstallation({
+        ...installation,
+        dailyLog: Array.isArray(installation?.dailyLog)
+          ? installation.dailyLog.filter(
+              (log: any) => log && typeof log === "object"
+            )
+          : [],
+      });
+
       setEditingLogId(null);
       setEditLog(null);
       toast.success("Bitácora actualizada");
@@ -105,7 +142,7 @@ const InstallationDetail: React.FC = () => {
         prev
           ? {
               ...prev,
-              dailyLog: prev.dailyLog.filter((log) => log._id !== logId),
+              dailyLog: prev.dailyLog.filter((log) => log?._id !== logId),
             }
           : null
       );
@@ -167,6 +204,8 @@ const InstallationDetail: React.FC = () => {
       ) : (
         <ul className="list-group">
           {installation.dailyLog.map((log) => {
+            if (!log) return null; // evitar null
+
             const isEditing = editingLogId === log._id;
 
             return (

@@ -2,10 +2,14 @@ import axios from "axios";
 import { Project } from "../types/project";
 import { API_URL } from "../config/api";
 
-export const getProjects = async () => {
+export const getProjects = async (
+): Promise<Project[]> => {
   try {
-    return await axios.get<Project[]>(`${API_URL}/project`);
+    const response = await axios.get<Project[]>(
+      `${API_URL}/project`);
+    return response.data;
   } catch (error) {
+    console.error("Error al obtener los proyectos", error);
     throw error;
   }
 };

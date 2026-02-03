@@ -6,43 +6,45 @@ import cookieParser from "cookie-parser";
 import userRoutes from "./routes/userRoutes"
 import projectRoutes from "./routes/projectRoutes"
 import phaseRoutes from "./routes/phaseRoutes";
-import billingRoutes from "./routes/billingRoutes";
-import documentalRoutes from "./routes/documentalRoutes";
-import engineeringRoutes from "./routes/engineeringRoutes";
-import installationRoutes from "./routes/installationRoutes";
-import maintenanceRoutes from "./routes/maintenanceRoutes";
-import marketingRoutes from "./routes/marketingRoutes";
-import networkOperatorRoutes from "./routes/networkOperatorRoutes";
+import purchaseRoutes from "./routes/phases/purchaseRoutes";
+import documentRoutes from "./routes/phases/documentRoutes";
+import engineeringRoutes from "./routes/phases/engineeringRoutes";
+import installationRoutes from "./routes/phases/installationRoutes";
+import maintenanceRoutes from "./routes/phases/maintenanceRoutes";
+import marketingRoutes from "./routes/phases/marketingRoutes";
+import networkOperatorRoutes from "./routes/phases/networkOperatorRoutes";
 import projectDetailsRoutes from "./routes/projectDetailsRoutes";
-import retieRoutes from "./routes/retieRoutes";
-import shoppingRoutes from "./routes/shoppingRoutes";
-import taxIncentiveRoutes from "./routes/taxIncentiveRoutes";
+import retieRoutes from "./routes/phases/retieRoutes";
+import shoppingRoutes from "./routes/phases/salesRoutes";
+import taxIncentiveRoutes from "./routes/phases/taxIncentiveRoutes";
 
 const app = express();
 
-//port config
+// ----- SETTINGS -----
 app.set("port", config.PORT);
 
-//middlewares
+// ----- MIDDLEWARES -----
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 app.use(cors());
 app.use(cookieParser());
 
-//routes
+// ----- ROUTES -----
 app.use("/api", userRoutes);
 app.use("/api", projectRoutes);
 app.use("/api", phaseRoutes);
 
-app.use("/api", billingRoutes);
-app.use("/api", documentalRoutes);
+app.use("/api", projectDetailsRoutes);
+
+app.use("/api", documentRoutes);
+app.use("/api", purchaseRoutes);
+
 app.use("/api", engineeringRoutes);
 app.use("/api", installationRoutes);
 app.use("/api", maintenanceRoutes);
 app.use("/api", marketingRoutes);
 app.use("/api", networkOperatorRoutes);
-app.use("/api", projectDetailsRoutes);
 app.use("/api", retieRoutes);
 app.use("/api", shoppingRoutes);
 app.use("/api", taxIncentiveRoutes);

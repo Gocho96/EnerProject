@@ -1,4 +1,4 @@
-import { Counter } from "../models/counterModel.ts";
+import { Counter } from "../models/counterModel";
 import { Types } from "mongoose";
 
 export const getNextProjectSequence = async (projectId: Types.ObjectId, module: string): Promise<number> => {

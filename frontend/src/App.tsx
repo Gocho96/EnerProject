@@ -5,7 +5,7 @@ import LoginPage from "./pages/LoginPage";
 import Dashboard from "./pages/Dashboard";
 import ProjectPhases from "./pages/PhasesPage";
 import PhaseDetail from "./pages/PhaseDetail";
-import ProjectDetailsView from "./components/details/ProjectDetailsView";
+import ProjectDetailsView from "./components/projectDetails/ProjectDetailsView";
 import "./styles/App.css";
 
 function App() {
@@ -13,12 +13,12 @@ function App() {
     <AuthProvider>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Dashboard />}/>
+        <Route path="/" />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/dashboard" />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/project/:code" element={<ProjectPhases/>} />
-        <Route path="/project/:code/phase/:phaseKey" element={<PhaseDetail/>} />
-        <Route path="/project-details/:code" element={<ProjectDetailsView />} />
+        <Route path="/project/:code/:phaseKey" element={<PhaseDetail/>} />
+        <Route path="/project/:code/details" element={<ProjectDetailsView />} />
       </Routes>
       <ToastContainer />
     </BrowserRouter>

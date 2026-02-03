@@ -1,14 +1,61 @@
 import { RequestHandler } from "express";
 import { Project } from "../models/projectModel";
-import { Phase } from "../models/phaseModel";
+import { createDocumentPhaseService } from "../services/phases/documentServices";
+import { createEngineeringPhaseService } from "../services/phases/engineeringServices";
+import { createInstallationPhaseService } from "../services/phases/installationServices";
+import { createMaintenancePhaseService } from "../services/phases/maintenanceServices";
+import { createMarketingPhaseService } from "../services/phases/marketingServices";
+import { createNetworkOperatorPhaseService } from "../services/phases/networkOperatorServices";
+import { createPurchasePhaseService } from "../services/phases/purchaseServices";
+import { createRetiePhaseService } from "../services/phases/retieServices";
+import { createSalesPhaseService } from "../services/phases/salesServices";
+import { createTaxIncentivePhaseService } from "../services/phases/taxIncentiveServices";
 
+// ---- CREATE -----
+export const createProject: RequestHandler = async (req, res) => {
+  try {
+    const { code, ...projectData } = req.body;
+
+    const projectFound = await Project.findOne({ code });
+    if (projectFound) {
+      res.status(409).json({ message: "El proyecto ya existe" });
+      return;
+    }
+
+    const newProject = new Project({
+      code,
+      ...projectData,
+    });
+    const savedProject = await newProject.save();
+
+    await createDocumentPhaseService(savedProject._id.toString());
+    await createEngineeringPhaseService(savedProject._id.toString());
+    await createInstallationPhaseService(savedProject._id.toString());
+    await createMaintenancePhaseService(savedProject._id.toString());
+    await createMarketingPhaseService(savedProject._id.toString());
+    await createNetworkOperatorPhaseService (savedProject._id.toString());
+    await createPurchasePhaseService(savedProject._id.toString());
+    await createRetiePhaseService(savedProject._id.toString());
+    await createSalesPhaseService(savedProject._id.toString());
+    await createTaxIncentivePhaseService(savedProject._id.toString());
+
+    res.status(201).json(savedProject);
+    return;
+  } catch (error) {
+    console.error("Error al crear el proyecto:", error);
+    res.status(500).json({ error: "Error interno del servidor" });
+    return;
+  }
+};
+
+// ----- READ -----
 export const getAllProjects: RequestHandler = async (req, res) => {
   try {
     const projects = await Project.find().sort({ createdAt: -1 });
     res.status(200).json(projects);
     return;
   } catch (error) {
-    console.error("Error al obtener proyectos:", error);
+    console.error("Error al obtener los proyectos:", error);
     res.status(500).json({ error: "Error interno del servidor" });
     return;
   }
@@ -16,11 +63,15 @@ export const getAllProjects: RequestHandler = async (req, res) => {
 
 export const getProject: RequestHandler = async (req, res) => {
   try {
-    const projectFound = await Project.findById(req.params.id);
+    const { id } = req.params;
+
+    const projectFound = await Project.findById(id);
+
     if (!projectFound) {
       res.status(404).json({ message: "Proyecto no encontrado" });
       return;
     }
+
     res.status(200).json(projectFound);
     return;
   } catch (error) {
@@ -30,105 +81,45 @@ export const getProject: RequestHandler = async (req, res) => {
   }
 };
 
-export const createProject: RequestHandler = async (req, res) => {
-  try {
-    const existingProject = await Project.findOne({ code: req.body.code });
-    if (existingProject) {
-      res.status(409).json({ message: "El proyecto ya existe" });
-      return;
-    }
-
-    const project = new Project(req.body);
-    const savedProject = await project.save();
-
-    const phase = new Phase({
-      projectId: savedProject._id,
-      code: savedProject.code,
-
-      phaseDocumental: { status: "En progreso", workProgress: 0 },
-      phaseEngineering: { status: "En progreso", workProgress: 0 },
-      phaseShopping: { status: "En progreso", workProgress: 0 },
-      phaseInstallation: { status: "En progreso", workProgress: 0 },
-      phaseTaxIncentive: { status: "En progreso", workProgress: 0 },
-      phaseRetie: { status: "En progreso", workProgress: 0 },
-      phaseNetworkOperator: { status: "En progreso", workProgress: 0 },
-      phaseMarketing: { status: "En progreso", workProgress: 0 },
-      phaseMaintenance: { status: "En progreso", workProgress: 0 },
-      phaseBilling: { status: "En progreso", workProgress: 0 },
-    });
-
-    await phase.save();
-
-    res.status(201).json(savedProject);
-  } catch (error) {
-    console.error("Error al crear el proyecto y las fases:", error);
-    res.status(500).json({ message: "Error interno del servidor" });
-  }
-};
-
+// ---- UPDATE -----
 export const updateProject: RequestHandler = async (req, res) => {
   try {
     const { id } = req.params;
+    const { code, ...updateData } = req.body;
 
-    const existingProject = await Project.findById(id);
-    if (!existingProject) {
-      res.status(404).json({ message: "Proyecto no encontrado" });
-      return;
-    }
-
-    const { code, ...dataToUpdate } = req.body;
-
-    const updatedProject = await Project.findByIdAndUpdate(id, dataToUpdate, {
+    const updateProject = await Project.findByIdAndUpdate(id, updateData, {
       new: true,
     });
 
-    res.status(200).json(updatedProject);
+    if (!updateProject) {
+      res.status(404).json({ message: "Proyecto no encontrado" });
+      return;
+    }
+    res.status(200).json(updateProject);
     return;
   } catch (error) {
     console.error("Error al actualizar el proyecto:", error);
-    res.status(500).json({ message: "Error interno del servidor" });
+    res.status(500).json({ error: "Error interno del servidor" });
     return;
   }
 };
 
+// ---- DELETE ----
 export const deleteProject: RequestHandler = async (req, res) => {
   try {
-    const deletedProject = await Project.findByIdAndDelete(req.params.id);
+    const { id } = req.params;
+
+    const deletedProject = await Project.findByIdAndDelete(id);
+
     if (!deletedProject) {
       res.status(404).json({ message: "Proyecto no encontrado" });
       return;
     }
-    res.status(200).json(deletedProject);
+
+    res.status(204).json(deletedProject);
     return;
   } catch (error) {
     console.error("Error al eliminar el proyecto:", error);
-    res.status(500).json({ message: "Error interno del servidor" });
-    return;
-  }
-};
-
-export const getProjectPhases: RequestHandler = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const project = await Project.findById(id);
-
-    if (!project) {
-      res.status(404).json({ error: "Proyecto no encontrado" });
-      return;
-    }
-
-    const phases = [
-      { name: "Alistamiento Documental", status: "Completado" },
-      { name: "Ingeniería", status: "En Progreso" },
-      { name: "Montaje", status: "Pendiente" },
-      { name: "RETIE", status: "No Iniciado" },
-      { name: "Operador de Red", status: "No Iniciado" },
-    ];
-
-    res.status(200).json(phases);
-    return;
-  } catch (error) {
-    console.error("Error al obtener las fases del proyecto:", error);
     res.status(500).json({ error: "Error interno del servidor" });
     return;
   }

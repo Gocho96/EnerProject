@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import DocumentalDetail from "../components/phases/documental/DocumentalDetail";
+import DocumentDetail from "../components/phases/document/DocumentDetail";
 import InstallationDetail from "../components/phases/installation/InstallationDetail";
 import EngineeringDetail from "../components/phases/engineering/EngineeringDetail";
 import ShoppingDetail from "../components/phases/shooping/ShoppingDetail";
@@ -15,25 +15,25 @@ const PhaseDetail = () => {
   const { phaseKey } = useParams();
 
   switch (phaseKey) {
-    case "Documental":
-      return <DocumentalDetail />;
-    case "Installation":
+    case "document":
+      return <DocumentDetail />;
+    case "installation":
       return <InstallationDetail />;
-    case "Engineering":
+    case "engineering":
       return <EngineeringDetail />;
-    case "Shopping":
+    case "shopping":
       return <ShoppingDetail />;
-    case "TaxIncentive":
+    case "taxincentive":
       return <TaxIncentiveDetail />;
-    case "Retie":
+    case "retie":
       return <RetieDetail />;
-    case "NetworkOperator":
+    case "networkoperator":
       return <NetworkOperatorDetail />;
-    case "Marketing":
+    case "marketing":
       return <MarketingDetail />;
-    case "Maintenance":
+    case "maintenance":
       return <MaintenanceDetail />;
-    case "Billing":
+    case "billing":
       return <BillingDetail />;
 
     default: {

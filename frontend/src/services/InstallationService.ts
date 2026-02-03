@@ -1,44 +1,61 @@
 import axios from "axios";
-import { API_URL } from "../config/api";
 import { Installation, DailyLogEntry } from "../types/installation";
+import { API_URL } from "../config/api";
 
-export const getInstallationByProjectCode = async (code: string): Promise<Installation> => {
+// CRUD FOR INSTALLATIONS
+export const createInstallation = async (
+  data: { projectId: string }
+): Promise<Installation> => {
+  try {
+    const response = await axios.post<Installation>(
+      `${API_URL}/installation`,
+      data
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error al crear la instalación", error);
+    throw error;
+  }
+};
+
+export const getInstallationByProjectCode = async (
+  code: string
+): Promise<Installation> => {
+  try {
   const response = await axios.get<Installation>(
-    `${API_URL}/installation/project/code/${code}`
-  );
-  return response.data;
-};
-
-export const createInstallation = async (data: { projectId: string }) => {
-  try {
-    return await axios.post(`${API_URL}/installation`, data);
+      `${API_URL}/installation/project/code/${code}`
+    );
+    return response.data;
   } catch (error) {
-    console.log(error);
+    console.error("Error al obtener la instalación", error);
     throw error;
   }
 };
 
+// CRUD FOR DAILYS LOGS
 export const createDailyLog = async (
-  projectId: string,
+  installationId: string,
   log: DailyLogEntry | DailyLogEntry[]
-) => {
+) : Promise<DailyLogEntry> => {
   try {
-    return await axios.post(`${API_URL}/installation/dailylog/${projectId}`, {
-      dailyLog: log,
-    });
+    const response = await axios.post<DailyLogEntry>(
+      `${API_URL}/installation/${installationId}/dailylog`,
+      { dailyLog: log }
+    );
+    return response.data;
   } catch (error) {
-    console.log(error);
+    console.log("Error al crear la bitácora", error);
     throw error;
   }
 };
 
-export const updateDailyLog = async (
+export const updateDailyLogById = async (
   installationId: string,
   logId: string,
   log: DailyLogEntry
 ) => {
   try {
-    return await axios.put(
+    return await axios.patch(
       `${API_URL}/installation/${installationId}/dailylog/${logId}`,
       { dailyLog: log }
     );
@@ -48,10 +65,7 @@ export const updateDailyLog = async (
   }
 };
 
-export const deleteDailyLog = async (
-  installationId: string,
-  logId: string
-) => {
+export const deleteDailyLog = async (installationId: string, logId: string) => {
   try {
     return await axios.delete(
       `${API_URL}/installation/${installationId}/dailylog/${logId}`
