@@ -1,444 +1,452 @@
 import { RequestHandler } from "express";
-import { ProjectDetails } from "../models/projectDetailsModel";
-import { Project } from "../models/projectModel";
+import * as ProjectDetailsService from "../services/projectDetailsServices";
 
+// ----- CREATE -----
+export const addContactPerson: RequestHandler = async (req, res) => {
+  try {
+    const { projectId } = req.params;
+
+    const savedContact = await ProjectDetailsService.addContactPersonService(projectId, req.body);
+
+    res.status(201).json({ message: "Contacto agregado correctamente.", document: savedContact });
+
+  } catch (error: any) {
+    if (error.message === "PROJECT_DETAILS_NOT_FOUND") {
+      res.status(404).json({ message: "Proyecto no encontrado." });
+      return;
+    }
+    console.error("Error al agregar el contacto:", error);
+    res.status(500).json({ error: "Error interno del servidor." });
+  }
+};
+
+export const addSolarPanel: RequestHandler = async (req, res) => {
+  try {
+    const { projectId } = req.params;
+
+    const savedSolarPanel = await ProjectDetailsService.addSolarPanelService(projectId, req.body);
+
+    res.status(201).json({ message: "Panel solar agregado correctamente.", document: savedSolarPanel });
+
+  } catch (error: any) {
+    if (error.message === "PROJECT_DETAILS_NOT_FOUND") {
+      res.status(404).json({ message: "Proyecto no encontrado." });
+      return;
+    }
+    console.error("Error al agregar el panel solar:", error);
+    res.status(500).json({ error: "Error interno del servidor." });
+  }
+};
+
+export const addInverter: RequestHandler = async (req, res) => {
+  try {
+    const { projectId } = req.params;
+
+    const savedInverter = await ProjectDetailsService.addInverterService(projectId, req.body);
+
+    res.status(201).json({ message: "Inversor agregado correctamente.", document: savedInverter });
+
+  } catch (error: any) {
+    if (error.message === "PROJECT_DETAILS_NOT_FOUND") {
+      res.status(404).json({ message: "Proyecto no encontrado." });
+      return;
+    }
+    console.error("Error al agregar el inversor:", error);
+    res.status(500).json({ error: "Error interno del servidor." });
+  }
+};
+
+export const addBattery: RequestHandler = async (req, res) => {
+  try {
+    const { projectId } = req.params;
+
+    const savedBattery = await ProjectDetailsService.addBatteryService(projectId, req.body);
+
+    res.status(201).json({ message: "Bateria agregada correctamente.", document: savedBattery });
+
+  } catch (error: any) {
+    if (error.message === "PROJECT_DETAILS_NOT_FOUND") {
+      res.status(404).json({ message: "Proyecto no encontrado." });
+      return;
+    }
+    console.error("Error al agregar la bateria:", error);
+    res.status(500).json({ error: "Error interno del servidor." });
+  }
+};
+
+// ----- READ -----
 export const getAllProjectDetails: RequestHandler = async (req, res) => {
   try {
-    const projectDetails = await ProjectDetails.find();
-    res.json(projectDetails);
+
+    const projects = await ProjectDetailsService.getAllProjectDetailsService();
+
+    res.status(200).json(projects);
+    return;
   } catch (error) {
-    console.error("Error al obtener detalles del proyecto", error);
+    console.error("Error al obtener todos los proyectos:", error);
+    res.status(500).json({ error: "Error interno del servidor" });
+    return;
+  }
+};
+
+export const getAllContactPersons: RequestHandler = async (req, res) => {
+  try {
+
+    const contacts = await ProjectDetailsService.getAllContactPersonsService();
+
+    res.status(200).json(contacts);
+  } catch (error) {
+    console.error("Error al obtener todos los contactos:", error);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+};
+
+export const getAllSolarPanels: RequestHandler = async (req, res) => {
+  try {
+
+    const solarPanels = await ProjectDetailsService.getAllSolarPanelsService();
+
+    res.status(200).json(solarPanels);
+  } catch (error) {
+    console.error("Error al obtener todos los paneles solares:", error);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+};
+
+export const getAllInverters: RequestHandler = async (req, res) => {
+  try {
+
+    const inverters = await ProjectDetailsService.getAllInvertersService();
+
+    res.status(200).json(inverters);
+  } catch (error) {
+    console.error("Error al obtener todos los inversores:", error);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+};
+
+export const getAllBatteries: RequestHandler = async (req, res) => {
+  try {
+
+    const batteries = await ProjectDetailsService.getAllBatteriesService();
+
+    res.status(200).json(batteries);
+  } catch (error) {
+    console.error("Error al obtener todas las baterías:", error);
     res.status(500).json({ error: "Error interno del servidor" });
   }
 };
 
 export const getProjectDetails: RequestHandler = async (req, res) => {
   try {
-    const projectDetailsFound = await ProjectDetails.findById(req.params.id);
-    if (!projectDetailsFound) {
-      res.status(404).json({ message: "Detalles del proyecto no encontrados" });
-      return;
-    }
-    res.json(projectDetailsFound);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const getByProjectDetails: RequestHandler = async (req, res) => {
-  try {
     const { projectId } = req.params;
-    const details = await ProjectDetails.find({ projectId });
-    res.json(details);
-  } catch (error) {
-    console.error("Error al obtener los detalles del proyecto", error);
-    res.status(500).json({ error: "Error interno del servidor" });
+
+    const project = await ProjectDetailsService.getProjectDetailsService(projectId);
+
+    res.status(200).json(project);
+    return;
+  } catch (error: any) {
+    if (error.message === "PROJECT_DETAILS_NOT_FOUND") {
+      res.status(404).json({ message: "proyecto no encontrado." });
+      return;
+    }
+    console.error("Error al encontrar el proyecto:", error);
+    res.status(500).json({ message: "Error interno del servidor." });
   }
 };
 
-export const getProjectDetailsByCode: RequestHandler = async (req, res) => {
+export const getContactPerson: RequestHandler = async (req, res) => {
   try {
-    const { code } = req.params;
+    const { projectId, contactId } = req.params;
 
-    const project = await Project.findOne({ code });
-    if (!project) {
-      res.status(404).json({ message: "Proyecto no encontrado con ese código" })
+    const contact = await ProjectDetailsService.getContactPersonService(projectId, contactId);
+
+    res.status(200).json(contact);
+    return;
+  } catch (error: any) {
+    if (error.message === "PROJECT_DETAILS_NOT_FOUND") {
+      res.status(404).json({ message: "Proyecto no encontrado." });
       return;
     }
-
-    const details = await ProjectDetails.findOne({ projectId: project._id });
-    if (!details) {
-      res.status(404).json({ message: "Detalles del proyecto no encontrados" })
+    if (error.message === "CONTACT_NOT_FOUND") {
+      res.status(404).json({ message: "Contacto no encontrado." });
       return;
     }
-
-    res.json(details);
-  } catch (error) {
-    console.error("Error al obtener detalles por código", error);
-    res.status(500).json({ message: "Error interno del servidor" });
+    console.error("Error al encontrar el contacto:", error);
+    res.status(500).json({ message: "Error interno del servidor." });
   }
 };
 
-export const createProjectDetails: RequestHandler = async (req, res) => {
+export const getSolarPanel: RequestHandler = async (req, res) => {
   try {
-    const {
-      projectId,
-      projectOwner,
-      typeDocument,
-      documentNumber,
-      address,
-      location,
-      city,
-      department,
-      contactPerson,
-      solarPanels,
-      inverters,
-      batteries,
-    } = req.body;
+    const { projectId, solarPanelId } = req.params;
 
-    const existing = await ProjectDetails.findOne({ projectId });
-    if (existing) {
-      res
-        .status(400)
-        .json({ error: "Ya existen los detalles de este proyecto" });
+    const solarPanel = await ProjectDetailsService.getSolarPanelService(projectId, solarPanelId);
+
+    res.status(200).json(solarPanel);
+    return;
+  } catch (error: any) {
+    if (error.message === "PROJECT_DETAILS_NOT_FOUND") {
+      res.status(404).json({ message: "Proyecto no encontrado." });
       return;
     }
-
-    const dcPower =
-      (solarPanels || []).reduce((total: number, panel: any) => {
-        return total + (panel.panelPower || 0) * (panel.numberPanels || 0);
-      }, 0) / 1000;
-
-    const acPower = (inverters || []).reduce((total: number, inverter: any) => {
-      return total + (inverter.inverterPower || 0) * (inverter.numberInverter || 0);
-    }, 0);
-
-    const newProjectDetails = new ProjectDetails({
-      projectId,
-      projectOwner,
-      typeDocument,
-      documentNumber,
-      address,
-      location,
-      city,
-      department,
-      dcPower,
-      acPower,
-      contactPerson: contactPerson || [],
-      solarPanels: solarPanels || [],
-      inverters: inverters || [],
-      batteries: batteries || [],
-    });
-
-    const saved = await newProjectDetails.save();
-    res.status(201).json(saved);
-  } catch (error) {
-    console.error("Error al crear ProjectDetails", error);
-    res.status(500).json({ error: "Error al crear ProjectDetails" });
+    if (error.message === "SOLAR_PANEL_NOT_FOUND") {
+      res.status(404).json({ message: "Panel solar no encontrado." });
+      return;
+    }
+    console.error("Error al encontrar el panel solar:", error);
+    res.status(500).json({ message: "Error interno del servidor." });
   }
 };
 
-export const addContactPerson: RequestHandler = async (req, res) => {
+export const getInverter: RequestHandler = async (req, res) => {
   try {
-    const project = await ProjectDetails.findOne({
-      projectId: req.params.projectId,
-    });
-    if (!project) {
-      res.status(404).json({ message: "Proyecto no encontrado" });
+    const { projectId, inverterId } = req.params;
+
+    const inverter = await ProjectDetailsService.getInverterService(projectId, inverterId);
+
+    res.status(200).json(inverter);
+    return;
+  } catch (error: any) {
+    if (error.message === "PROJECT_DETAILS_NOT_FOUND") {
+      res.status(404).json({ message: "Proyecto no encontrado." });
       return;
     }
-
-    project.contactPerson.push(req.body);
-    await project.save();
-    res.status(201).json(project);
-  } catch (error) {
-    res.status(500).json({ error: "Error al agregar contacto" });
+    if (error.message === "INVERTER_NOT_FOUND") {
+      res.status(404).json({ message: "Inversor no encontrado." });
+      return;
+    }
+    console.error("Error al encontrar el inversor:", error);
+    res.status(500).json({ message: "Error interno del servidor." });
   }
 };
 
-export const addSolarPanel: RequestHandler = async (req, res) => {
+export const getBattery: RequestHandler = async (req, res) => {
   try {
-    const project = await ProjectDetails.findOne({
-      projectId: req.params.projectId,
-    });
-    if (!project) {
-      res.status(404).json({ message: "Proyecto no encontrado" });
+    const { projectId, batteryId } = req.params;
+
+    const battery = await ProjectDetailsService.getBatteryService(projectId, batteryId);
+
+    res.status(200).json(battery);
+    return;
+  } catch (error: any) {
+    if (error.message === "PROJECT_DETAILS_NOT_FOUND") {
+      res.status(404).json({ message: "Proyecto no encontrado." });
       return;
     }
-
-    project.solarPanels.push(req.body);
-
-    project.dcPower =
-      project.solarPanels.reduce((total, panel) => {
-        return total + (panel.panelPower || 0) * (panel.numberPanels || 0);
-      }, 0) / 1000;
-
-    await project.save();
-    res.status(201).json(project);
-  } catch (error) {
-    res.status(500).json({ error: "Error al agregar panel solar" });
+    if (error.message === "BATTERY_NOT_FOUND") {
+      res.status(404).json({ message: "Bateria no encontrada." });
+      return;
+    }
+    console.error("Error al encontrar la bateria:", error);
+    res.status(500).json({ message: "Error interno del servidor." });
   }
 };
 
-export const addInverter: RequestHandler = async (req, res) => {
-  try {
-    const project = await ProjectDetails.findOne({
-      projectId: req.params.projectId,
-    });
-    if (!project) {
-      res.status(404).json({ message: "Proyecto no encontrado" });
-      return;
-    }
-
-    project.inverters.push(req.body);
-
-    project.acPower = project.inverters.reduce((total, inverter) => {
-      return total + (inverter.inverterPower || 0) * (inverter.numberInverter || 0);
-    }, 0);
-
-    await project.save();
-    res.status(201).json(project);
-  } catch (error) {
-    res.status(500).json({ error: "Error al agregar inversor" });
-  }
-};
-
-export const addBattery: RequestHandler = async (req, res) => {
-  try {
-    const project = await ProjectDetails.findOne({
-      projectId: req.params.projectId,
-    });
-    if (!project) {
-      res.status(404).json({ message: "Proyecto no encontrado" });
-      return;
-    }
-
-    project.batteries.push(req.body);
-    await project.save();
-    res.status(201).json(project);
-  } catch (error) {
-    res.status(500).json({ error: "Error al agregar batería" });
-  }
-};
-
+// ----- UPDATE -----
 export const updateProjectDetails: RequestHandler = async (req, res) => {
   try {
     const { projectId } = req.params;
-    const updatedData = req.body;
 
-    const updated = await ProjectDetails.findOneAndUpdate(
-      { projectId },
-      updatedData,
-      { new: true }
-    );
+    const projectUpdate = await ProjectDetailsService.updateProjectDetailsService(projectId, req.body);
 
-    if (!updated) {
-      res.status(404).json({ message: "Detalles del proyecto no encontrados" });
+    res.status(200).json({ message: "Proyecto actualizado correctamente.", document: projectUpdate });
+  } catch (error: any) {
+    if (error.message === "PROJECT_DETAILS_NOT_FOUND") {
+      res.status(404).json({ message: "Proyecto no encontrado." });
       return;
     }
-
-    res.json(updated);
-  } catch (error) {
-    console.error("Error actualizando detalles del proyecto:", error);
-    res.status(500).json({ message: "Error interno del servidor" });
+    console.error("Error al actualizar el proyecto:", error);
+    res.status(500).json({ message: "Error interno del servidor." });
   }
 };
 
 export const updateContactPerson: RequestHandler = async (req, res) => {
   try {
-    const { projectId, contactId } = req.params;
-    const project = await ProjectDetails.findOne({ projectId });
-    if (!project) {
-      res.status(404).json({ message: "Proyecto no encontrado" });
+    const { projectId } = req.params;
+
+    const contactUpdate = await ProjectDetailsService.updateContactPersonService(projectId, req.params.contactId, req.body);
+
+    res.status(200).json({ message: "Contacto actualizado correctamente.", document: contactUpdate });
+  } catch (error: any) {
+    if (error.message === "PROJECT_DETAILS_NOT_FOUND") {
+      res.status(404).json({ message: "Proyecto no encontrado." });
       return;
     }
-
-    const contact = project.contactPerson.id(contactId);
-    if (!contact) {
-      res.status(404).json({ message: "Contacto no encontrado" });
+    if (error.message === "CONTACT_NOT_FOUND") {
+      res.status(404).json({ message: "Contacto no encontrado." });
       return;
+    } else {
+      console.error("Error al actualizar el contacto:", error);
+      res.status(500).json({ message: "Error interno del servidor." });
     }
-
-    Object.assign(contact, req.body);
-    await project.save();
-    res.json(project);
-  } catch (error) {
-    res.status(500).json({ error: "Error al actualizar contacto" });
   }
 };
 
 export const updateSolarPanel: RequestHandler = async (req, res) => {
   try {
-    const { projectId, panelId } = req.params;
-    const project = await ProjectDetails.findOne({ projectId });
-    if (!project) {
-      res.status(404).json({ message: "Proyecto no encontrado" });
+    const { projectId } = req.params;
+
+    const solarPanelUpdate = await ProjectDetailsService.updateSolarPanelService(projectId, req.params.solarPanelId, req.body);
+
+    res.status(200).json({ message: "Panel solar actualizado correctamente.", document: solarPanelUpdate });
+  } catch (error: any) {
+    if (error.message === "PROJECT_DETAILS_NOT_FOUND") {
+      res.status(404).json({ message: "Proyecto no encontrado." });
       return;
     }
-
-    const panel = project.solarPanels.id(panelId);
-    if (!panel) {
-      res.status(404).json({ message: "Panel solar no encontrado" });
+    if (error.message === "SOLAR_PANEL_NOT_FOUND") {
+      res.status(404).json({ message: "Panel solar no encontrado." });
       return;
+    } else {
+      console.error("Error al actualizar el panel solar:", error);
+      res.status(500).json({ message: "Error interno del servidor." });
     }
-
-    Object.assign(panel, req.body);
-
-    project.dcPower =
-      project.solarPanels.reduce((total, panel) => {
-        return total + (panel.panelPower || 0) * (panel.numberPanels || 0);
-      }, 0) / 1000;
-
-    await project.save();
-    res.json(project);
-  } catch (error) {
-    res.status(500).json({ error: "Error al actualizar panel solar" });
   }
 };
 
 export const updateInverter: RequestHandler = async (req, res) => {
   try {
-    const { projectId, inverterId } = req.params;
-    const project = await ProjectDetails.findOne({ projectId });
-    if (!project) {
-      res.status(404).json({ message: "Proyecto no encontrado" });
+    const { projectId } = req.params;
+
+    const inverterUpdate = await ProjectDetailsService.updateInverterService(projectId, req.params.inverterId, req.body);
+
+    res.status(200).json({ message: "Inversor actualizado correctamente.", document: inverterUpdate });
+  } catch (error: any) {
+    if (error.message === "PROJECT_DETAILS_NOT_FOUND") {
+      res.status(404).json({ message: "Proyecto no encontrado." });
       return;
     }
-
-    const inverter = project.inverters.id(inverterId);
-    if (!inverter) {
-      res.status(404).json({ message: "Inversor no encontrado" });
+    if (error.message === "INVERTER_NOT_FOUND") {
+      res.status(404).json({ message: "Inversor no encontrado." });
       return;
+    } else {
+      console.error("Error al actualizar inversor:", error);
+      res.status(500).json({ message: "Error interno del servidor." });
     }
-
-    Object.assign(inverter, req.body);
-
-    project.acPower = project.inverters.reduce((total, inverter) => {
-      return total + (inverter.inverterPower || 0) * (inverter.numberInverter || 0);
-    }, 0);
-
-    await project.save();
-    res.json(project);
-  } catch (error) {
-    res.status(500).json({ error: "Error al actualizar inversor" });
   }
 };
 
 export const updateBattery: RequestHandler = async (req, res) => {
   try {
-    const { projectId, batteryId } = req.params;
-    const project = await ProjectDetails.findOne({ projectId });
-    if (!project) {
-      res.status(404).json({ message: "Proyecto no encontrado" });
+    const { projectId } = req.params;
+
+    const batteryUpdate = await ProjectDetailsService.updateBatteryService(projectId, req.params.batteryId, req.body);
+
+    res.status(200).json({ message: "Bateria actualizada correctamente.", document: batteryUpdate });
+  } catch (error: any) {
+    if (error.message === "PROJECT_DETAILS_NOT_FOUND") {
+      res.status(404).json({ message: "Proyecto no encontrado." });
       return;
     }
-
-    const battery = project.batteries.id(batteryId);
-    if (!battery) {
-      res.status(404).json({ message: "Batería no encontrada" });
+    if (error.message === "BATTERY_NOT_FOUND") {
+      res.status(404).json({ message: "Bateria no encontrada." });
       return;
+    } else {
+      console.error("Error al actualizar bateria:", error);
+      res.status(500).json({ message: "Error interno del servidor." });
     }
-
-    Object.assign(battery, req.body);
-    await project.save();
-    res.json(project);
-  } catch (error) {
-    res.status(500).json({ error: "Error al actualizar batería" });
   }
 };
 
+// ----- DELETE -----
 export const deleteProjectDetails: RequestHandler = async (req, res) => {
   try {
-    const detailsDelete = await ProjectDetails.findByIdAndDelete(req.params.id);
-    if (!detailsDelete) {
-      res.status(404).json({ message: "Detalles del proyecto no encontrados" });
+    const { projectId } = req.params;
+
+    const projectDelete = await ProjectDetailsService.deleteProjectDetailsService(projectId);
+
+    res.status(200).json({ message: "Detalles del proyecto eliminada correctamente.", document: projectDelete });
+  } catch (error: any) {
+    if (error.message === "PROJECT_DETAILS_NOT_FOUND") {
+      res.status(404).json({ message: "Proyecto no encontrado." });
       return;
     }
-    res.json(detailsDelete);
-  } catch (error) {
-    console.log(error);
+    console.error("Error al eliminar detalles del proyecto:", error);
+    res.status(500).json({ message: "Error interno del servidor." });
   }
 };
 
 export const deleteContactPerson: RequestHandler = async (req, res) => {
   try {
     const { projectId, contactId } = req.params;
-    const project = await ProjectDetails.findOne({ projectId });
-    if (!project) {
-      res.status(404).json({ message: "Proyecto no encontrado" });
+
+    const contactDelete = await ProjectDetailsService.deleteContactPersonService(projectId, contactId);
+
+    res.status(200).json({ message: "Contacto eliminado correctamente.", document: contactDelete });
+  } catch (error: any) {
+    if (error.message === "PROJECT_DETAILS_NOT_FOUND") {
+      res.status(404).json({ message: "Proyecto no encontrado." });
       return;
     }
-
-    const contact = project.contactPerson.id(contactId);
-    if (!contact) {
-      res.status(404).json({ message: "Contacto no encontrado" });
+    if (error.message === "CONTACT_NOT_FOUND") {
+      res.status(404).json({ message: "Contacto no encontrado." });
       return;
     }
-
-    project.contactPerson.pull(contact._id);
-    await project.save();
-    res.json(project);
-  } catch (error) {
-    res.status(500).json({ error: "Error al eliminar contacto" });
+    console.error("Error al eliminar contacto:", error);
+    res.status(500).json({ message: "Error interno del servidor." });
   }
 };
 
 export const deleteSolarPanel: RequestHandler = async (req, res) => {
   try {
-    const { projectId, panelId } = req.params;
-    const project = await ProjectDetails.findOne({ projectId });
-    if (!project) {
-      res.status(404).json({ message: "Proyecto no encontrado" });
+    const { projectId, solarPanelId } = req.params;
+
+    const solarPanelDelete = await ProjectDetailsService.deleteSolarPanelService(projectId, solarPanelId);
+
+    res.status(200).json({ message: "Panel solar eliminado correctamente.", document: solarPanelDelete });
+  } catch (error: any) {
+    if (error.message === "PROJECT_DETAILS_NOT_FOUND") {
+      res.status(404).json({ message: "Proyecto no encontrado." });
       return;
     }
-
-    const panel = project.solarPanels.id(panelId);
-    if (!panel) {
-      res.status(404).json({ message: "Panel solar no encontrado" });
+    if (error.message === "CONTACT_NOT_FOUND") {
+      res.status(404).json({ message: "Panel solar no encontrado." });
       return;
     }
-
-    project.solarPanels.pull(panel._id);
-
-    project.dcPower =
-      project.solarPanels.reduce((total, panel) => {
-        return total + (panel.panelPower || 0) * (panel.numberPanels || 0);
-      }, 0) / 1000;
-
-    await project.save();
-    res.json(project);
-  } catch (error) {
-    res.status(500).json({ error: "Error al eliminar panel solar" });
+    console.error("Error al eliminar panel solar:", error);
+    res.status(500).json({ message: "Error interno del servidor." });
   }
 };
 
 export const deleteInverter: RequestHandler = async (req, res) => {
   try {
     const { projectId, inverterId } = req.params;
-    const project = await ProjectDetails.findOne({ projectId });
-    if (!project) {
-      res.status(404).json({ message: "Proyecto no encontrado" });
+
+    const inverterDelete = await ProjectDetailsService.deleteInverterService(projectId, inverterId);
+
+    res.status(200).json({ message: "Inversor eliminado correctamente.", document: inverterDelete });
+  } catch (error: any) {
+    if (error.message === "PROJECT_DETAILS_NOT_FOUND") {
+      res.status(404).json({ message: "Proyecto no encontrado." });
       return;
     }
-
-    const inverter = project.inverters.id(inverterId);
-    if (!inverter) {
-      res.status(404).json({ message: "Inversor no encontrado" });
+    if (error.message === "INVERTER_NOT_FOUND") {
+      res.status(404).json({ message: "Inversor no encontrado." });
       return;
     }
-
-    project.inverters.pull(inverter._id);
-
-    project.acPower = project.inverters.reduce((total, inverter) => {
-      return total + (inverter.inverterPower || 0) * (inverter.numberInverter || 0);
-    }, 0);
-
-    await project.save();
-    res.json(project);
-  } catch (error) {
-    res.status(500).json({ error: "Error al eliminar inversor" });
+    console.error("Error al eliminar inversor:", error);
+    res.status(500).json({ message: "Error interno del servidor." });
   }
 };
 
 export const deleteBattery: RequestHandler = async (req, res) => {
   try {
     const { projectId, batteryId } = req.params;
-    const project = await ProjectDetails.findOne({ projectId });
-    if (!project) {
-      res.status(404).json({ message: "Proyecto no encontrado" });
+
+    const batteryDelete = await ProjectDetailsService.deleteBatteryService(projectId, batteryId);
+
+    res.status(200).json({ message: "Bateria eliminada correctamente.", document: batteryDelete });
+  } catch (error: any) {
+    if (error.message === "PROJECT_DETAILS_NOT_FOUND") {
+      res.status(404).json({ message: "Proyecto no encontrado." });
       return;
     }
-
-    const battery = project.batteries.id(batteryId);
-    if (!battery) {
-      res.status(404).json({ message: "Batería no encontrada" });
+    if (error.message === "BATTERY_NOT_FOUND") {
+      res.status(404).json({ message: "Bateria no encontrada." });
       return;
     }
-
-    project.batteries.pull(battery._id);
-    await project.save();
-    res.json(project);
-  } catch (error) {
-    res.status(500).json({ error: "Error al eliminar batería" });
+    console.error("Error al eliminar bateria:", error);
+    res.status(500).json({ message: "Error interno del servidor." });
   }
 };

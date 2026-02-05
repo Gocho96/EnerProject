@@ -10,6 +10,7 @@ import { createPurchasePhaseService } from "../services/phases/purchaseServices"
 import { createRetiePhaseService } from "../services/phases/retieServices";
 import { createSalesPhaseService } from "../services/phases/salesServices";
 import { createTaxIncentivePhaseService } from "../services/phases/taxIncentiveServices";
+import { createProjectDetailsService } from "../services/projectDetailsServices";
 
 // ---- CREATE -----
 export const createProject: RequestHandler = async (req, res) => {
@@ -27,6 +28,8 @@ export const createProject: RequestHandler = async (req, res) => {
       ...projectData,
     });
     const savedProject = await newProject.save();
+
+    await createProjectDetailsService(savedProject._id.toString());
 
     await createDocumentPhaseService(savedProject._id.toString());
     await createEngineeringPhaseService(savedProject._id.toString());

@@ -1,28 +1,36 @@
 import { Router } from "express";
 import * as projectDetailsController from "../controllers/projectDetailsController";
-import { validateSchema } from "../middlewares/schemaMiddleware";
-import { createProjectDetailsSchema, contactPersonSchema, solarPanelSchema, inverterSchema, batterySchema } from "../schemas/projectDetailsSchemas";
+// import { validateSchema } from "../../middlewares/schemaMiddleware";
+// import { contractSchema, policySchema} from "../../schemas/phases/documentSchemas";
 
 const router = Router();
 
-router.get("/project-details", projectDetailsController.getAllProjectDetails);
-router.get("/project-details/:id", projectDetailsController.getProjectDetails);
-router.get("/project-details/project/:projectId", projectDetailsController.getByProjectDetails);
-router.get("/project-details/code/:code", projectDetailsController.getProjectDetailsByCode);
-router.post("/project-details", projectDetailsController.createProjectDetails);
-router.post("/project-details/project/:projectId/contact-person", validateSchema(contactPersonSchema), projectDetailsController.addContactPerson);
-router.post("/project-details/project/:projectId/solar-panels", validateSchema(solarPanelSchema), projectDetailsController.addSolarPanel);
-router.post("/project-details/project/:projectId/inverters", validateSchema(inverterSchema), projectDetailsController.addInverter);
-router.post("/project-details/project/:projectId/batteries", validateSchema(batterySchema), projectDetailsController.addBattery);
-router.patch("/project-details/project/:projectId", projectDetailsController.updateProjectDetails);
-router.put("/project-details/project/:projectId/contact-person/:contactId", validateSchema(contactPersonSchema), projectDetailsController.updateContactPerson);
-router.put("/project-details/project/:projectId/solar-panels/:panelId", validateSchema(solarPanelSchema), projectDetailsController.updateSolarPanel);
-router.put("/project-details/project/:projectId/inverters/:inverterId", validateSchema(inverterSchema), projectDetailsController.updateInverter);
-router.put("/project-details/project/:projectId/batteries/:batteryId", validateSchema(batterySchema), projectDetailsController.updateBattery);
-router.delete("/project-details/project/:projectId", projectDetailsController.deleteProjectDetails);
-router.delete("/project-details/project/:projectId/contact-person/:contactId", projectDetailsController.deleteContactPerson);
-router.delete("/project-details/project/:projectId/solar-panels/:panelId", projectDetailsController.deleteSolarPanel);
-router.delete("/project-details/project/:projectId/inverters/:inverterId", projectDetailsController.deleteInverter);
-router.delete("/project-details/project/:projectId/batteries/:batteryId", projectDetailsController.deleteBattery);
+router.post("/project/:projectId/project-details/contact",projectDetailsController.addContactPerson);
+router.post("/project/:projectId/project-details/solar-panel",projectDetailsController.addSolarPanel);
+router.post("/project/:projectId/project-details/inverter",projectDetailsController.addInverter);
+router.post("/project/:projectId/project-details/battery",projectDetailsController.addBattery);
+
+router.get("/projects-details", projectDetailsController.getAllProjectDetails);
+router.get("/projects-details/contacts", projectDetailsController.getAllContactPersons);
+router.get("/projects-details/solar-panels", projectDetailsController.getAllSolarPanels);
+router.get("/projects-details/inverters", projectDetailsController.getAllInverters);
+router.get("/projects-details/batteries", projectDetailsController.getAllBatteries);
+router.get("/project/:projectId/project-details", projectDetailsController.getProjectDetails);
+router.get("/project/:projectId/project-details/contact/:contactId", projectDetailsController.getContactPerson);
+router.get("/project/:projectId/project-details/solar-panel/:solarPanelId", projectDetailsController.getSolarPanel);
+router.get("/project/:projectId/project-details/inverter/:inverterId", projectDetailsController.getInverter);
+router.get("/project/:projectId/project-details/battery/:batteryId", projectDetailsController.getBattery);
+
+router.patch("/project/:projectId/project-details", projectDetailsController.updateProjectDetails);
+router.patch("/project/:projectId/project-details/contact/:contactId", projectDetailsController.updateContactPerson);
+router.patch("/project/:projectId/project-details/solar-panel/:solarPanelId", projectDetailsController.updateSolarPanel);
+router.patch("/project/:projectId/project-details/inverter/:inverterId", projectDetailsController.updateInverter);
+router.patch("/project/:projectId/project-details/battery/:batteryId", projectDetailsController.updateBattery);
+
+router.delete("/project/:projectId/project-details", projectDetailsController.deleteProjectDetails);
+router.delete("/project/:projectId/project-details/contact/:contactId", projectDetailsController.deleteContactPerson);
+router.delete("/project/:projectId/project-details/solar-panel/:solarPanelId", projectDetailsController.deleteSolarPanel);
+router.delete("/project/:projectId/project-details/inverter/:inverterId", projectDetailsController.deleteInverter);
+router.delete("/project/:projectId/project-details/battery/:batteryId", projectDetailsController.deleteBattery);
 
 export default router;

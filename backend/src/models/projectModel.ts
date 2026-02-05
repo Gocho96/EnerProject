@@ -8,13 +8,11 @@ const projectSchema = new Schema(
       unique: true,
       trim: true,
     },
-    
     name: {
       type: String,
       required: true,
       trim: true,
     },
-
     typeOfService: {
       type: String,
       enum: [
@@ -32,21 +30,17 @@ const projectSchema = new Schema(
       required: true,
       trim: true,
     },
-
     state: {
       type: String,
       enum: ["Por iniciar", "En curso", "Pausado", "Finalizado", "Cancelado"],
       required: true,
     },
-
     startContract: {
       type: Date,
     },
-
     endContract: {
       type: Date,
     },
-
     nextMaintenance: {
       type: Date,
     },

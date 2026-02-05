@@ -7,13 +7,11 @@ const phaseSchema = new Schema(
       required: true,
       trim: true,
     },
-    
     projectId: {
       type: Types.ObjectId,
       ref: "Project",
       required: true,
     },
-
     Documental: {
       status: {
         type: String,
@@ -21,7 +19,6 @@ const phaseSchema = new Schema(
         default: "En progreso",
         required: true,
       },
-
       workProgress: {
         type: Number,
         min: 0,
@@ -29,12 +26,10 @@ const phaseSchema = new Schema(
         default: 0,
         required: true,
       },
-
       news: {
         type: String,
       },
     },
-
     Engineering: {
       status: {
         type: String,
@@ -42,7 +37,6 @@ const phaseSchema = new Schema(
         default: "En progreso",
         required: true,
       },
-
       workProgress: {
         type: Number,
         min: 0,
@@ -50,12 +44,10 @@ const phaseSchema = new Schema(
         default: 0,
         required: true,
       },
-
       news: {
         type: String,
       },
     },
-
     Shopping: {
       status: {
         type: String,
@@ -63,7 +55,6 @@ const phaseSchema = new Schema(
         default: "En progreso",
         required: true,
       },
-
       workProgress: {
         type: Number,
         min: 0,
@@ -71,7 +62,6 @@ const phaseSchema = new Schema(
         default: 0,
         required: true,
       },
-
       news: {
         type: String,
       },
