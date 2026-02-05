@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Billing } from "../../../types/billing";
+import { Billing } from "../../../types/phases/purchases";
 
 interface BillingFormProps {
   onSubmit: (data: Omit<Billing, "_id" | "createdAt" | "updatedAt">) => void;

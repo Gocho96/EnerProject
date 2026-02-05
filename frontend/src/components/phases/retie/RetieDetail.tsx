@@ -5,7 +5,7 @@ import {
   getRetieByProjectCode,
   updateRetie,
 } from "../../../services/RetieService";
-import { Retie } from "../../../types/retie";
+import { Retie } from "../../../types/phases/retie";
 
 const RetieDetail: React.FC = () => {
   const { code } = useParams<{ code: string }>();

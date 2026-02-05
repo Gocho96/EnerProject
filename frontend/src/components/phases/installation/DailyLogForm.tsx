@@ -1,5 +1,5 @@
 import React from "react";
-import { DailyLogEntry } from "../../../types/installation";
+import { DailyLogEntry } from "../../../types/phases/installation";
 
 interface Props {
   log: DailyLogEntry;

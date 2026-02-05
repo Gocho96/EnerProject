@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_URL } from "../config/api";
-import { NetworkOperator } from "../types/networkOperador";
+import { NetworkOperator } from "../types/phases/networkOperador";
 
 export const getAllNetworkOperators = async () => {
   try {

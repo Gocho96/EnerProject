@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Retie } from "../types/retie";
+import { Retie } from "../types/phases/retie";
 import { API_URL } from "../config/api";
 
 export const getAllReties = async () => {

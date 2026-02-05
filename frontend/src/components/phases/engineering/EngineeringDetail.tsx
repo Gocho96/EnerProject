@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Engineering } from "../../../types/engineering";
+import { Engineering } from "../../../types/phases/engineering";
 import {
   getEngineeringByProjectCode,
   updateEngineering,

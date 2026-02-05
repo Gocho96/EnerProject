@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_URL } from "../config/api";
-import { Maintenance } from "../types/maintenance";
+import { Maintenance } from "../types/phases/maintenance";
 
 export const getAllMaintenances = async () => {
   try {

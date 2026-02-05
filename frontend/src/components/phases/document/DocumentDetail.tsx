@@ -5,7 +5,7 @@ import { API_URL } from "../../../config/api";
 import { toast } from "react-toastify";
 import ContractForm from "./ContractForm";
 import PolicyForm from "./PolicyForm";
-import { Policy, Contract, Document } from "../../../types/document";
+import { Policy, Contract, Document } from "../../../types/phases/document";
 import { formatLocalDate } from "../../../utils/dateUtils";
 import { getDocumentByProjectCode } from "../../../services/DocumentService";
 

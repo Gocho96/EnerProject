@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Shopping, MaterialItem } from "../../../types/shopping";
+import { Shopping, MaterialItem } from "../../../types/phases/sales";
 import {
   getShoppingByProjectCode,
   deleteMaterial,

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Document, Contract, Policy } from "../types/document";
+import { Document, Contract, Policy } from "../types/phases/document";
 import { API_URL } from "../config/api";
 
 // ----- CREATE -----

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { MarketingPlatform, MarketingPublication } from "../../../types/marketing";
+import { MarketingPlatform, MarketingPublication } from "../../../types/phases/marketing";
 import { addPublicationEntry } from "../../../services/MarketingService";
 import { toast } from "react-toastify";
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Contract } from "../../../types/document";
+import { Contract } from "../../../types/phases/document";
 import {
   addContract,
   updateContract,

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { TaxIncentive, SecondaryBeneficiary } from "../types/taxIncentive";
+import { TaxIncentive, SecondaryBeneficiary } from "../types/phases/taxIncentive";
 import { API_URL } from "../config/api";
 
 export const getAllTaxIncentives = async () => {

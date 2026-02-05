@@ -7,7 +7,7 @@ import {
   updateMaintenance,
   deleteMaintenance,
 } from "../../../services/MaintenanceService";
-import { Maintenance, MaintenanceRecord } from "../../../types/maintenance";
+import { Maintenance, MaintenanceRecord } from "../../../types/phases/maintenance";
 import { toast } from "react-toastify";
 
 const MaintenanceDetail: React.FC = () => {

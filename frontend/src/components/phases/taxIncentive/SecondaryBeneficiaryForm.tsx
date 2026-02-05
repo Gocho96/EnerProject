@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { SecondaryBeneficiary } from "../../../types/taxIncentive";
+import { SecondaryBeneficiary } from "../../../types/phases/taxIncentive";
 
 interface Props {
   beneficiary?: SecondaryBeneficiary;

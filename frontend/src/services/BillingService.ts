@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_URL } from "../config/api";
-import { Billing } from "../types/billing";
+import { Billing } from "../types/phases/purchases";
 
 // ----- CREATE -----
 export const createBilling = async (data: { projectId: string }) => {

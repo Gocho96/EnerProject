@@ -5,7 +5,7 @@ import {
   createShopping,
   updateMaterial
 } from "../../../services/ShoppingService";
-import { MaterialItem } from "../../../types/shopping";
+import { MaterialItem } from "../../../types/phases/sales";
 
 interface Props {
   shoppingId?: string;

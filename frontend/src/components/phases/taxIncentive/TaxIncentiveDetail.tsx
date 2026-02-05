@@ -11,7 +11,7 @@ import {
 import {
   TaxIncentive,
   SecondaryBeneficiary,
-} from "../../../types/taxIncentive";
+} from "../../../types/phases/taxIncentive";
 import SecondaryBeneficiaryForm from "./SecondaryBeneficiaryForm";
 
 const TaxIncentiveDetail: React.FC = () => {

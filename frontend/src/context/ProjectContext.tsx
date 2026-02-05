@@ -1,18 +1,6 @@
-import {
-    createContext,
-    useContext,
-    useState,
-    ReactNode,
-    useCallback,
-  } from "react";
-  import {
-    getProject,
-    getProjects,
-    createProject,
-    updateProject,
-    deleteProject,
-  } from "../services/ProjectService";
-  import { Project } from "../types/project";
+import { createContext, useContext, useState, ReactNode, useCallback } from "react";
+import { getProject, getProjects, createProject, updateProject, deleteProject } from "../services/ProjectService";
+import { Project } from "../types/project";
   
   interface ProjectContextType {
     projects: Project[];

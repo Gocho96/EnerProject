@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Engineering } from "../types/engineering";
+import { Engineering } from "../types/phases/engineering";
 import { API_URL } from "../config/api";
 
 export const getAllEngineerings = async () => {

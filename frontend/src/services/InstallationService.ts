@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Installation, DailyLogEntry } from "../types/installation";
+import { Installation, DailyLogEntry } from "../types/phases/installation";
 import { API_URL } from "../config/api";
 
 // CRUD FOR INSTALLATIONS

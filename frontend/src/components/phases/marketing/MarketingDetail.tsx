@@ -5,7 +5,7 @@ import {
   getMarketingByProjectCode,
   updateSurveyInfo,
 } from "../../../services/MarketingService";
-import { Marketing } from "../../../types/marketing";
+import { Marketing } from "../../../types/phases/marketing";
 import PublicationForm from "./PublicationForm";
 
 const MarketingDetail: React.FC = () => {

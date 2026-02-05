@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_URL } from "../config/api";
-import { Shopping, MaterialItem } from "../types/shopping";
+import { Shopping, MaterialItem } from "../types/phases/sales";
 
 export const getAllShoppings = async () => {
   try {

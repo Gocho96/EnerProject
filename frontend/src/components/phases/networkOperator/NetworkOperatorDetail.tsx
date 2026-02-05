@@ -5,7 +5,7 @@ import {
   getNetworkOperatorByProjectCode,
   updateNetworkOperator,
 } from "../../../services/NetworkOperadorService";
-import { NetworkOperator } from "../../../types/networkOperador";
+import { NetworkOperator } from "../../../types/phases/networkOperador";
 
 const NetworkOperatorDetail: React.FC = () => {
   const { code } = useParams<{ code: string }>();

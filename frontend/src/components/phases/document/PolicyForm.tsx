@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { PolicyType, Policy } from "../../../types/document";
+import { PolicyType, Policy } from "../../../types/phases/document";
 import { addPolicy } from "../../../services/DocumentService";
 import { toast } from "react-toastify";
 import axios from "axios";

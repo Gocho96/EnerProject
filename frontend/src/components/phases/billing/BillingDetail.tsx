@@ -7,7 +7,7 @@ import {
   updateBilling,
   deleteBilling,
 } from "../../../services/BillingService";
-import { Billing } from "../../../types/billing";
+import { Billing } from "../../../types/phases/purchases";
 import BillingForm from "./BillingForm";
 
 const BillingDetail: React.FC = () => {
