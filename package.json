@@ -2,14 +2,42 @@
   "name": "enerproject",
   "private": true,
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "description": "Plataforma integral de gestión de proyectos energéticos",
+  "type": "module",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
   },
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w enerproject & npm run dev -w @enerproject/frontend",
+    "build": "npm run build -w @enerproject/shared && npm run build -w enerproject && npm run build -w @enerproject/frontend",
+    "build:shared": "npm run build -w @enerproject/shared",
+    "build:backend": "npm run build -w enerproject",
+    "build:frontend": "npm run build -w @enerproject/frontend",
+    "start": "npm start -w enerproject",
+    "lint": "npm run lint -w enerproject && npm run lint -w @enerproject/frontend",
+    "lint:fix": "npm run lint:fix -w enerproject && npm run lint:fix -w @enerproject/frontend",
+    "type-check": "npm run type-check -w @enerproject/frontend && tsc -b packages/backend packages/shared",
+    "install:all": "npm install && npm install -w @enerproject/shared && npm install -w enerproject && npm install -w @enerproject/frontend"
+  },
+  "keywords": [
+    "energy",
+    "projects",
+    "management",
+    "renewable",
+    "solar",
+    "api"
+  ],
   "author": "Wilder Montaner",
   "license": "ISC",
   "dependencies": {
-    "dayjs": "^1.11.13"
+    "dayjs": "^1.11.13",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.2"
   }
 }

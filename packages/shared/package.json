@@ -1,13 +1,22 @@
 {
-  "name": "shared",
+  "name": "@enerproject/shared",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Tipos y esquemas compartidos",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "dev": "tsc --watch"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs"
+  "dependencies": {
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "typescript": "^5.8.2"
+  }
 }
