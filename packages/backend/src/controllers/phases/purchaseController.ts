@@ -4,7 +4,7 @@ import * as PurchaseService from "../../services/phases/purchaseServices";
 // ----- CREATE -----
 export const addPurchase: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const savedPurchase = await PurchaseService.addPurchaseService(projectId, req.body);
 
@@ -40,7 +40,7 @@ export const getAllPurchases: RequestHandler = async (req, res) => {
 
 export const getPurchase: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const purchaseFound = await PurchaseService.getPurchaseService(projectId);
 
@@ -58,7 +58,7 @@ export const getPurchase: RequestHandler = async (req, res) => {
 
 export const getOnePurchase: RequestHandler = async (req, res) => {
   try {
-    const { projectId, purchaseId } = req.params;
+    const { projectId, purchaseId } = req.params as { projectId: string, purchaseId: string };
 
     const purchaseFound = await PurchaseService.getOnePurchaseService(projectId, purchaseId);
 
@@ -77,9 +77,9 @@ export const getOnePurchase: RequestHandler = async (req, res) => {
 // ----- UPDATE -----
 export const updatePurchase: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId, purchaseId } = req.params as { projectId: string, purchaseId: string };
 
-    const purchaseUpdated = await PurchaseService.updatePurchaseService(projectId, req.params.purchaseId, req.body);
+    const purchaseUpdated = await PurchaseService.updatePurchaseService(projectId, purchaseId, req.body);
 
     res.status(200).json({ message: "Factura de compra actualizada correctamente.", document: purchaseUpdated });
   } catch (error: any) {
@@ -99,7 +99,7 @@ export const updatePurchase: RequestHandler = async (req, res) => {
 // ----- DELETE -----
 export const deletePurchasePhase: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const purchaseDeleted = await PurchaseService.deletePurchasePhaseService(projectId); 
 
@@ -116,7 +116,7 @@ export const deletePurchasePhase: RequestHandler = async (req, res) => {
 
 export const deleteOnePurchase: RequestHandler = async (req, res) => {
   try {
-    const { projectId, purchaseId } = req.params;
+    const { projectId, purchaseId } = req.params as { projectId: string, purchaseId: string };
 
     const purchaseDeleted = await PurchaseService.deletePurchaseService(projectId, purchaseId); 
 

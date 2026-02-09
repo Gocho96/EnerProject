@@ -4,7 +4,7 @@ import * as ProjectDetailsService from "../services/projectDetailsServices";
 // ----- CREATE -----
 export const addContactPerson: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const savedContact = await ProjectDetailsService.addContactPersonService(projectId, req.body);
 
@@ -22,7 +22,7 @@ export const addContactPerson: RequestHandler = async (req, res) => {
 
 export const addSolarPanel: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const savedSolarPanel = await ProjectDetailsService.addSolarPanelService(projectId, req.body);
 
@@ -40,7 +40,7 @@ export const addSolarPanel: RequestHandler = async (req, res) => {
 
 export const addInverter: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const savedInverter = await ProjectDetailsService.addInverterService(projectId, req.body);
 
@@ -58,7 +58,7 @@ export const addInverter: RequestHandler = async (req, res) => {
 
 export const addBattery: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const savedBattery = await ProjectDetailsService.addBatteryService(projectId, req.body);
 
@@ -139,7 +139,7 @@ export const getAllBatteries: RequestHandler = async (req, res) => {
 
 export const getProjectDetails: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const project = await ProjectDetailsService.getProjectDetailsService(projectId);
 
@@ -157,7 +157,7 @@ export const getProjectDetails: RequestHandler = async (req, res) => {
 
 export const getContactPerson: RequestHandler = async (req, res) => {
   try {
-    const { projectId, contactId } = req.params;
+    const { projectId, contactId } = req.params as { projectId: string, contactId: string };
 
     const contact = await ProjectDetailsService.getContactPersonService(projectId, contactId);
 
@@ -179,7 +179,7 @@ export const getContactPerson: RequestHandler = async (req, res) => {
 
 export const getSolarPanel: RequestHandler = async (req, res) => {
   try {
-    const { projectId, solarPanelId } = req.params;
+    const { projectId, solarPanelId } = req.params as { projectId: string, solarPanelId: string };
 
     const solarPanel = await ProjectDetailsService.getSolarPanelService(projectId, solarPanelId);
 
@@ -201,7 +201,7 @@ export const getSolarPanel: RequestHandler = async (req, res) => {
 
 export const getInverter: RequestHandler = async (req, res) => {
   try {
-    const { projectId, inverterId } = req.params;
+    const { projectId, inverterId } = req.params as { projectId: string, inverterId: string };
 
     const inverter = await ProjectDetailsService.getInverterService(projectId, inverterId);
 
@@ -223,7 +223,7 @@ export const getInverter: RequestHandler = async (req, res) => {
 
 export const getBattery: RequestHandler = async (req, res) => {
   try {
-    const { projectId, batteryId } = req.params;
+    const { projectId, batteryId } = req.params as { projectId: string, batteryId: string };
 
     const battery = await ProjectDetailsService.getBatteryService(projectId, batteryId);
 
@@ -246,7 +246,7 @@ export const getBattery: RequestHandler = async (req, res) => {
 // ----- UPDATE -----
 export const updateProjectDetails: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const projectUpdate = await ProjectDetailsService.updateProjectDetailsService(projectId, req.body);
 
@@ -263,9 +263,9 @@ export const updateProjectDetails: RequestHandler = async (req, res) => {
 
 export const updateContactPerson: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId, contactId } = req.params as { projectId: string, contactId: string };
 
-    const contactUpdate = await ProjectDetailsService.updateContactPersonService(projectId, req.params.contactId, req.body);
+    const contactUpdate = await ProjectDetailsService.updateContactPersonService(projectId, contactId, req.body);
 
     res.status(200).json({ message: "Contacto actualizado correctamente.", document: contactUpdate });
   } catch (error: any) {
@@ -285,9 +285,9 @@ export const updateContactPerson: RequestHandler = async (req, res) => {
 
 export const updateSolarPanel: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId, solarPanelId } = req.params as { projectId: string, solarPanelId: string };
 
-    const solarPanelUpdate = await ProjectDetailsService.updateSolarPanelService(projectId, req.params.solarPanelId, req.body);
+    const solarPanelUpdate = await ProjectDetailsService.updateSolarPanelService(projectId, solarPanelId, req.body);
 
     res.status(200).json({ message: "Panel solar actualizado correctamente.", document: solarPanelUpdate });
   } catch (error: any) {
@@ -307,9 +307,9 @@ export const updateSolarPanel: RequestHandler = async (req, res) => {
 
 export const updateInverter: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId, inverterId } = req.params as { projectId: string, inverterId: string };
 
-    const inverterUpdate = await ProjectDetailsService.updateInverterService(projectId, req.params.inverterId, req.body);
+    const inverterUpdate = await ProjectDetailsService.updateInverterService(projectId, inverterId, req.body);
 
     res.status(200).json({ message: "Inversor actualizado correctamente.", document: inverterUpdate });
   } catch (error: any) {
@@ -329,9 +329,9 @@ export const updateInverter: RequestHandler = async (req, res) => {
 
 export const updateBattery: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId, batteryId } = req.params as { projectId: string, batteryId: string };
 
-    const batteryUpdate = await ProjectDetailsService.updateBatteryService(projectId, req.params.batteryId, req.body);
+    const batteryUpdate = await ProjectDetailsService.updateBatteryService(projectId, batteryId, req.body);
 
     res.status(200).json({ message: "Bateria actualizada correctamente.", document: batteryUpdate });
   } catch (error: any) {
@@ -352,7 +352,7 @@ export const updateBattery: RequestHandler = async (req, res) => {
 // ----- DELETE -----
 export const deleteProjectDetails: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const projectDelete = await ProjectDetailsService.deleteProjectDetailsService(projectId);
 
@@ -369,7 +369,7 @@ export const deleteProjectDetails: RequestHandler = async (req, res) => {
 
 export const deleteContactPerson: RequestHandler = async (req, res) => {
   try {
-    const { projectId, contactId } = req.params;
+    const { projectId, contactId } = req.params as { projectId: string, contactId: string };
 
     const contactDelete = await ProjectDetailsService.deleteContactPersonService(projectId, contactId);
 
@@ -390,7 +390,7 @@ export const deleteContactPerson: RequestHandler = async (req, res) => {
 
 export const deleteSolarPanel: RequestHandler = async (req, res) => {
   try {
-    const { projectId, solarPanelId } = req.params;
+    const { projectId, solarPanelId } = req.params as { projectId: string, solarPanelId: string };
 
     const solarPanelDelete = await ProjectDetailsService.deleteSolarPanelService(projectId, solarPanelId);
 
@@ -411,7 +411,7 @@ export const deleteSolarPanel: RequestHandler = async (req, res) => {
 
 export const deleteInverter: RequestHandler = async (req, res) => {
   try {
-    const { projectId, inverterId } = req.params;
+    const { projectId, inverterId } = req.params as { projectId: string, inverterId: string };
 
     const inverterDelete = await ProjectDetailsService.deleteInverterService(projectId, inverterId);
 
@@ -432,7 +432,7 @@ export const deleteInverter: RequestHandler = async (req, res) => {
 
 export const deleteBattery: RequestHandler = async (req, res) => {
   try {
-    const { projectId, batteryId } = req.params;
+    const { projectId, batteryId } = req.params as { projectId: string, batteryId: string };
 
     const batteryDelete = await ProjectDetailsService.deleteBatteryService(projectId, batteryId);
 

@@ -4,7 +4,7 @@ import * as TaxIncentiveService from "../../services/phases/taxIncentiveServices
 // ----- CREATE -----
 export const addApplicationIt: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const ApplicationItSaved = await TaxIncentiveService.addApplicationItService(projectId, req.body);
 
@@ -28,7 +28,7 @@ export const addApplicationIt: RequestHandler = async (req, res) => {
 
 export const addBeneficiary: RequestHandler = async (req, res) => {
   try {
-    const { projectId, applicationItId } = req.params;
+    const { projectId, applicationItId } = req.params as { projectId: string, applicationItId: string };
 
     const beneficiarySaved = await TaxIncentiveService.addBeneficiaryService(projectId, applicationItId, req.body);
 
@@ -52,7 +52,7 @@ export const addBeneficiary: RequestHandler = async (req, res) => {
 
 export const addPayment: RequestHandler = async (req, res) => {
   try {
-    const { projectId, applicationItId } = req.params;
+    const { projectId, applicationItId } = req.params as { projectId: string, applicationItId: string };
 
     const paymentSaved = await TaxIncentiveService.addPaymentService(projectId, applicationItId, req.body);
 
@@ -114,7 +114,7 @@ export const getAllPayments: RequestHandler = async (req, res) => {
 
 export const getTaxIncentive: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const taxIncentiveFound = await TaxIncentiveService.getTaxIncentiveService(projectId);
 
@@ -132,7 +132,7 @@ export const getTaxIncentive: RequestHandler = async (req, res) => {
 
 export const getApplicationIt: RequestHandler = async (req, res) => {
   try {
-    const { projectId, applicationItId } = req.params;
+    const { projectId, applicationItId } = req.params  as { projectId: string, applicationItId: string };
 
     const applicationFound = await TaxIncentiveService.getApplicationItService(projectId, applicationItId);
 
@@ -156,7 +156,7 @@ export const getApplicationIt: RequestHandler = async (req, res) => {
 
 export const getBeneficiary: RequestHandler = async (req, res) => {
   try {
-    const { projectId, applicationItId, beneficiaryId } = req.params;
+    const { projectId, applicationItId, beneficiaryId } = req.params as { projectId: string, applicationItId: string, beneficiaryId: string };
 
     const beneficiaryFound = await TaxIncentiveService.getBeneficiaryService(projectId, applicationItId, beneficiaryId);
 
@@ -185,7 +185,7 @@ export const getBeneficiary: RequestHandler = async (req, res) => {
 
 export const getPayment: RequestHandler = async (req, res) => {
   try {
-    const { projectId, applicationItId, paymentId } = req.params;
+    const { projectId, applicationItId, paymentId } = req.params as { projectId: string, applicationItId: string, paymentId: string } ;
 
     const paymentFound = await TaxIncentiveService.getPaymentService(projectId, applicationItId, paymentId);
 
@@ -215,9 +215,9 @@ export const getPayment: RequestHandler = async (req, res) => {
 // ----- UPDATE -----
 export const updateApplicationIt: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId, applicationItId } = req.params as { projectId: string, applicationItId: string };
 
-    const applicationItUpdated = await TaxIncentiveService.updateApplicationItService(projectId, req.params.applicationItId, req.body);
+    const applicationItUpdated = await TaxIncentiveService.updateApplicationItService(projectId, applicationItId, req.body);
 
     res.status(200).json({ message: "Información de solicitud actualizada correctamente.", document: applicationItUpdated });
   } catch (error: any) {
@@ -238,9 +238,9 @@ export const updateApplicationIt: RequestHandler = async (req, res) => {
 
 export const updateBeneficiary: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId, applicationItId, beneficiaryId } = req.params as { projectId: string, applicationItId: string, beneficiaryId: string };
 
-    const beneficiaryUpdated = await TaxIncentiveService.updateBeneficiaryService(projectId, req.params.applicationItId, req.params.beneficiaryId, req.body);
+    const beneficiaryUpdated = await TaxIncentiveService.updateBeneficiaryService(projectId, applicationItId, beneficiaryId, req.body);
 
     res.status(200).json({ message: "Información del beneficiario actualizada correctamente.", document: beneficiaryUpdated });
   } catch (error: any) {
@@ -267,9 +267,9 @@ export const updateBeneficiary: RequestHandler = async (req, res) => {
 
 export const updatePayment: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId, applicationItId, paymentId } = req.params as { projectId: string, applicationItId: string, paymentId: string };
 
-    const paymentUpdated = await TaxIncentiveService.updatePaymentService(projectId, req.params.applicationItId, req.params.paymentId, req.body);
+    const paymentUpdated = await TaxIncentiveService.updatePaymentService(projectId, applicationItId, paymentId, req.body);
 
     res.status(200).json({ message: "Información del pago actualizada correctamente.", document: paymentUpdated });
   } catch (error: any) {
@@ -297,7 +297,7 @@ export const updatePayment: RequestHandler = async (req, res) => {
 // ----- DELETE -----
 export const deleteTaxIncentivePhase: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const taxIncentiveDelete = await TaxIncentiveService.deleteTaxIncentivePhaseService(projectId);
 
@@ -314,7 +314,7 @@ export const deleteTaxIncentivePhase: RequestHandler = async (req, res) => {
 
 export const deleteApplicationIt: RequestHandler = async (req, res) => {
   try {
-    const { projectId, applicationItId } = req.params;
+    const { projectId, applicationItId } = req.params as { projectId: string, applicationItId: string };
 
     const applicationDelete = await TaxIncentiveService.deleteApplicationItService(projectId, applicationItId);
 
@@ -336,7 +336,7 @@ export const deleteApplicationIt: RequestHandler = async (req, res) => {
 
 export const deleteBeneficiary: RequestHandler = async (req, res) => {
   try {
-    const { projectId, applicationItId, beneficiaryId } = req.params;
+    const { projectId, applicationItId, beneficiaryId } = req.params as { projectId: string, applicationItId: string, beneficiaryId: string };
 
     const beneficiaryDelete = await TaxIncentiveService.deleteBeneficiaryService(projectId, applicationItId, beneficiaryId);
 
@@ -363,7 +363,7 @@ export const deleteBeneficiary: RequestHandler = async (req, res) => {
 
 export const deletePayment: RequestHandler = async (req, res) => {
   try {
-    const { projectId, applicationItId, paymentId } = req.params;
+    const { projectId, applicationItId, paymentId } = req.params as { projectId: string, applicationItId: string, paymentId: string };
 
     const paymentDelete = await TaxIncentiveService.deletePaymentService(projectId, applicationItId, paymentId);
 

@@ -4,7 +4,7 @@ import * as NetworkOperatorService from "../../services/phases/networkOperatorSe
 // ----- CREATE -----
 export const addApplicationOr: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const savedApplicationOr = await NetworkOperatorService.addApplicationOrService(projectId, req.body);
     res.status(201).json({ message: "Registro agregado correctamente.", document: savedApplicationOr });
@@ -38,7 +38,7 @@ export const getAllNetworkOperators: RequestHandler = async (req, res) => {
 
 export const getNetworkOperator: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const networkOperatorFound = await NetworkOperatorService.getNetworkOperatorService(projectId);
 
@@ -56,7 +56,7 @@ export const getNetworkOperator: RequestHandler = async (req, res) => {
 
 export const getApplicationOr: RequestHandler = async (req, res) => {
   try {
-    const { projectId, applicationOrId } = req.params;
+    const { projectId, applicationOrId } = req.params as { projectId: string, applicationOrId: string };
 
     const networkOperatorFound = await NetworkOperatorService.getApplicationOrService(projectId, applicationOrId);
 
@@ -79,7 +79,7 @@ export const getApplicationOr: RequestHandler = async (req, res) => {
 // ----- UPDATE -----
 export const updateNetworkOperator: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const networkOperatorUpdate = await NetworkOperatorService.updateNetworkOperatorService(projectId, req.body);
 
@@ -96,9 +96,9 @@ export const updateNetworkOperator: RequestHandler = async (req, res) => {
 
 export const updateApplicationOr: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId, applicationOrId } = req.params as { projectId: string, applicationOrId: string };
 
-    const applicationOrUpdate = await NetworkOperatorService.updateApplicationOrService(projectId, req.params.applicationOrId, req.body);
+    const applicationOrUpdate = await NetworkOperatorService.updateApplicationOrService(projectId, applicationOrId, req.body);
     
     res.status(200).json({ message: "Solicitud ante el OR actualizada correctamente.", document: applicationOrUpdate });
   } catch (error: any) {
@@ -118,7 +118,7 @@ export const updateApplicationOr: RequestHandler = async (req, res) => {
 // ----- DELETE -----
 export const deleteNetworkOperatorPhase: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const networkOperatorDelete = await NetworkOperatorService.deleteNetworkOperatorPhaseService(projectId); 
 
@@ -135,7 +135,7 @@ export const deleteNetworkOperatorPhase: RequestHandler = async (req, res) => {
 
 export const deleteApplicationOr: RequestHandler = async (req, res) => {
   try {
-    const { projectId, applicationOrId } = req.params;
+    const { projectId, applicationOrId } = req.params as { projectId: string, applicationOrId: string };
 
     const applicationOrDeleted = await NetworkOperatorService.deleteApplicationOrService(projectId, applicationOrId); 
     res.status(200).json({ message: "Solicitud eliminada correctamente.", document: applicationOrDeleted }); 

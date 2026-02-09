@@ -4,7 +4,7 @@ import * as DocumentService from "../../services/phases/documentServices";
 // ----- CREATE -----
 export const addContract: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const savedContract = await DocumentService.addContractService(projectId, req.body);
 
@@ -28,7 +28,7 @@ export const addContract: RequestHandler = async (req, res) => {
 
 export const addPolicy: RequestHandler = async (req, res) => {
   try {
-    const { projectId, contractId } = req.params;
+    const { projectId, contractId } = req.params as { projectId: string, contractId: string };
 
     const savedPolicy = await DocumentService.addPolicyService(projectId, contractId, req.body);
 
@@ -90,7 +90,7 @@ export const getAllPolicies: RequestHandler = async (req, res) => {
 
 export const getDocument: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const documentFound = await DocumentService.getDocumentService(projectId);
 
@@ -108,7 +108,7 @@ export const getDocument: RequestHandler = async (req, res) => {
 
 export const getContract: RequestHandler = async (req, res) => {
   try {
-    const { projectId, contractId } = req.params;
+    const { projectId, contractId } = req.params as { projectId: string, contractId: string };
 
     const contractFound = await DocumentService.getContractService(projectId, contractId);
 
@@ -132,7 +132,7 @@ export const getContract: RequestHandler = async (req, res) => {
 
 export const getPolicy: RequestHandler = async (req, res) => {
   try {
-    const { projectId, contractId, policyId } = req.params;
+    const { projectId, contractId, policyId } = req.params as { projectId: string, contractId: string, policyId: string };
 
     const policyFound = await DocumentService.getPolicyService(projectId, contractId, policyId);
 
@@ -162,7 +162,7 @@ export const getPolicy: RequestHandler = async (req, res) => {
 // ----- UPDATE -----
 export const updateDocument: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const documentUpdate = await DocumentService.updateDocumentService(projectId, req.body);
 
@@ -179,9 +179,9 @@ export const updateDocument: RequestHandler = async (req, res) => {
 
 export const updateContract: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId, contractId } = req.params as { projectId: string, contractId: string };
 
-    const contactUpdate = await DocumentService.updateContractService(projectId, req.params.contractId, req.body);
+    const contactUpdate = await DocumentService.updateContractService(projectId, contractId, req.body);
 
     res.status(200).json({ message: "Contrato actualizado correctamente.", document: contactUpdate });
   } catch (error: any) {
@@ -202,9 +202,9 @@ export const updateContract: RequestHandler = async (req, res) => {
 
 export const updatePolicy: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId, contractId, policyId } = req.params as { projectId: string, contractId: string, policyId: string };
 
-    const PolicyUpdate = await DocumentService.updatePolicyService(projectId, req.params.contractId, req.params.policyId, req.body);
+    const PolicyUpdate = await DocumentService.updatePolicyService(projectId, contractId, policyId, req.body);
 
     res.status(200).json({ message: "Póliza actualizada correctamente.", document: PolicyUpdate });
   } catch (error: any) {
@@ -232,7 +232,7 @@ export const updatePolicy: RequestHandler = async (req, res) => {
 // ----- DELETE -----
 export const deleteDocumentPhase: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const deleteDocument = await DocumentService.deleteDocumentPhaseService(projectId);
 
@@ -249,7 +249,7 @@ export const deleteDocumentPhase: RequestHandler = async (req, res) => {
 
 export const deleteContract: RequestHandler = async (req, res) => {
   try {
-    const { projectId, contractId } = req.params;
+    const { projectId, contractId } = req.params as { projectId: string, contractId: string };
 
     const contractDelete = await DocumentService.deleteContractService(projectId, contractId);
 
@@ -271,7 +271,7 @@ export const deleteContract: RequestHandler = async (req, res) => {
 
 export const deletePolicy: RequestHandler = async (req, res) => {
   try {
-    const { projectId, contractId, policyId } = req.params;
+    const { projectId, contractId, policyId } = req.params as { projectId: string, contractId: string, policyId: string };
 
     const deletePolicy = await DocumentService.deletePolicyService(projectId, contractId, policyId);
 

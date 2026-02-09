@@ -4,7 +4,7 @@ import * as SalesService from "../../services/phases/salesServices";
 // ----- CREATE -----
 export const addSale: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const savedSale = await SalesService.addSaleService(projectId, req.body);
 
@@ -40,7 +40,7 @@ export const getAllSales: RequestHandler = async (req, res) => {
 
 export const getSale: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const saleFound = await SalesService.getSaleService(projectId);
 
@@ -58,7 +58,7 @@ export const getSale: RequestHandler = async (req, res) => {
 
 export const getOneSale: RequestHandler = async (req, res) => {
   try {
-    const { projectId, saleId } = req.params;
+    const { projectId, saleId } = req.params as { projectId: string, saleId: string };
 
     const saleFound = await SalesService.getOneSaleService(projectId, saleId);
 
@@ -77,9 +77,9 @@ export const getOneSale: RequestHandler = async (req, res) => {
 // ----- UPDATE -----
 export const updateSale: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId, saleId } = req.params as { projectId: string, saleId: string };
 
-    const saleUpdated = await SalesService.updateSaleService(projectId, req.params.saleId, req.body);
+    const saleUpdated = await SalesService.updateSaleService(projectId, saleId, req.body);
 
     res.status(200).json({ message: "Factura de venta actualizada correctamente.", document: saleUpdated });
   } catch (error: any) {
@@ -99,7 +99,7 @@ export const updateSale: RequestHandler = async (req, res) => {
 // ----- DELETE -----
 export const deleteSalesPhase: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const salesDeleted = await SalesService.deleteSalesPhaseService(projectId); 
 
@@ -116,7 +116,7 @@ export const deleteSalesPhase: RequestHandler = async (req, res) => {
 
 export const deleteOneSale: RequestHandler = async (req, res) => {
   try {
-    const { projectId, saleId } = req.params;
+    const { projectId, saleId } = req.params as { projectId: string, saleId: string };
 
     const saleDelete = await SalesService.deleteSaleService(projectId, saleId); 
 

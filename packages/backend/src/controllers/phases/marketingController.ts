@@ -4,7 +4,7 @@ import * as MarketingService from "../../services/phases/marketingServices";
 // ----- CREATE -----
 export const addPublication: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const savedPublication = await MarketingService.addPublicationService(projectId, req.body);
     res.status(201).json({ message: "Publicación agregada correctamente.", document: savedPublication });
@@ -38,7 +38,7 @@ export const getAllMarketings: RequestHandler = async (req, res) => {
 
 export const getMarketing: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const marketingFound = await MarketingService.getMarketingService(projectId);
 
@@ -56,7 +56,7 @@ export const getMarketing: RequestHandler = async (req, res) => {
 
 export const getPublication: RequestHandler = async (req, res) => {
   try {
-    const { projectId, publicationId } = req.params;
+    const { projectId, publicationId } = req.params as { projectId: string, publicationId: string };
 
     const publicationFound = await MarketingService.getPublicationService(projectId, publicationId);
 
@@ -75,7 +75,7 @@ export const getPublication: RequestHandler = async (req, res) => {
 // ----- UPDATE -----
 export const updateMarketing: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const marketingUpdate = await MarketingService.updateMarketingService(projectId, req.body);
 
@@ -92,9 +92,9 @@ export const updateMarketing: RequestHandler = async (req, res) => {
 
 export const updatePublication: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId, publicationId } = req.params as { projectId: string, publicationId: string };
 
-    const publicationFound = await MarketingService.updatePublicationService(projectId, req.params.publicationId, req.body);
+    const publicationFound = await MarketingService.updatePublicationService(projectId, publicationId, req.body);
     
     res.status(200).json({ message: "Publicación actualizada correctamente.", document: publicationFound });
   } catch (error: any) {
@@ -114,7 +114,7 @@ export const updatePublication: RequestHandler = async (req, res) => {
 // ----- DELETE -----
 export const deleteMarketingPhase: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const marketingDelete = await MarketingService.deleteMarketingPhaseService(projectId); 
 
@@ -131,7 +131,7 @@ export const deleteMarketingPhase: RequestHandler = async (req, res) => {
 
 export const deletePublication: RequestHandler = async (req, res) => {
   try {
-    const { projectId, publicationId } = req.params;
+    const { projectId, publicationId } = req.params as { projectId: string, publicationId: string };
 
     const publicationDelete = await MarketingService.deletePublicationService(projectId, publicationId); 
     res.status(200).json({ message: "Publicación eliminada correctamente.", document: publicationDelete }); 

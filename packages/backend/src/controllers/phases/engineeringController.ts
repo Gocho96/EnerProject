@@ -18,7 +18,7 @@ export const getAllEngineerings: RequestHandler = async (req, res) => {
 
 export const getEngineering: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const engineeringFound = await EngineeringService.getEngeneeringService(projectId);
 
@@ -38,7 +38,7 @@ export const getEngineering: RequestHandler = async (req, res) => {
 // ----- UPDATE -----
 export const updateEngineering: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const updateEngineering = await EngineeringService.updateEngineeringService(projectId, req.body); 
 
@@ -58,7 +58,7 @@ export const updateEngineering: RequestHandler = async (req, res) => {
 // ----- DELETE -----
 export const deleteEngineeringPhase: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const engineeringDeleted = await EngineeringService.deleteEngineeringPhaseService(projectId); 
 

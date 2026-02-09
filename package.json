@@ -1,43 +1,37 @@
 {
   "name": "enerproject",
-  "private": true,
   "version": "1.0.0",
-  "description": "Plataforma integral de gestión de proyectos energéticos",
-  "type": "module",
-  "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=9.0.0"
-  },
-  "workspaces": [
-    "packages/*"
-  ],
+  "main": "index.js",
   "scripts": {
-    "dev": "npm run dev -w enerproject & npm run dev -w @enerproject/frontend",
-    "build": "npm run build -w @enerproject/shared && npm run build -w enerproject && npm run build -w @enerproject/frontend",
-    "build:shared": "npm run build -w @enerproject/shared",
-    "build:backend": "npm run build -w enerproject",
-    "build:frontend": "npm run build -w @enerproject/frontend",
-    "start": "npm start -w enerproject",
-    "lint": "npm run lint -w enerproject && npm run lint -w @enerproject/frontend",
-    "lint:fix": "npm run lint:fix -w enerproject && npm run lint:fix -w @enerproject/frontend",
-    "type-check": "npm run type-check -w @enerproject/frontend && tsc -b packages/backend packages/shared",
-    "install:all": "npm install && npm install -w @enerproject/shared && npm install -w enerproject && npm install -w @enerproject/frontend"
+    "build": "tsc",
+    "dev": "ts-node-dev src/index.ts"
   },
-  "keywords": [
-    "energy",
-    "projects",
-    "management",
-    "renewable",
-    "solar",
-    "api"
-  ],
-  "author": "Wilder Montaner",
+  "keywords": [],
+  "author": "",
   "license": "ISC",
+  "description": "",
   "dependencies": {
-    "dayjs": "^1.11.13",
-    "zod": "^4.3.6"
+    "@types/bcryptjs": "^3.0.0",
+    "@types/jsonwebtoken": "^9.0.9",
+    "bcryptjs": "^3.0.2",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "glob": "^11.0.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.12.1",
+    "morgan": "^1.10.0",
+    "rimraf": "^6.0.1",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.8",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^22.13.10",
+    "ts-node-dev": "^2.0.0",
     "typescript": "^5.8.2"
   }
 }

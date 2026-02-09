@@ -4,7 +4,7 @@ import * as InstallationService from "../../services/phases/installationServices
 // ----- CREATE -----
 export const addDailyLog: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const savedDailyLog = await InstallationService.addDailyLogService(projectId, req.body);
 
@@ -39,7 +39,7 @@ export const getAllInstallations: RequestHandler = async (req, res) => {
 
 export const getInstallation: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const installationFound = await InstallationService.getInstallationService(projectId);
 
@@ -57,7 +57,7 @@ export const getInstallation: RequestHandler = async (req, res) => {
 
 export const getDailyLog: RequestHandler = async (req, res) => {
   try {
-    const { projectId, dailyLogId } = req.params;
+    const { projectId, dailyLogId } = req.params as { projectId: string, dailyLogId: string };
 
     const dailyLogFound = await InstallationService.getDailyLogService(projectId, dailyLogId);
 
@@ -76,9 +76,9 @@ export const getDailyLog: RequestHandler = async (req, res) => {
 // ----- UPDATE -----
 export const updateDailyLog: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId, dailyLogId } = req.params as { projectId: string, dailyLogId: string };
 
-    const dailyLogUpdated = await InstallationService.updateDailyLogService(projectId, req.params.dailyLogId, req.body);
+    const dailyLogUpdated = await InstallationService.updateDailyLogService(projectId, dailyLogId, req.body);
 
     res.status(200).json({ message: "Registro actualizado correctamente.", document: dailyLogUpdated });
   } catch (error: any) {
@@ -98,7 +98,7 @@ export const updateDailyLog: RequestHandler = async (req, res) => {
 // ----- DELETE -----
 export const deleteInstallationPhase: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const installationDeleted = await InstallationService.deleteInstallationPhaseService(projectId); 
 
@@ -115,7 +115,7 @@ export const deleteInstallationPhase: RequestHandler = async (req, res) => {
 
 export const deleteDailyLog: RequestHandler = async (req, res) => {
   try {
-    const { projectId, dailyLogId } = req.params;
+    const { projectId, dailyLogId } = req.params as { projectId: string, dailyLogId: string };
 
     const dailyLogDeleted = await InstallationService.deleteDailyLogService(projectId, dailyLogId); 
 

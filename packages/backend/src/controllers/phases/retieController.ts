@@ -18,7 +18,7 @@ export const getAllReties: RequestHandler = async (req, res) => {
 
 export const getRetie: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const retieFound = await RetieService.getRetieService(projectId);
 
@@ -38,7 +38,7 @@ export const getRetie: RequestHandler = async (req, res) => {
 // ----- UPDATE -----
 export const updateRetie: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const updateRetie = await RetieService.updateRetieService(projectId, req.body); 
 
@@ -58,7 +58,7 @@ export const updateRetie: RequestHandler = async (req, res) => {
 // ----- DELETE -----
 export const deleteRetiePhase: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const retieDeleted = await RetieService.deleteRetiePhaseService(projectId); 
 

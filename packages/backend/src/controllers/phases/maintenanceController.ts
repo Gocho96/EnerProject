@@ -4,7 +4,7 @@ import * as MaintenanceService from "../../services/phases/maintenanceServices";
 // ----- CREATE -----
 export const addMaintenanceRecord: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const savedMaintenanceRecord = await MaintenanceService.addMaintenanceRecordService(projectId, req.body);
     res.status(201).json({ message: "Registro agregado correctamente.", document: savedMaintenanceRecord });
@@ -38,7 +38,7 @@ export const getAllMaintenances: RequestHandler = async (req, res) => {
 
 export const getMaintenance: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const maintenanceFound = await MaintenanceService.getMaintenanceService(projectId);
 
@@ -56,7 +56,7 @@ export const getMaintenance: RequestHandler = async (req, res) => {
 
 export const getMaintenanceRecord: RequestHandler = async (req, res) => {
   try {
-    const { projectId, maintenanceRecordId } = req.params;
+    const { projectId, maintenanceRecordId } = req.params as { projectId: string, maintenanceRecordId: string };
 
     const maintenanceRecordFound = await MaintenanceService.getMaintenanceRecordService(projectId, maintenanceRecordId);
 
@@ -79,7 +79,7 @@ export const getMaintenanceRecord: RequestHandler = async (req, res) => {
 // ----- UPDATE -----
 export const updateMaintenance: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const maintenanceUpdated = await MaintenanceService.updateMaintenanceService(projectId, req.body);
 
@@ -96,9 +96,9 @@ export const updateMaintenance: RequestHandler = async (req, res) => {
 
 export const updateMaintenanceRecord: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId, maintenanceRecordId } = req.params as { projectId: string, maintenanceRecordId: string };
 
-    const maintenanceRecordUpdated = await MaintenanceService.updateMaintenanceRecordService(projectId, req.params.maintenanceRecordId, req.body);
+    const maintenanceRecordUpdated = await MaintenanceService.updateMaintenanceRecordService(projectId, maintenanceRecordId, req.body);
     
     res.status(200).json({ message: "Mantenimiento actualizado correctamente.", document: maintenanceRecordUpdated });
   } catch (error: any) {
@@ -118,7 +118,7 @@ export const updateMaintenanceRecord: RequestHandler = async (req, res) => {
 // ----- DELETE -----
 export const deleteMaintenancePhase: RequestHandler = async (req, res) => {
   try {
-    const { projectId } = req.params;
+    const { projectId } = req.params as { projectId: string };
 
     const maintenanceDeleted = await MaintenanceService.deleteMaintenancePhaseService(projectId); 
 
@@ -135,7 +135,7 @@ export const deleteMaintenancePhase: RequestHandler = async (req, res) => {
 
 export const deleteMaintenanceRecord: RequestHandler = async (req, res) => {
   try {
-    const { projectId, maintenanceRecordId } = req.params;
+    const { projectId, maintenanceRecordId } = req.params as { projectId: string, maintenanceRecordId: string };
 
     const maintenanceRecordDeleted = await MaintenanceService.deleteMaintenanceRecordService(projectId, maintenanceRecordId); 
     res.status(200).json({ message: "Registro de mantenimiento eliminado correctamente.", document: maintenanceRecordDeleted }); 
